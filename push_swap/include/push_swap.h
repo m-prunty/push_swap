@@ -13,18 +13,26 @@
 # define PUSH_SWAP_H
 
 #include <stdio.h>
-#include "../libft/libft.h"
+#include "libft.h"
 
-#ifndef STRUCT_T_LIST
-# define STRUCT_T_LIST
-/*/
-typedef struct s_list
+#ifndef STRUCT_DL_LIST
+# define STRUCT_DL_LIST
+typedef struct dl_list
 {
-    struct s_list   *next;
-    char            *str;
-    int             s_len;
-    int             nl;
-}   t_list;
-/*/
+        struct dl_list	*next;
+        struct dl_list	*prev;
+        int		i;
+        int		idx;
+}       dl_list;
+
 #endif
+
+
+dl_list *ft_dllstnew(int i);
+dl_list *ft_dllstlast(dl_list *lst);
+void	ft_dllstupdate(dl_list **lst);
+void    ft_dllstadd_back(dl_list **lst, dl_list *new);
+void    ft_dllstadd_front(dl_list **lst, dl_list *new);
+void	print_list(dl_list **lst, int dir);
+void	init_lst(dl_list **lst);
 #endif
