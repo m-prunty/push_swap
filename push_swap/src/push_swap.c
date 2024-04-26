@@ -1,89 +1,115 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
+/*   Updated: 2024/04/26 20:39:52 by mprunty          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "libft.h"
 #include "push_swap.h"
 
-void fill_stack(dl_list **lst, char **av, int *ilst, int ac) 
+int	ft_isnum(char *str)
 {
+	int	i;
+
+	if (!(*str))
+		return 1;
+	i = ft_isdigit((int)*str);
+	if (i) 
+		return(ft_isnum((++(str))) * i);
+	return (0);
+}
+
+int	ft_dllstsorted(dl_list **lst)
+{
+	while ((*lst)->idx >= 0)
+		if ((*lst)->i < ((*lst)->next)->i)
+			*lst = (*lst)->next;
+		else
+			return (0);
+	ft_printf("%s", "\nis sorted!");
+	return (1);
+}
+
+int ft_dllstfind(dl_list **lst, int i)
+{
+	if (!(*get_size(lst)))
+		return 0;
+	if ((*lst)->i == i)
+		return 1;
+	if((*lst)->idx != -1)
+		return (ft_dllstfind((&(*lst)->next), i));	
+	return 0;
+}
+int	error_code(int i)
+{
+	ft_putendl_fd("Error", 2);
+	i++;
+	//ft_printf("\n%s","Error: ");
+	/*/
+	 * if (i == 1)
+		ft_printf("%s","not a number");
+	else if (i == 2)
+		ft_printf("%s","duplicate");
+	else if (i == 3)
+		ft_printf("%s","n is larger than int");
+	else if (i == 4)
+		ft_printf("%s","lst len is to short");
+	/*/
+	return (0);
+}
+int	fill_stack(dl_list **lst, char **av, int *ilst, int ac) 
+{
+	int atoi;
+
 	ac--;
 	(av)++;
 	while(ac--)
 	{
-		*ilst = ft_atoi(*av);
-		ft_dllstadd_back(lst,  ft_dllstnew(*ilst));
-		(av)++;
-		(ilst)++;
+		if (ft_isnum(*av))
+		{
+			atoi = ft_atoi(*av);
+			if (!ft_dllstfind(lst, atoi))
+			{
+				*ilst = atoi;
+				ft_dllstadd_back(lst,  ft_dllstnew(*ilst));
+				(av)++;
+				(ilst)++;
+			}
+			else
+				return (error_code(2));//ft_printf("%s","Error: duplicate");
+		}
+		else
+			return (error_code(1));//t_printf("%s","Error: not num");
+
 	}
+	return (1);
 }
 
-dl_list **get_tail(dl_list **lst)
-{
-	return (&lst[1]->prev);
-}
-
-dl_list **get_head(dl_list **lst)
-{
-	return (&lst[1]->next);
-}
-
-int	*get_size(dl_list **lst)
-{
-	return (&lst[1]->idx);
-}
-void	rm_dllst(dl_list **lst)
-{
-	if (lst[0]->idx < 0)
-		*(get_tail(lst)) = (lst[0]->prev);
-	else if (lst[0]->idx > 0)
-		*(get_head(lst)) = (lst[0]->next);
-	ft_dllstupdate(lst);
-	*lst = lst[1]->next;
-	return;
-}
-
-void	ft_dealloc(dl_list **lst)
-{
-	dl_list  *tmp;
-	int i;
-	i = ((lst[1]->idx) );
-	if (!i)
-       		free(*lst);
-	while(i--)
-	{
-		tmp = (*lst)->next;
-        	free(*lst);
-        	*lst = tmp;
-	}
-	free(lst[1]);
-	return ;
-
-}
-void	push(dl_list **src, dl_list **dest)
+int	push(dl_list **src, dl_list **dest)
 {
 	dl_list *tmp;
-
+	
+	if (*(get_size(src)) < 1)
+		return (0);
 	tmp = *src;
 	rm_dllst(src);
 	*(get_size(src)) -= 1;
 	ft_dllstadd_front(dest,tmp);
-	return;
+	ft_dllstupdate(dest);
+	ft_dllstupdate(src);
+	return (1);
 }
 
-void	swap(dl_list **lst)
-{
-	dl_list *two;
-	dl_list *three;
-	
-	two = *lst;
-	rm_dllst(lst);
-	three = ((*get_head(lst))->next);
-	three->prev = two;
-	two->next = three;
-	two->prev = *(get_head(lst));
-	((*get_head(lst))->next) = two;	
-}
-
-void	rotate(dl_list **lst, int dir)
+int	rotate(dl_list **lst, int dir)
 {
 	dl_list *head;
+	if (*(get_size(lst)) < 2)
+		return (0);
 	if (dir > 0)
 	{
 		head  = (*(get_head(lst)));
@@ -96,35 +122,63 @@ void	rotate(dl_list **lst, int dir)
 		head  = (*(get_tail(lst)));
 		(*(get_head(lst)))->idx = 0;
 		*(get_head(lst)) = (*(get_tail(lst)));//head;//*(get_head(lst)) 
-		*(get_tail(lst)) = head->next;//*(get_head(lst)) 
+		*(get_tail(lst)) = head->prev;//*(get_head(lst)) 
 	}
 	ft_dllstupdate(lst);
 	*lst = *(get_head(lst));
+	return (1);
 }
-int	main(int ac, char **av)
+
+int	swap(dl_list **lst)
+{
+	dl_list *two;
+	dl_list *three;
+	
+	if (*(get_size(lst)) == 2)
+		return (rotate(lst, 1));
+	if (*(get_size(lst)) < 2)
+		return (0);
+	two = *lst;
+	rm_dllst(lst);
+	three = ((*get_head(lst))->next);
+	three->prev = two;
+	two->next = three;
+	two->prev = *(get_head(lst));
+	two->idx = 0;
+	((*get_head(lst))->next) = two;
+	ft_dllstupdate(lst);
+	return (1);
+}
+/*/
+ * int	main(int ac, char **av)
 {
 	dl_list	*a[2];
 	dl_list	*b[2];
 	int 	*ilst;
 
 	if (ac <= 3)
-		return 0;
+		return (0);
 	init_lst(a);
 	init_lst(b);
 	ilst = (int *)(malloc(sizeof(int ) * ac ));
 	
 	fill_stack(a, av, ilst, ac);
 	
-/*/
 	print_list(a, 1);
         ft_dllstadd_front(a,  ft_dllstnew(6));
         ft_dllstadd_front(a,  ft_dllstnew(7));
         ft_dllstadd_front(a,  ft_dllstnew(8));
-/*/
 	print_list(a, 1);
 	swap(a);
 	print_list(a, 1);
 	rotate(a, 1);
+	rotate(a, 1);
+	swap(a);
+	rotate(a, 1);
+	rotate(a, 1);
+	swap(a);
+
+	rotate(a, -1);
 	print_list(a, 1);
 
 	push(a,b); 
@@ -132,12 +186,12 @@ int	main(int ac, char **av)
 	push(a,b); 
 	push(b,a); 
 	push(a,b); 
-	print_list(b, 1);
-	print_list(a, 1);
+//	print_list(b, 1);
+//	print_list(a, 1);
 	//print_list(b, 1);
 	ft_dealloc(a);
 	ft_dealloc(b);
 	free(ilst);
         return 1;
 }
-
+/*/

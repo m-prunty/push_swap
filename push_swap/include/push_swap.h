@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2024/04/16 19:26:34 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/04/26 21:26:28 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -27,7 +27,7 @@ typedef struct dl_list
 
 #endif
 
-
+//export MallocStackLogging=1;
 dl_list *ft_dllstnew(int i);
 dl_list *ft_dllstlast(dl_list *lst);
 void	ft_dllstupdate(dl_list **lst);
@@ -35,4 +35,35 @@ void    ft_dllstadd_back(dl_list **lst, dl_list *new);
 void    ft_dllstadd_front(dl_list **lst, dl_list *new);
 void	print_list(dl_list **lst, int dir);
 void	init_lst(dl_list **lst);
+void    ft_dealloc(dl_list **lst);
+void    rm_dllst(dl_list **lst);
+int		*get_size(dl_list **lst);
+dl_list	**get_head(dl_list **lst);
+dl_list	**get_tail(dl_list **lst);
+
+int	ft_isnum(char *str);
+int ft_dllstfind(dl_list **lst, int i);
+int ft_dllstsorted(dl_list **lst);
+int	error_code(int i);
+int	fill_stack(dl_list **lst, char **av, int *ilst, int ac);
+int	push(dl_list **src, dl_list **dest);
+int	rotate(dl_list **lst, int dir);
+int	swap(dl_list **lst);
+int get_max(dl_list **lst);
+int get_min(dl_list **lst);
+int bubble_sort(dl_list **lst);
+
+int	sa(dl_list **a);
+int	sb(dl_list **b);
+int	ss(dl_list **a, dl_list **b);
+int	pa(dl_list **a, dl_list **b);
+int	pb(dl_list **a, dl_list **b);
+int	ra(dl_list **a);
+int	rb(dl_list **b);
+int	rr(dl_list **a, dl_list **b);
+int	rra(dl_list **a);
+int	rrb(dl_list **b);
+int	rrr(dl_list **a, dl_list **b);
+
+
 #endif
