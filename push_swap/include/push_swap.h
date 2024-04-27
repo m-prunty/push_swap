@@ -25,6 +25,17 @@ typedef struct dl_list
         int		idx;
 }       dl_list;
 
+#ifndef STRUCT_DL_LIST
+# define STRUCT_DL_LIST
+
+typedef struct dl_head
+{
+        struct dl_list	*next;
+        struct dl_list	*prev;
+        int		i;
+        int		idx;
+
+#endif
 #endif
 
 
