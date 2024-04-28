@@ -26,17 +26,22 @@ int	ft_isnum(char *str)
 
 int	ft_dllstsorted(dl_list **lst)
 {
-	while ((*lst)->idx >= 0)
-		if ((*lst)->i < ((*lst)->next)->i)
-			*lst = (*lst)->next;
+	dl_list	*ptr;
+
+	ptr = *lst;
+	while ((ptr)->idx >= 0)
+		if ((ptr)->i < ((ptr)->next)->i)
+			ptr = (ptr)->next;
 		else
 			return (0);
-	ft_printf("%s", "\nis sorted!");
+	//ft_printf("%s", "\nis sorted!");
 	return (1);
 }
 
 int ft_dllstfind(dl_list **lst, int i)
 {
+	//dl_list tmp;
+
 	if (!(*get_size(lst)))
 		return 0;
 	if ((*lst)->i == i)
@@ -60,7 +65,7 @@ int	error_code(int i)
 	else if (i == 4)
 		ft_printf("%s","lst len is to short");
 	/*/
-	return (0);
+	return (1);
 }
 int	fill_stack(dl_list **lst, char **av, int *ilst, int ac) 
 {
@@ -113,18 +118,18 @@ int	rotate(dl_list **lst, int dir)
 	if (dir > 0)
 	{
 		head  = (*(get_head(lst)));
-		(*(get_tail(lst)))->idx = 0;
+		//(*(get_tail(lst)))->idx = 0;
 		*(get_tail(lst)) = head;//*(get_head(lst)) 
 		*(get_head(lst)) = head->next;//*(get_head(lst)) 
 	}
 	else if(dir < 0)
 	{
 		head  = (*(get_tail(lst)));
-		(*(get_head(lst)))->idx = 0;
+		//(*(get_head(lst)))->idx = 0;
 		*(get_head(lst)) = (*(get_tail(lst)));//head;//*(get_head(lst)) 
 		*(get_tail(lst)) = head->prev;//*(get_head(lst)) 
 	}
-	ft_dllstupdate(lst);
+	//ft_dllstupdate(lst);
 	*lst = *(get_head(lst));
 	return (1);
 }
@@ -141,12 +146,19 @@ int	swap(dl_list **lst)
 	two = *lst;
 	rm_dllst(lst);
 	three = ((*get_head(lst))->next);
+	//three->idx = 1;
 	three->prev = two;
 	two->next = three;
 	two->prev = *(get_head(lst));
-	two->idx = 0;
+	//two->idx = -1;
+	//two->prev->idx = 0;
 	((*get_head(lst))->next) = two;
 	ft_dllstupdate(lst);
+	if ((*lst)->idx == -1)
+	{
+		(*lst)->idx = 0;
+		(*lst)->next->idx = -1;
+	}
 	return (1);
 }
 /*/

@@ -29,8 +29,8 @@ void	ft_dllstupdate(dl_list **lst)
 {
 	(lst[1]->prev)->next = lst[1]->next;
 	(lst[1]->next)->prev = lst[1]->prev;
-	(lst[1]->next)->idx = 1;
-	(lst[1]->prev)->idx = -1;
+	//(lst[1]->next)->idx = 1;
+	//(lst[1]->prev)->idx = -1;
 }
 
 dl_list **get_tail(dl_list **lst)
@@ -43,18 +43,41 @@ dl_list **get_head(dl_list **lst)
 	return (&lst[1]->next);
 }
 
+dl_list **get_storage(dl_list **lst)
+{
+	return (&lst[2]);
+}
+
 int *get_size(dl_list **lst)
 {
 	return (&lst[1]->idx);
 }
+void 	reset_head(dl_list **lst, dl_list *head)
+{
+	*(get_head(lst)) = head; 
+	*(get_tail(lst)) = head->prev; 
+	ft_dllstupdate(lst);
+	return ;
+}
 void	rm_dllst(dl_list **lst)
 {
-	if (lst[0]->idx < 0)
-		*(get_tail(lst)) = (lst[0]->prev);
-	else if (lst[0]->idx > 0)
-		*(get_head(lst)) = (lst[0]->next);
-	ft_dllstupdate(lst);
-	*lst = lst[1]->next;
+	//dl_list **tmp;
+	
+	//tmp = lst;
+	((*lst)->next)->prev = (*lst)->prev;
+	((*lst)->prev)->next = (*lst)->next;
+//	if (lst[0]->idx < 0)
+	*(get_tail(lst)) = (lst[0]->prev);
+//	else if (lst[0]->idx > 0)
+	*(get_head(lst)) = (lst[0]->next);
+	if ((*lst)->idx != 0)
+	{
+		(*get_head(lst))->idx = (*lst)->idx;
+		(*lst)->idx = 0;
+	}
+	//	ft_dllstupdate(lst);
+
+	*lst = *(get_head(lst));// lst[1]->next;
 	return;
 }
 void	ft_dealloc(dl_list **lst)
@@ -71,6 +94,7 @@ void	ft_dealloc(dl_list **lst)
 		*lst = tmp;
 	}
 	free(lst[1]);
+	free(lst[2]);
 	return ;
 
 }
@@ -89,6 +113,7 @@ void	ft_dllstadd_back(dl_list **lst, dl_list *new)
 			new->prev = last;
 			last->next = new;
 			last->idx = 0;
+
 		}
 		else
 		{
@@ -100,6 +125,9 @@ void	ft_dllstadd_back(dl_list **lst, dl_list *new)
 		}
 		lst[1]->prev = new;
 		lst[1]->idx += 1;
+		if (*get_size(lst) > 1)
+			lst[0]->idx = 1;
+		//(*get_head(lst))->idx = 1;
 		ft_dllstupdate(lst);
 	}
 }
@@ -109,7 +137,7 @@ void	ft_dllstadd_front(dl_list **lst, dl_list *new)
 {
 	if (lst)
 	{
-		new->idx = 1;
+		//new->idx = 1;
 		if (lst[1]->next)
 		{
 			new->next = *lst;
@@ -121,6 +149,8 @@ void	ft_dllstadd_front(dl_list **lst, dl_list *new)
 			free(*lst);
 		*lst = new;
 		(*lst)->idx = 1;
+		if (*get_size < 2)
+			(*lst)->idx = -1;
 		//add head
 		if(!lst[1]->prev)
 			lst[1]->prev = new;
@@ -166,7 +196,9 @@ void	init_lst(dl_list **lst)
 
 	lst[0] = ft_dllstnew(0);
 	lst[1] = ft_dllstnew(0);
+	lst[2] = ft_dllstnew(0);
 	lst[1]->idx = 0;
+	//lst[1]->idx = 0;
 	return ;
 }
 /*/

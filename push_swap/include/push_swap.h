@@ -51,6 +51,9 @@ void    rm_dllst(dl_list **lst);
 int		*get_size(dl_list **lst);
 dl_list	**get_head(dl_list **lst);
 dl_list	**get_tail(dl_list **lst);
+dl_list **get_storage(dl_list **lst);
+void    reset_head(dl_list **lst, dl_list *head);
+int merge_sort(dl_list **a, dl_list **b);
 
 int	ft_isnum(char *str);
 int ft_dllstfind(dl_list **lst, int i);
