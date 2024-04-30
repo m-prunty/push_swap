@@ -12,18 +12,6 @@
 #include "libft.h"
 #include "push_swap.h"
 
-int	ft_isnum(char *str)
-{
-	int	i;
-
-	if (!(*str))
-		return 1;
-	i = ft_isdigit((int)*str);
-	if (i) 
-		return(ft_isnum((++(str))) * i);
-	return (0);
-}
-
 int	ft_dllstsorted(dl_list **lst)
 {
 	dl_list	*ptr;
@@ -67,29 +55,27 @@ int	error_code(int i)
 	/*/
 	return (1);
 }
-int	fill_stack(dl_list **lst, char **av, int *ilst, int ac) 
+int	fill_stack(dl_list **stack, int *ilst, int ac) 
 {
 	int atoi;
 
-	ac--;
-	(av)++;
-	while(ac--)
+	while(*ilst)
 	{
-		if (ft_isnum(*av))
-		{
-			atoi = ft_atoi(*av);
-			if (!ft_dllstfind(lst, atoi))
+		//if (ft_isnum(*av))
+		//{
+			if (!ft_dllstfind(stack, atoi))
 			{
-				*ilst = atoi;
-				ft_dllstadd_back(lst,  ft_dllstnew(*ilst));
-				(av)++;
+				//*ilst = atoi;
+				ft_dllstadd_back(stack,  ft_dllstnew(*ilst));
+			//	free(*av);
+			//	(av)++;
 				(ilst)++;
 			}
 			else
 				return (error_code(2));//ft_printf("%s","Error: duplicate");
-		}
-		else
-			return (error_code(1));//t_printf("%s","Error: not num");
+		//}
+		//else
+		//	return (error_code(1));//t_printf("%s","Error: not num");
 
 	}
 	return (1);

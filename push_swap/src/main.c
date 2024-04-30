@@ -5,8 +5,8 @@ int	algo(dl_list **a, dl_list **b)
 {
 	//ft_printf("%i",get_max(a));
 	//print_list(a, 1);
-	//bubble_sort(a);
-	merge_sort(a, b);
+	bubble_sort(a);
+	//merge_sort(a, b);
 	//ft_putstr_fd("sa\npb\npb\npb\nsa\npa\npa\npa\n", 1);
 	//ft_putendl_fd("rra", 0);
 	b++;
@@ -48,6 +48,7 @@ int merge_sort(dl_list **a, dl_list **b)
 			sa(a);
 		else
 			ra(a);
+		//if ((*))
 		if ((*b)->i > ((*b)->next)->i)
 			sb(b);
 		if ((*b)->idx != -1)
@@ -66,9 +67,10 @@ int	bubble_sort_rev(dl_list **lst)
 		
 		if ((*head)->prev->i > (*head)->i)
 			sa(head);
+	
 	//	print_list(lst, 1);
 		rra(head);
-		print_list(head, 1);
+//		print_list(head, 1);
 	}
 	rra(head);
 	return (1);
@@ -77,18 +79,23 @@ int	bubble_sort_rev(dl_list **lst)
 int bubble_sort(dl_list **lst)//, dl_list **b)
 {
 	//int i;
-	dl_list **head;
+	//dl_list **head;
 	
-	head = lst;
+	//head = lst;
 	//i = *get_size(lst) -1;
 	while((*lst)->idx != -1)
 	{
 		
 		if ((*lst)->i > ((*lst)->next)->i)
 			sa(lst);
-		//	print_list(lst, 1);
+	//	print_list(lst, 1);
+		//if (ft_dllstsorted(lst))
+		//{
+//		ft_putendl_fd("rra", 1);
+		//	return (1);
+		//	}
 		ra(lst);
-		print_list(lst, 1);
+//		print_list(lst, 1);
 	}
 //	if (!ft_dllstsorted(lst))
 //		bubble_sort_rev(lst);
@@ -99,7 +106,7 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 		bubble_sort(lst);
 	}
 	
-	print_list(lst, 1);
+//	print_list(lst, 1);
 	return (1);
 }
 
@@ -159,14 +166,15 @@ int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 	}
 	return (i);
 }
-int clear_all(dl_list **a, dl_list **b, int *ilst)
+int clear_all(dl_list **a, dl_list **b, int **ilst)
 {
 	ft_dealloc(a);
 	ft_dealloc(b);
-	free(ilst);
+	while (*ilst)
+		free(ilst++);
 	return (1);
 }
-
+/*/
 #include <unistd.h>
 #include <fcntl.h>
 static void init_redirect(int *file_desc, int *copy_out)
@@ -180,27 +188,82 @@ static void reset_output(int *copy_out)
  dup2(*copy_out, fileno(stdout));
  close(*copy_out);
 }
+
+/*/
+void ft_memcpy_mult(char **dest, char **src, int count, size_t n)
+{
+	
+	while(count--)
+		ft_memcpy((*dest)++, (*src)++,n);
+	return;
+}
+
+
+int ft_isnum(char *str)
+{
+    int i;
+
+    if (!(*str))
+        return 1;
+    i = ft_isdigit((int)*str);
+    if (i) 
+        return(ft_isnum((++(str))) * i);
+    return (0);
+}
+
+int	**check_args(int *ac, char **av)
+{
+	char	**charv;
+	int		**intv;
+	int		i;
+	
+	i = 0;
+	if (*ac == 2)
+	{
+		charv = ft_split(av[1], ' ');
+		while (charv[i++]);
+		*ac = i + 1;
+	}
+	else
+	{
+    	charv = (char **)(malloc(sizeof(char *) * *(ac) ));
+		ft_memcpy_mult(charv, ++av, *ac, 13);
+	}
+	intv =(int **)(malloc(sizeof(int *)* *ac));
+	while(i--)
+	{
+		if (ft_isnum(charv[i]))
+			*intv[*ac - i - 1] =  ft_atoi(charv[i]);//intv[i]//, sizeof(int));
+		else
+			error_code(0);
+	}
+	return (intv);
+}
+
 int	main(int ac, char **av)
 {
     dl_list *a[3];
     dl_list *b[3];
-    int     *ilst;
+    int     **ilst;
+/*/
 	int		file_desc;
 	int		copy_out;
 	
-	init_redirect(&file_desc, &copy_out);
-    if (ac <= 3)
-        return (0);
-    init_lst(a);
+/*/
+//	init_redirect(&file_desc, &copy_out);
+    if (ac < 2)
+		return (0);
+    ilst = check_args(&ac, av);
+	init_lst(a);
     init_lst(b);
-    ilst = (int *)(malloc(sizeof(int ) * ac ));
-	if (fill_stack(a, av, ilst, ac))
+	if (fill_stack(a, ilst, ac))
 	{
 		if (ft_dllstsorted(a))
 			return (clear_all(a,b,ilst));
 		else
 			algo(a,b);
 	}
-	reset_output(&copy_out);
+	free(*av);
+//	reset_output(&copy_out);
 	return (clear_all(a,b,ilst));
 }

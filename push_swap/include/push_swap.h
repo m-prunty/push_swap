@@ -59,7 +59,7 @@ int	ft_isnum(char *str);
 int ft_dllstfind(dl_list **lst, int i);
 int ft_dllstsorted(dl_list **lst);
 int	error_code(int i);
-int	fill_stack(dl_list **lst, char **av, int *ilst, int ac);
+int fill_stack(dl_list **stack, int **ilst, int ac);
 int	push(dl_list **src, dl_list **dest);
 int	rotate(dl_list **lst, int dir);
 int	swap(dl_list **lst);

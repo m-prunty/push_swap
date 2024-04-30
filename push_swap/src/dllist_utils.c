@@ -149,7 +149,7 @@ void	ft_dllstadd_front(dl_list **lst, dl_list *new)
 			free(*lst);
 		*lst = new;
 		(*lst)->idx = 1;
-		if (*get_size < 2)
+		if (*get_size(lst) < 2)
 			(*lst)->idx = -1;
 		//add head
 		if(!lst[1]->prev)
