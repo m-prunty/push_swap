@@ -24,7 +24,8 @@ typedef struct dl_list
         int		i;
         int		idx;
 }       dl_list;
-
+#endif
+/*/
 #ifndef STRUCT_DL_LIST
 # define STRUCT_DL_LIST
 
@@ -36,9 +37,8 @@ typedef struct dl_head
         int		idx;
 
 #endif
-#endif
+/*/
 
-//export MallocStackLogging=1;
 dl_list *ft_dllstnew(int i);
 dl_list *ft_dllstlast(dl_list *lst);
 void	ft_dllstupdate(dl_list **lst);
@@ -55,11 +55,11 @@ dl_list **get_storage(dl_list **lst);
 void    reset_head(dl_list **lst, dl_list *head);
 int merge_sort(dl_list **a, dl_list **b);
 
-int	ft_isnum(char *str);
+int	ft_isnum(char **str);
 int ft_dllstfind(dl_list **lst, int i);
 int ft_dllstsorted(dl_list **lst);
 int	error_code(int i);
-int fill_stack(dl_list **stack, int **ilst, int ac);
+int fill_stack(dl_list **stack, int *ilst, int ac);
 int	push(dl_list **src, dl_list **dest);
 int	rotate(dl_list **lst, int dir);
 int	swap(dl_list **lst);

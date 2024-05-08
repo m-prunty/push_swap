@@ -88,6 +88,8 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 		
 		if ((*lst)->i > ((*lst)->next)->i)
 			sa(lst);
+	//	if (ft_dllstsorted(lst))
+	//		return (1);
 	//	print_list(lst, 1);
 		//if (ft_dllstsorted(lst))
 		//{
@@ -166,12 +168,14 @@ int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 	}
 	return (i);
 }
-int clear_all(dl_list **a, dl_list **b, int **ilst)
+int clear_all(dl_list **a, dl_list **b, int *intv)
 {
 	ft_dealloc(a);
 	ft_dealloc(b);
-	while (*ilst)
-		free(ilst++);
+	//while (*intv){
+		free(intv);
+		//(intv)++;
+//	}
 	return (1);
 }
 /*/
@@ -190,31 +194,52 @@ static void reset_output(int *copy_out)
 }
 
 /*/
-void ft_memcpy_mult(char **dest, char **src, int count, size_t n)
+void ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 {
-	
-	while(count--)
-		ft_memcpy((*dest)++, (*src)++,n);
+	char *tmp;
+
+	while(count-- )
+	{
+		tmp = (char *)(malloc(13 * sizeof(char )));
+		ft_strlcpy((tmp), (*src),n);
+		*dest = tmp; 
+		dest++;
+		src++;
+	}
 	return;
 }
 
 
-int ft_isnum(char *str)
+int ft_isnum(char **str)
 {
     int i;
 
     if (!(*str))
         return 1;
-    i = ft_isdigit((int)*str);
-    if (i) 
-        return(ft_isnum((++(str))) * i);
+//	if (*str)
+    i = ft_isdigit((int)**str);
+    if (i) {
+        return(ft_isnum((++(str))) * i);}
     return (0);
 }
 
-int	**check_args(int *ac, char **av)
+void fill_intv(int ac, int i, char **charv, int *intv)
+{
+	if (!i || !*charv)
+	{
+//	free(*charv);
+		return;
+	}
+	*intv = (ft_atoi(*charv));//tmp;//(ft_atoi(*charv));
+	fill_intv(ac, --i, ++(charv), ++(intv));
+	free(*(--(charv)));
+	return;
+}
+
+
+char	**check_args(int *ac, char **av)
 {
 	char	**charv;
-	int		**intv;
 	int		i;
 	
 	i = 0;
@@ -222,48 +247,49 @@ int	**check_args(int *ac, char **av)
 	{
 		charv = ft_split(av[1], ' ');
 		while (charv[i++]);
-		*ac = i + 1;
+		*ac = i ;
 	}
 	else
 	{
-    	charv = (char **)(malloc(sizeof(char *) * *(ac) ));
-		ft_memcpy_mult(charv, ++av, *ac, 13);
+    	charv = (char **)(ft_calloc(((*ac)  )  , sizeof(char *)  ));
+		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
 	}
-	intv =(int **)(malloc(sizeof(int *)* *ac));
-	while(i--)
+	if (!(ft_isnum(charv)))
 	{
-		if (ft_isnum(charv[i]))
-			*intv[*ac - i - 1] =  ft_atoi(charv[i]);//intv[i]//, sizeof(int));
-		else
-			error_code(0);
+		*ac = error_code(0);
+		return NULL;
 	}
-	return (intv);
+	return charv;
 }
 
 int	main(int ac, char **av)
 {
     dl_list *a[3];
     dl_list *b[3];
-    int     **ilst;
+    int     *intv;
+	char	**charv;
 /*/
 	int		file_desc;
 	int		copy_out;
 	
 /*/
 //	init_redirect(&file_desc, &copy_out);
-    if (ac < 2)
+	charv = check_args(&ac, av);//, &charv);
+	intv = (int *)malloc((ac - 1) * sizeof(int ));
+    if (ac < 2 || !intv)
 		return (0);
-    ilst = check_args(&ac, av);
+	fill_intv(ac-1, ac-1, charv, intv);
+	//free(*charv);
+	free(charv);
 	init_lst(a);
-    init_lst(b);
-	if (fill_stack(a, ilst, ac))
+	init_lst(b);
+	if (fill_stack(a, intv, ac))
 	{
 		if (ft_dllstsorted(a))
-			return (clear_all(a,b,ilst));
+			return (clear_all(a,b,intv));
 		else
 			algo(a,b);
 	}
-	free(*av);
 //	reset_output(&copy_out);
-	return (clear_all(a,b,ilst));
+	return (clear_all(a,b,intv));
 }

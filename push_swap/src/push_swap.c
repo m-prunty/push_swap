@@ -53,30 +53,19 @@ int	error_code(int i)
 	else if (i == 4)
 		ft_printf("%s","lst len is to short");
 	/*/
-	return (1);
+	return (0);
 }
 int	fill_stack(dl_list **stack, int *ilst, int ac) 
 {
-	int atoi;
-
-	while(*ilst)
+	while(--ac)
 	{
-		//if (ft_isnum(*av))
-		//{
-			if (!ft_dllstfind(stack, atoi))
-			{
-				//*ilst = atoi;
-				ft_dllstadd_back(stack,  ft_dllstnew(*ilst));
-			//	free(*av);
-			//	(av)++;
-				(ilst)++;
-			}
-			else
-				return (error_code(2));//ft_printf("%s","Error: duplicate");
-		//}
-		//else
-		//	return (error_code(1));//t_printf("%s","Error: not num");
-
+		if (!ft_dllstfind(stack, *ilst))
+		{
+			ft_dllstadd_back(stack,  ft_dllstnew(*ilst));
+			(ilst)++;
+		}
+		else
+			return (error_code(2));//ft_printf("%s","Error: duplicate");
 	}
 	return (1);
 }
