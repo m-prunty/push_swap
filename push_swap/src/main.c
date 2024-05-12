@@ -225,6 +225,19 @@ int ft_isnum(char *str)
     return (0);
 }
 
+int	ft_isnum_charv(char **charv)
+{
+	while (*charv)
+	{
+		if (!(ft_isnum(*charv)))
+		{
+			return 0;
+		}
+		(charv)++;
+	}
+	return (1);
+}
+
 void fill_intv(int ac, int i, char **charv, int *intv)
 {
 	if (!i || !*charv)
@@ -256,16 +269,11 @@ char	**check_args(int *ac, char **av)
     	charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
 		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
 	}
-	while (charv[i-1])
-	{
-		if (!(ft_isnum(*charv)))
-		{
-			*ac = error_code(0);
-			return NULL;
-		}
-		i--;
-	}
-	return charv;
+	if (ft_isnum_charv(charv))
+		return (charv);
+	
+	*ac = error_code(0);
+	return (NULL);
 }
 
 int	main(int ac, char **av)
