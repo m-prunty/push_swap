@@ -210,14 +210,16 @@ void ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 }
 
 
-int ft_isnum(char **str)
+int ft_isnum(char *str)
 {
     int i;
 
-    if (!(*str))
-        return 1;
-//	if (*str)
-    i = ft_isdigit((int)**str);
+    i = 1;
+	if (!(*str))
+		return 1;
+	if (*str == '-')
+		++(str);
+   	i = ft_isdigit((int)*(str));
     if (i) {
         return(ft_isnum((++(str))) * i);}
     return (0);
@@ -251,13 +253,17 @@ char	**check_args(int *ac, char **av)
 	}
 	else
 	{
-    	charv = (char **)(ft_calloc(((*ac)  )  , sizeof(char *)  ));
+    	charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
 		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
 	}
-	if (!(ft_isnum(charv)))
+	while (charv[i-1])
 	{
-		*ac = error_code(0);
-		return NULL;
+		if (!(ft_isnum(*charv)))
+		{
+			*ac = error_code(0);
+			return NULL;
+		}
+		i--;
 	}
 	return charv;
 }
@@ -291,5 +297,6 @@ int	main(int ac, char **av)
 			algo(a,b);
 	}
 //	reset_output(&copy_out);
+	print_list(a,1);
 	return (clear_all(a,b,intv));
 }

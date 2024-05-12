@@ -55,7 +55,7 @@ dl_list **get_storage(dl_list **lst);
 void    reset_head(dl_list **lst, dl_list *head);
 int merge_sort(dl_list **a, dl_list **b);
 
-int	ft_isnum(char **str);
+int	ft_isnum(char *str);
 int ft_dllstfind(dl_list **lst, int i);
 int ft_dllstsorted(dl_list **lst);
 int	error_code(int i);

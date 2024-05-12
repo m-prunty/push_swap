@@ -83,5 +83,7 @@ int		ft_iputptr(size_t argp);
 int		ft_iputchar(int c);
 int		ft_iputstr(char *str);
 int		ft_printf(const char *format, ...);
+int		ft_isblank(char c);
+int		ft_atoi_base(const char *nptr, int base);
 
 #endif
