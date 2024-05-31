@@ -66,7 +66,7 @@ char*	ft_itoa_arr(int *intv, int count)
 	return (charv) ;
 }
 
-int main()
+int main(int ac, int *av)
 {
 	int		**intv;
 	char	**charv;
