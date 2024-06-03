@@ -286,7 +286,7 @@ int	main(int ac, char **av)
 	int		file_desc;
 	int		copy_out;
 	
-/*/
+*/
 //	init_redirect(&file_desc, &copy_out);
 	charv = check_args(&ac, av);//, &charv);
 	intv = (int *)malloc((ac - 1) * sizeof(int ));

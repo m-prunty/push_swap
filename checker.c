@@ -1,3 +1,4 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <limits.h>
 #include "libft/libft.h"
@@ -39,9 +40,7 @@ int *ft_prand(int count, int maxbit)//, int **intv)
            	binstr[len++] = (char)(rand() % 2 + 48);
         binstr[len] = '\0';
         intv[i] = ft_atoi_base(binstr, 2);
-    //    printf("n:    %i \n bin: %s\n int: %i \n", count, binstr, (intv[i]));
 		i++;	
-		//printf("%s Element %d %i  \n", binstr, elementlen, i, len);
 		free(binstr);
     }
 	return intv;
@@ -73,25 +72,28 @@ int main(int ac, int *av)
 	char	*tmpstr;
 	int		i;
 	int		count;
-	
+	char	*file;
+	int		fd;
+
+	file = "tmpfile";
 	count = 20;
 	i = 0;
 	ft_srand(1);
-	intv = (int **)malloc(count+1 * sizeof(int *));
-	//printf("%u",rand());
+	intv = (int **)malloc(count + 1 * sizeof(int *));
 	*intv = ft_prand(count, 31);//, intv);
 	while(i < count)
 		ft_printf("%i ", (*intv)[i++]);
-
-	charv = (char **)(malloc(count*11 * sizeof(char*)));
+	ft_printf("\n");
+	charv = (char **)(malloc(count * 11 * sizeof(char*)));
 	tmpstr = ft_itoa_arr(*intv, count);
-	//ft_strlcat(tmpstr, "")
-	*charv = ft_strjoin("./push_swap ", tmpstr);
-	//ft_strlcat(*charv, )
-
-	//ft_printf("\nstr: %s ", *charv);
-	system(*charv);
-
+	
+	*charv = ft_strjoin("./push_swap ", ft_strjoin(tmpstr, " > file;"));
+	system(*charv );
+	i = 0;
+	fd = open("file", O_RDONLY);
+	while (get_next_line(fd))
+		i++;
+	ft_printf("\n n lines = %i \n", i);
 	free(tmpstr);	
 	free(*intv);
 	free(intv);

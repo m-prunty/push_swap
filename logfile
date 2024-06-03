@@ -1,0 +1,78 @@
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+sa
+ra
+ra
+ra
+ra
+sa
+ra
+sa
+ra
+ra
+sa
+ra
+ra
+ra
+ra
+ra
+ra
+ra
+sa
+ra
+ra
+ra
+ra
+ra
+ra
+ra
+sa
+ra
+ra
+ra
+ra
+ra
+ra
+ra
+sa
+ra
+ra
+ra
+ra
+ra
+ra
+ra
+ra
+#########################
+head:0 tail:189 size:8 
+________________________
+i:0 idx:1 prev:189 next:1 
+i:1 idx:0 prev:0 next:3 
+i:3 idx:0 prev:1 next:4 
+i:4 idx:0 prev:3 next:6 
+i:6 idx:0 prev:4 next:20 
+i:20 idx:0 prev:6 next:60 
+i:60 idx:0 prev:20 next:189 
+i:189 idx:-1 prev:60 next:0 
+________________________
