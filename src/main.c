@@ -4,7 +4,7 @@
 int	algo(dl_list **a, dl_list **b)
 {
 	//ft_printf("%i",get_max(a));
-	//print_list(a, 1);
+	//ft_dllstrd(a, 1);
 	bubble_sort(a);
 	//merge_sort(a, b);
 	//ft_putstr_fd("sa\npb\npb\npb\nsa\npa\npa\npa\n", 1);
@@ -13,20 +13,20 @@ int	algo(dl_list **a, dl_list **b)
 	a++;
 	/*/
 	pb(a,b);
-	print_list(a, 1);
-	print_list(b, 1);
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	pb(a,b);
-	print_list(a, 1);
-	print_list(b, 1);
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	pb(a,b);
-	print_list(a, 1);
-	print_list(b, 1);
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	rb(b);
-	print_list(a, 1);
-	print_list(b, 1);
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	pa(a,b);
-	print_list(a, 1);
-	print_list(b, 1);
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	/*/
 	return 1;
 }
@@ -38,8 +38,8 @@ int merge_sort(dl_list **a, dl_list **b)
 	
 	while ((*a)->idx != -1)
 	{
-		print_list(a,1);
-		print_list(b,1);
+		ft_dllstrd(a,1);
+		ft_dllstrd(b,1);
 		if ((*a)->i < med)
 		{
 			pb(a, b);
@@ -68,9 +68,9 @@ int	bubble_sort_rev(dl_list **lst)
 		if ((*head)->prev->i > (*head)->i)
 			sa(head);
 	
-	//	print_list(lst, 1);
+	//	ft_dllstrd(lst, 1);
 		rra(head);
-//		print_list(head, 1);
+//		ft_dllstrd(head, 1);
 	}
 	rra(head);
 	return (1);
@@ -90,14 +90,14 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 			sa(lst);
 	//	if (ft_dllstsorted(lst))
 	//		return (1);
-	//	print_list(lst, 1);
+	//	ft_dllstrd(lst, 1);
 		//if (ft_dllstsorted(lst))
 		//{
 //		ft_putendl_fd("rra", 1);
 		//	return (1);
 		//	}
 		ra(lst);
-//		print_list(lst, 1);
+//		ft_dllstrd(lst, 1);
 	}
 //	if (!ft_dllstsorted(lst))
 //		bubble_sort_rev(lst);
@@ -108,7 +108,7 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 		bubble_sort(lst);
 	}
 	
-//	print_list(lst, 1);
+//	ft_dllstrd(lst, 1);
 	return (1);
 }
 
@@ -305,6 +305,6 @@ int	main(int ac, char **av)
 			algo(a,b);
 	}
 //	reset_output(&copy_out);
-	print_list(a,1);
+	ft_dllstrd(a,1);
 	return (clear_all(a,b,intv));
 }
