@@ -1,11 +1,15 @@
 NAME = push_swap
-CC = cc
+CC = cc -c
 RM = rm -f
-CFLAGS = -Wall -Wextra -g -I${INC} -Werror 
+INC = include/
+CFLAGS = -Wall -Wextra -g -Werror 
 LIB = libft
-INC = include
+GNL = get_next_line
+BON = bonus
 SRC_DIR	= src
 OBJ_DIR	= obj
+
+
 
 SRC_FILES = ${wildcard $(SRC_DIR)/*.c}
 
@@ -14,8 +18,12 @@ all:	$(NAME)
 
 
 $(NAME):
-		@cd $(LIB) && $(MAKE) #&& mv $(LIB).so ../
-		$(CC) $(CFLAGS) $(SRC_FILES) -o $(NAME)  -L$(LIB) -Wl,-rpath=$(LIB) -lft
+		cd $(LIB) && $(MAKE)  && cp ${INC}/* ../${INC}/
+		$(CC) $(CFLAGS) -I$(INC) $(SRC_FILES) -o $(NAME)  -L$(LIB) -Wl,-rpath=$(LIB) -lft
+
+bonus: all
+	gcc $(BON)/checker.c -I$(INC) -lft -Llibft -Wl,-rpath=$(LIB) -lft -o chk
+		
 
 clean:
 		@cd libft && $(MAKE) clean
@@ -24,5 +32,6 @@ clean:
 fclean: clean
 		$(RM) $(LIB).so
 		$(RM) $(NAME)
+		$(RM) bonus
 
 re: fclean all

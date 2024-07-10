@@ -9,8 +9,8 @@
 /*   Updated: 2024/06/30 18:24:42 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
-#include "push_swap.h"
+#include "../include/libft.h"
+#include "../include/push_swap.h"
 
 int	push(dl_list **src, dl_list **dest)
 {

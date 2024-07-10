@@ -1,7 +1,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <limits.h>
-#include "libft/libft.h"
+#include "libft.h"
+#include "get_next_line_bonus.h"
 #include <string.h>
 
 //#define RAND_MAX	INT_MAX
@@ -65,7 +66,7 @@ char*	ft_itoa_arr(int *intv, int count)
 	return (charv) ;
 }
 
-int main(int ac, int *av)
+int main(int ac, char **av)
 {
 	int		**intv;
 	char	**charv;
@@ -85,9 +86,9 @@ int main(int ac, int *av)
 		ft_printf("%i ", (*intv)[i++]);
 	ft_printf("\n");
 	charv = (char **)(malloc(count * 11 * sizeof(char*)));
-	tmpstr = ft_itoa_arr(*intv, count);
+	tmpstr = ft_itoa_arr(*intv, count); 
 	
-	*charv = ft_strjoin("./push_swap ", ft_strjoin(tmpstr, " > file;"));
+	*charv = ft_strjoin("./push_swap ", ft_strjoin(tmpstr, " > $(file);"));
 	system(*charv );
 	i = 0;
 	fd = open("file", O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 01:42:32 by mprunty           #+#    #+#             */
-/*   Updated: 2024/04/16 19:16:53 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/06/03 19:37:51 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stdint.h>
+# include "get_next_line_bonus.h"
+#ifndef STRUCT_T_LIST
+# define STRUCT_T_LIST
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+#endif
 
 int		ft_isupper(int c);
 int		ft_islower(int c);
@@ -79,5 +83,10 @@ int		ft_iputptr(size_t argp);
 int		ft_iputchar(int c);
 int		ft_iputstr(char *str);
 int		ft_printf(const char *format, ...);
+int		ft_isblank(char c);
+int		ft_atoi_base(const char *nptr, int base);
+
+//get_next_line
+char    *get_next_line(int fd);
 
 #endif
