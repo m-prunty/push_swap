@@ -276,6 +276,12 @@ char	**check_args(int *ac, char **av)
 	return (NULL);
 }
 
+int solve_minac(a,b)
+{
+    return (0);
+}
+
+
 int	main(int ac, char **av)
 {
     dl_list *a[3];
@@ -301,7 +307,10 @@ int	main(int ac, char **av)
 	{
 		if (ft_dllstsorted(a))
 			return (clear_all(a,b,intv));
+        elif (ac < 3)
+            solve_minac(a,b);
 		else
+            #mech_turk(a,b);
 			algo(a,b);
 	}
 //	reset_output(&copy_out);

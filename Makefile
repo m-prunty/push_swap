@@ -18,7 +18,7 @@ all:	$(NAME)
 
 
 $(NAME):
-		cd $(LIB) && $(MAKE)  && cp ${INC}/* ../${INC}/
+		cd $(LIB) && $(MAKE)  && cp ${LIB}.so ../${INC}/
 		$(CC) $(CFLAGS) -I$(INC) $(SRC_FILES) -o $(NAME)  -L$(LIB) -Wl,-rpath=$(LIB) -lft
 
 bonus: all
