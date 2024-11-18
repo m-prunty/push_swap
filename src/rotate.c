@@ -32,7 +32,7 @@ int	rotate(dl_list **lst, int dir)
 		*(get_head(lst)) = (*(get_tail(lst)));//head;//*(get_head(lst)) 
 		*(get_tail(lst)) = head->prev;//*(get_head(lst)) 
 	}
-	//ft_dllstupdate(lst);
+    ft_dllstupdate(lst);
 	*lst = *(get_head(lst));
 	return (1);
 }

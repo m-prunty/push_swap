@@ -36,7 +36,7 @@ typedef struct s_gnl_list
 }	gnl_list;
 #endif
 
-//# include "libft.h"
+# include "libft.h"
 //size_t	ft_strlen(const char *str);
 int		nl_chr(const void *buf, size_t n);
 void	lstjoin(gnl_list **lst, char *str, int len, int has_nl);

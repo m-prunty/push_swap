@@ -1,5 +1,5 @@
 NAME = push_swap
-CC = cc -c
+CC = cc 
 RM = rm -f
 INC = include/
 CFLAGS = -Wall -Wextra -g -Werror 
@@ -32,6 +32,5 @@ clean:
 fclean: clean
 		$(RM) $(LIB).so
 		$(RM) $(NAME)
-		$(RM) bonus
 
 re: fclean all

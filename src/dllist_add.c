@@ -12,58 +12,58 @@
 #include "libft.h"
 #include "push_swap.h"
 
-void	ft_dllstadd_back(dl_list **lst, dl_list *new)
+void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)
 {
 	dl_list	*last;
 
 	if (lst)
 	{
-		new->idx = -1;
-		if (lst[1]->prev)
+	//	new_link->idx = -1;
+		if (*get_tail(lst))
 		{
-			new->next = lst[1]->next;
-			last = lst[1]->prev;
-			new->prev = last;
-			last->next = new;
+			new_link->next = *get_head(lst);
+			last = *get_tail(lst);
+			new_link->prev = last;
+			last->next = new_link;
 			last->idx = 0;
 		}
 		else
 		{
-			new->prev = new;
-			new->next = new;
+			new_link->prev = new_link;
+			new_link->next = new_link;
 			free(*lst);
-			*lst = new;
-			lst[1]->next = new;
+			*lst = new_link;
+			*get_head(lst) = new_link;
 		}
-		lst[1]->prev = new;
-		lst[1]->idx += 1;
+		*get_tail(lst) = new_link;
+		*get_size(lst) += 1;
 		if (*get_size(lst) > 1)
 			lst[0]->idx = 1;
 		ft_dllstupdate(lst);
 	}
 }
 
-void	ft_dllstadd_front(dl_list **lst, dl_list *new)
+void	ft_dllstadd_front(dl_list **lst, dl_list *new_link)
 {
 	if (lst)
 	{
-		if (lst[1]->next)
+		if (*get_head(lst))
 		{
-			new->next = *lst;
-			new->prev = (lst[1])->prev;
-			(*lst)->prev = new;
+			new_link->next = *lst;
+			new_link->prev = (lst[1])->prev;
+			(*lst)->prev = new_link;
 			(*lst)->idx = 0;
 		}
 		else
 			free(*lst);
-		*lst = new;
+		*lst = new_link;
 		(*lst)->idx = 1;
 		if (*get_size(lst) < 2)
 			(*lst)->idx = -1;
-		if (!lst[1]->prev)
-			lst[1]->prev = new;
-		lst[1]->next = new;
-		lst[1]->idx += 1;
+		if (!*get_tail(lst))
+			*get_tail(lst) = new_link;
+		*get_head(lst) = new_link;
+		*get_size(lst) += 1;
 		ft_dllstupdate(lst);
 	}
 }

@@ -12,27 +12,39 @@
 #include "libft.h"
 #include "push_swap.h"
 
+/* get_tail:
+ * 	 Returns the tail of lst, a pointer stored at lst[1].prev */
 dl_list **get_tail(dl_list **lst)
 {
 	return (&lst[1]->prev);
 }
 
+/* get_head:
+ * 	 Returns the head of list a pointer stored at lst[1].next */
 dl_list **get_head(dl_list **lst)
 {
 	return (&lst[1]->next);
 }
 
+/* get_storage:
+ * 	 Returns the storage element of lst, a pointer stored at lst[2] */
 dl_list **get_storage(dl_list **lst)
 {
 	return (&lst[2]);
 }
 
+/* get_size:
+ * 	 Returns the size of lst i.e number of nodes, 
+ *  an integer stored at lst[1].idx */
 int *get_size(dl_list **lst)
 {
 	return (&lst[1]->idx);
 }
 
-void 	reset_head(dl_list **lst, dl_list *head)
+/*  reset_head:
+ *      attachs a new head to the head pointer at lst 1 next 
+ */
+void    reset_head(dl_list **lst, dl_list *head)
 {
 	*(get_head(lst)) = head; 
 	*(get_tail(lst)) = head->prev; 
@@ -59,9 +71,19 @@ void	ft_dealloc(dl_list **lst)
 
 }
 
+/*  init_lst:
+ *      allocates memory for new structure comprised of three dl_list.
+ *      dl_list at idx 0 behaves like normal double-linked, i.e;
+ *          lst->next/previous are respective nodes in the list.
+ *          lst->i = node value int.
+ *          lst->idx = index int.
+ *
+ *      dl_list at idx 1 stores pointers to:
+ *          lst->next/previous = pointers to head/tail
+ *          lst->idx = size
+ */
 void	init_lst(dl_list **lst)
 {
-
 	lst[0] = ft_dllstnew(0);
 	lst[1] = ft_dllstnew(0);
 	lst[2] = ft_dllstnew(0);

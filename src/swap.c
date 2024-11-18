@@ -22,8 +22,9 @@ int	swap(dl_list **lst)
 	if (*(get_size(lst)) < 2)
 		return (0);
 	two = *lst;
-	ft_dllstrm(lst);
-	three = ((*get_head(lst))->next);
+    ft_dllstrm(lst);
+ 
+    three = ((*get_head(lst))->next);
 	//three->idx = 1;
 	three->prev = two;
 	two->next = three;
@@ -32,11 +33,12 @@ int	swap(dl_list **lst)
 	//two->prev->idx = 0;
 	((*get_head(lst))->next) = two;
 	ft_dllstupdate(lst);
-	if ((*lst)->idx == -1)
+/*	if ((*lst)->idx == -1)
 	{
 		(*lst)->idx = 0;
 		(*lst)->next->idx = -1;
-	}
+	}i
+    */
 	return (1);
 }
 

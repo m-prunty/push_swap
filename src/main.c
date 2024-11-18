@@ -3,31 +3,9 @@
 #include <stdio.h>
 int	algo(dl_list **a, dl_list **b)
 {
-	//ft_printf("%i",get_max(a));
-	//ft_dllstrd(a, 1);
 	bubble_sort(a);
-	//merge_sort(a, b);
-	//ft_putstr_fd("sa\npb\npb\npb\nsa\npa\npa\npa\n", 1);
-	//ft_putendl_fd("rra", 0);
 	b++;
 	a++;
-	/*/
-	pb(a,b);
-	ft_dllstrd(a, 1);
-	ft_dllstrd(b, 1);
-	pb(a,b);
-	ft_dllstrd(a, 1);
-	ft_dllstrd(b, 1);
-	pb(a,b);
-	ft_dllstrd(a, 1);
-	ft_dllstrd(b, 1);
-	rb(b);
-	ft_dllstrd(a, 1);
-	ft_dllstrd(b, 1);
-	pa(a,b);
-	ft_dllstrd(a, 1);
-	ft_dllstrd(b, 1);
-	/*/
 	return 1;
 }
 
@@ -144,7 +122,6 @@ int get_max(dl_list **lst)
 	return (max);
 }
 
-dl_list	**dllstgoto(dl_list **lst, int pos);
 int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 {
 	int i;
@@ -275,12 +252,33 @@ char	**check_args(int *ac, char **av)
 	*ac = error_code(0);
 	return (NULL);
 }
-
-int solve_minac(a,b)
+/*
+ * solve_ltthree:
+ *      checks if first or 2nd is max and if so ensures
+ *      its last using ra/rra or:
+ *      checks if first is bigger and if so swaps.
+ */
+int solve_ltthree(dl_list **a)
 {
+    
+    if ((*get_head(a))->i == get_max(a))
+        ra(a);
+    else if(((*a)->next)->i == get_max(a))
+        rra(a);
+    if ((*get_head(a))->i > ((*a)->next)->i)
+        sa(a);
     return (0);
 }
 
+dl_list	**dllstgoto(dl_list **lst, int pos)
+{
+    dl_list **node;
+    
+    node = lst;
+    while (pos--)
+        *node = (*node)->next;
+    return node;
+}
 
 int	main(int ac, char **av)
 {
@@ -294,6 +292,7 @@ int	main(int ac, char **av)
 	
 */
 //	init_redirect(&file_desc, &copy_out);
+    printf("%i", ac);
 	charv = check_args(&ac, av);//, &charv);
 	intv = (int *)malloc((ac - 1) * sizeof(int ));
     if (ac < 2 || !intv)
@@ -305,15 +304,17 @@ int	main(int ac, char **av)
 	init_lst(b);
 	if (fill_stack(a, intv, ac))
 	{
+	    ft_dllstrd(a,1);
 		if (ft_dllstsorted(a))
 			return (clear_all(a,b,intv));
-        elif (ac < 3)
-            solve_minac(a,b);
+        else if (ac-1 <= 3)
+            solve_ltthree(a);
 		else
-            #mech_turk(a,b);
-			algo(a,b);
+            turk_sort(a,b);
+			//algo(a,b);
 	}
 //	reset_output(&copy_out);
 	ft_dllstrd(a,1);
+	ft_dllstrd(b,1);
 	return (clear_all(a,b,intv));
 }
