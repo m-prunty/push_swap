@@ -62,7 +62,6 @@ void    reset_head(dl_list **lst, dl_list *head);
 int merge_sort(dl_list **a, dl_list **b);
 dl_list	**dllstgoto(dl_list **lst, int pos);
 
-dl_list **get_median(dl_list **lst);
 int ft_isnum(char *str);
 int ft_dllstfind(dl_list **lst, int i);
 int ft_dllstsorted(dl_list **lst);
@@ -73,8 +72,11 @@ int	rotate(dl_list **lst, int dir);
 int	swap(dl_list **lst);
 int get_max(dl_list **lst);
 int get_min(dl_list **lst);
+
 int bubble_sort(dl_list **lst);
+int solve_ltthree(dl_list **lst);
 int turk_sort(dl_list **a, dl_list **b);
+dl_list **get_median(dl_list **lst);
 
 int	sa(dl_list **a);
 int	sb(dl_list **b);

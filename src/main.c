@@ -277,6 +277,8 @@ dl_list	**dllstgoto(dl_list **lst, int pos)
     node = lst;
     while (pos--)
         *node = (*node)->next;
+    //ft_dllstupdate(lst);
+    //*lst = *get_head(lst);
     return node;
 }
 

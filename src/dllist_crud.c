@@ -42,17 +42,17 @@ void	ft_dllstrd(dl_list **lst, int dir)
 		ft_printf("#########################");
 		ft_printf("\nhead:%i tail:%i size:%i ",((lst[1])->next)->i, 
 				((lst[1])->prev)->i,*get_size(lst));
-        ft_printf("\n|i\t|idx\t|prev\t|next\t|");
-		ft_printf("\n________________________");
+        ft_printf("\n|prev\t|i\t|next\t|idx\t|");
+		ft_printf("\n----________________________----");
 		if (dir < 0)
 			*lst = (*lst)->prev;
 		while (i--)
 		{
 			ft_printf("\n");
-			ft_printf("|%i\t", (*lst)->i);
-			ft_printf("|%i\t", (*lst)->idx);
 			ft_printf("|%i\t", ((*lst)->prev)->i);
+			ft_printf("|%i\t", (*lst)->i);
 			ft_printf("|%i\t", ((*lst)->next)->i);
+			ft_printf("|%i\t|", (*lst)->idx);
 			if (dir > 0)
 				*lst = (*lst)->next;
 			else if (dir < 0)
