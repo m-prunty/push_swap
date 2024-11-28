@@ -29,7 +29,7 @@ typedef struct dl_list
         struct dl_list	*prev;
         int		i;
         int		idx;
-}       dl_list;
+    }       dl_list;
 #endif
 /*/
 #ifndef STRUCT_DL_LIST
@@ -44,7 +44,8 @@ typedef struct dl_head
 
 #endif
 /*/
-
+#define MIN_INT  1<<((sizeof(int)*8)-1)
+#define MAX_INT  -((1<<((sizeof(int)*8)-1)) +1)
 dl_list *ft_dllstnew(int i);
 dl_list *ft_dllstlast(dl_list *lst);
 void	ft_dllstupdate(dl_list **lst);
@@ -54,17 +55,20 @@ void	ft_dllstrd(dl_list **lst, int dir);
 void	init_lst(dl_list **lst);
 void    ft_dealloc(dl_list **lst);
 void    ft_dllstrm(dl_list **lst);
-int		*get_size(dl_list **lst);
+void    reset_head(dl_list **lst, dl_list *head);
 dl_list	**get_head(dl_list **lst);
 dl_list	**get_tail(dl_list **lst);
 dl_list **get_storage(dl_list **lst);
-void    reset_head(dl_list **lst, dl_list *head);
-int merge_sort(dl_list **a, dl_list **b);
-dl_list	**dllstgoto(dl_list **lst, int pos);
-
-int ft_isnum(char *str);
-int ft_dllstfind(dl_list **lst, int i);
+dl_list **get_cheapest(dl_list **lst);
+dl_list	*dllstgoto(dl_list **lst, int pos);
+dl_list *ft_dllstfind(dl_list **lst, int i, int len);
 int ft_dllstsorted(dl_list **lst);
+int		*get_size(dl_list **lst);
+int get_cheapest_cost(dl_list **lst);
+int calc_cheapest(dl_list **anode, dl_list **bnode);
+
+int ft_abs(int i);
+int ft_isnum(char *str);
 int	error_code(int i);
 int fill_stack(dl_list **stack, int *ilst, int ac);
 int	push(dl_list **src, dl_list **dest);
@@ -73,10 +77,11 @@ int	swap(dl_list **lst);
 int get_max(dl_list **lst);
 int get_min(dl_list **lst);
 
+int merge_sort(dl_list **a, dl_list **b);
 int bubble_sort(dl_list **lst);
 int solve_ltthree(dl_list **lst);
 int turk_sort(dl_list **a, dl_list **b);
-dl_list **get_median(dl_list **lst);
+int get_median_idx(dl_list **lst);
 
 int	sa(dl_list **a);
 int	sb(dl_list **b);

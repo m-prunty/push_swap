@@ -22,15 +22,15 @@ int	push(dl_list **src, dl_list **dest)
 	ft_dllstrm(src);
 	*(get_size(src)) -= 1;
 	ft_dllstadd_front(dest, tmp);
-	ft_dllstupdate(dest);
-	ft_dllstupdate(src);
+	*dest = *get_head(dest);
+    ft_dllstupdate(src);
+	//ft_dllstupdate(dest);
 	return (1);
 }
 
 /* pa (push a):
  * Take the first element at the top of b and put it at the top of a.
- * Do nothing if b is empty.
- */
+ * Do nothing if b is empty. */
 int	pa(dl_list **a, dl_list **b)
 {
 	if (!push(b, a))

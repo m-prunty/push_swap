@@ -270,13 +270,13 @@ int solve_ltthree(dl_list **a)
     return (0);
 }
 
-dl_list	**dllstgoto(dl_list **lst, int pos)
+dl_list	*dllstgoto(dl_list **lst, int pos)
 {
-    dl_list **node;
+    dl_list *node;
     
-    node = lst;
+    node = *lst;
     while (pos--)
-        *node = (*node)->next;
+        node = (node)->next;
     //ft_dllstupdate(lst);
     //*lst = *get_head(lst);
     return node;
@@ -294,7 +294,6 @@ int	main(int ac, char **av)
 	
 */
 //	init_redirect(&file_desc, &copy_out);
-    printf("%i", ac);
 	charv = check_args(&ac, av);//, &charv);
 	intv = (int *)malloc((ac - 1) * sizeof(int ));
     if (ac < 2 || !intv)
@@ -306,17 +305,18 @@ int	main(int ac, char **av)
 	init_lst(b);
 	if (fill_stack(a, intv, ac))
 	{
-	    ft_dllstrd(a,1);
-		if (ft_dllstsorted(a))
-			return (clear_all(a,b,intv));
+	    //ft_dllstrd(a,1);
+        if (ft_dllstsorted(a))
+            return (clear_all(a,b,intv));
         else if (ac-1 <= 3)
             solve_ltthree(a);
-		else
+        else
             turk_sort(a,b);
-			//algo(a,b);
-	}
-//	reset_output(&copy_out);
-	ft_dllstrd(a,1);
-	ft_dllstrd(b,1);
-	return (clear_all(a,b,intv));
+        //algo(a,b);
+    }
+    //	reset_output(&copy_out);
+    //ft_printf("%i",ft_dllstsorted(a));
+    //ft_dllstrd(a,1);
+    //ft_dllstrd(b,1);
+    return (clear_all(a,b,intv));
 }

@@ -18,19 +18,19 @@ all:	$(NAME)
 
 
 $(NAME):
-		cd $(LIB) && $(MAKE)  && cp ${LIB}.so ../${INC}/
-		$(CC) $(CFLAGS) -I$(INC) $(SRC_FILES) -o $(NAME)  -L$(LIB) -Wl,-rpath=$(LIB) -lft
+	cd $(LIB) && $(MAKE)  && cp ${LIB}.so ../${INC}/
+	$(CC) $(CFLAGS) -I$(INC) $(SRC_FILES) -o $(NAME)  -L$(LIB) -Wl,-rpath=$(LIB) -lft
 
-bonus: all
-	gcc $(BON)/checker.c -I$(INC) -lft -Llibft -Wl,-rpath=$(LIB) -lft -o chk
-		
+bonus: re 
+	$(CC) $(CFLAGS) -I$(INC) $(BON)/checker.c -o chk -L$(LIB) -Wl,-rpath=$(LIB) -lft
+
 
 clean:
-		@cd libft && $(MAKE) clean
-		$(RM) $(OBJ)
+	@cd libft && $(MAKE) clean
+	$(RM) $(OBJ)
 
 fclean: clean
-		$(RM) $(LIB).so
-		$(RM) $(NAME)
+	$(RM) $(LIB).so
+	$(RM) $(NAME)
 
 re: fclean all

@@ -26,19 +26,49 @@ dl_list **get_head(dl_list **lst)
 	return (&lst[1]->next);
 }
 
-/* get_storage:
- * 	 Returns the storage element of lst, a pointer stored at lst[2] */
-dl_list **get_storage(dl_list **lst)
+
+/* get_size:
+ * 	 Returns the size of lst i.e number of nodes. 
+ *  an integer stored at lst[1].i */
+int *get_size(dl_list **lst)
+{
+	return (&lst[1]->i);
+}
+
+/* get_cheapest:
+ * 	 Returns the  a pointer to the info on cheapest nodes.
+ * 	 a pointer stored at lst[2]
+ *          lst->next/previous = pointers to cheapest this/other
+ *          lst->i =  cheappest idx b 
+ *          lst->idx = cheapest idx a
+ * 	 */
+dl_list **get_cheapest(dl_list **lst)
 {
 	return (&lst[2]);
 }
 
-/* get_size:
- * 	 Returns the size of lst i.e number of nodes, 
- *  an integer stored at lst[1].idx */
-int *get_size(dl_list **lst)
+int ft_abs(int i)
 {
-	return (&lst[1]->idx);
+    //ft_printf("%i %i \n", i, -i);
+    if (i >= 0)
+        return (i);
+    else 
+        return (-i);
+}
+int calc_cheapest(dl_list **anode, dl_list **bnode){
+    int cost;
+    cost = (ft_abs((*anode)->i) + ft_abs((*bnode)->i)); 
+	return (cost) ;
+}
+/* get_cheapest_cost:
+ * 	 Returns the cheapest move cost found so far,absolute sum of;
+ * 	 lst[2].i - bindex and lst[2].idx - aindex */
+int get_cheapest_cost(dl_list **lst)
+{
+    int cost;
+    cost = (ft_abs((lst[2])->idx) + ft_abs((lst[2])->i)); 
+	//ft_printf("%i \n",cost) ;
+    return (cost) ;
 }
 
 /*  reset_head:
@@ -56,7 +86,7 @@ void	ft_dealloc(dl_list **lst)
 {
 	dl_list  *tmp;
 	int i;
-	i = ((lst[1]->idx) );
+	i = *(get_size(lst) );
 	if (!i)
 		free(*lst);
 	while(i--)
@@ -80,14 +110,18 @@ void	ft_dealloc(dl_list **lst)
  *
  *      dl_list at idx 1 stores pointers to:
  *          lst->next/previous = pointers to head/tail
- *          lst->idx = size
+ *          lst->i = size
+ *  
+ *      dl_list at idx 2 stores pointers to:
+ *          lst->next/previous = pointers to cheapest this/other
+ *          lst->i =  cheappest value
+ *          lst->idx = cheapest idx
  */
 void	init_lst(dl_list **lst)
 {
 	lst[0] = ft_dllstnew(0);
 	lst[1] = ft_dllstnew(0);
 	lst[2] = ft_dllstnew(0);
-	lst[1]->idx = 0;
 	//lst[1]->idx = 0;
 	return ;
 }

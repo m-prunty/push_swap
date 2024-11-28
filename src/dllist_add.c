@@ -25,7 +25,7 @@ void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)
 			last = *get_tail(lst);
 			new_link->prev = last;
 			last->next = new_link;
-			last->idx = 0;
+			//last->idx = 0;
 		}
 		else
 		{
@@ -36,9 +36,9 @@ void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)
 			*get_head(lst) = new_link;
 		}
 		*get_tail(lst) = new_link;
-		*get_size(lst) += 1;
-		if (*get_size(lst) > 1)
-			lst[0]->idx = 1;
+	    *get_size(lst) += 1;
+		//if (*get_size(lst) > 1)
+			//lst[0]->idx = 1;
 		ft_dllstupdate(lst);
 	}
 }
@@ -50,16 +50,16 @@ void	ft_dllstadd_front(dl_list **lst, dl_list *new_link)
 		if (*get_head(lst))
 		{
 			new_link->next = *lst;
-			new_link->prev = (lst[1])->prev;
+			new_link->prev= *get_tail(lst);
 			(*lst)->prev = new_link;
-			(*lst)->idx = 0;
+		//	(*lst)->idx = 0;
 		}
-		else
-			free(*lst);
+		//else
+		//	free(*lst);
 		*lst = new_link;
-		(*lst)->idx = 1;
-		if (*get_size(lst) < 2)
-			(*lst)->idx = -1;
+		//(*lst)->idx = 1;
+		//if (*get_size(lst) < 2)
+		//	(*lst)->idx = -1;
 		if (!*get_tail(lst))
 			*get_tail(lst) = new_link;
 		*get_head(lst) = new_link;

@@ -15,9 +15,11 @@
 int	ft_dllstsorted(dl_list **lst)
 {
 	dl_list	*ptr;
+    int size;
 
 	ptr = *lst;
-	while ((ptr)->idx >= 0)
+    size = *get_size(lst);
+	while (--size)
 	{
 		if ((ptr)->i < ((ptr)->next)->i)
 			ptr = (ptr)->next;
@@ -28,40 +30,37 @@ int	ft_dllstsorted(dl_list **lst)
 	return (1);
 }
 
-int	ft_dllstfind(dl_list **lst, int i)
+dl_list	*ft_dllstfind(dl_list **lst, int i, int len)
 {
-	//dl_list tmp;
-	if (!(*get_size(lst)))
-		return (0);
-	if ((*lst)->i == i)
-		return (1);
-	if ((*lst)->idx != -1)
-		return (ft_dllstfind((&(*lst)->next), i));
-	return (0);
+	if (len < 1)
+        return (NULL);
+    if ((*lst)->i == i)
+        return (*lst);
+    return (ft_dllstfind((&(*lst)->next), i, --len));
 }
 
 int	error_code(int i)
 {
-	ft_putendl_fd("Error", 2);
-	i++;
-	/*/
-	 * if (i == 1)
-		ft_printf("%s","not a number");
-	else if (i == 2)
-		ft_printf("%s","duplicate");
-	else if (i == 3)
-		ft_printf("%s","n is larger than int");
-	else if (i == 4)
-		ft_printf("%s","lst len is to short");
-	/*/
-	return (0);
+    ft_putendl_fd("Error", 2);
+    i++;
+    if (i == 1)
+        ft_printf("%s","not a number");
+    else if (i == 2)
+        ft_printf("%s","duplicate");
+    else if (i == 3)
+        ft_printf("%s","n is larger than int");
+    else if (i == 4)
+        ft_printf("%s","lst len is to short");
+    else if (i == 5)
+        ft_printf("%s","push failed");
+    return (0);
 }
 
 int	fill_stack(dl_list **stack, int *ilst, int ac)
 {
 	while (--ac)
 	{
-		if (!ft_dllstfind(stack, *ilst))
+		if (!ft_dllstfind(stack, *ilst, *get_size(stack)))
 		{
 			ft_dllstadd_back(stack, ft_dllstnew(*ilst));
 			(ilst)++;
