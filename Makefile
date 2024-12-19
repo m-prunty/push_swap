@@ -1,17 +1,18 @@
 ################################################################################
 #                                     CONFIG                                   #
 ################################################################################
-NAME	:= push_swap
-FLAGS	:= -Wall -Wextra -g -Werror 
-LDFLAGS	:= -L./libft -lft
-INCLUDE	:= -I./libft/include/ -I./include/
-SRCDIR	:= src
-OBJDIR	:= obj
+NAME        := push_swap
+CC          := gcc
+FLAGS       := -Wall -Wextra -Werror -g
+LIBFT       := ./libft
+LIBFT_LIB   := $(LIBFT)/libft.a
+LDFLAGS     := -L$(LIBFT) -lft
+INCLUDE     := -I$(LIBFT)/include -Iinclude
+SRCDIR      := src
+OBJDIR      := obj
 
-
-CC := gcc ${FLAGS} ${INCLUDE} 
 ################################################################################
-#                                     COLOURS                                  #
+#                                    COLOURS                                   #
 ################################################################################
 CLR_RMV     := \033[0m
 RED         := \033[1;31m
@@ -21,71 +22,67 @@ BLUE        := \033[1;34m
 CYAN        := \033[1;36m
 PURPLE      := \033[1;35m
 BOLD        := \033[1m
-################################################################################
-#                                  ALL SRCS                                    #
-################################################################################
-
-SRC = ${wildcard $(SRCDIR)/*.c}
 
 ################################################################################
-#                                 CREATE OBJS                                  #
+#                                 SOURCE FILES                                 #
 ################################################################################
-OBJECTS  := $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
-ALL_OBJS := $(OBJECTS) 
+SRC         := $(wildcard $(SRCDIR)/*.c)
+OBJS        := $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+
 ################################################################################
 #                                 PROGRESS BAR                                 #
 ################################################################################
-TOTAL_FILES = $(shell echo $(ALL_OBJS) | wc -w)
-CURR_FILE   = 0
+TOTAL_FILES := $(words $(OBJS))
+CURR_FILE   := 0
 
 define progress_bar
-$(eval CURR_FILE = $(shell expr $(CURR_FILE) + 1))
-@printf "\r$(CYAN)⌛ [%-50s] %d/%d files\n" "$$(printf '#%.0s' $$(seq 1 $$(expr $(CURR_FILE) \* 50 / $(TOTAL_FILES))))" $(CURR_FILE) $(TOTAL_FILES)
+    $(eval CURR_FILE = $(shell expr $(CURR_FILE) + 1))
+    @printf "\r$(CYAN)⌛ [%-50s] %d/%d files$(CLR_RMV)" \
+            "$$(printf '#%.0s' $$(seq 1 $$(expr $(CURR_FILE) \* 50 / $(TOTAL_FILES))))" \
+            $(CURR_FILE) $(TOTAL_FILES)
 endef
+
 ################################################################################
-#                                COMPILATION                                   #
+#                                    RULES                                     #
 ################################################################################
-all: banner $(NAME) 
-	@printf "\n$(GREEN)✨ Project compiled successfully!$(CLR_RMV)\n"
+all: $(LIBFT_LIB) banner $(NAME)
+
+$(NAME):  $(OBJS)
+	@$(CC) $^ $(LDFLAGS) -o $@
+	@printf "\n$(GREEN)✨ $(NAME) compiled successfully!$(CLR_RMV)\n"
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@
+	$(call progress_bar)
+
+$(LIBFT_LIB):
+	@printf "$(BLUE)📚 Building libft...$(CLR_RMV)\n"
+	@make -C $(LIBFT)
+	@printf "$(GREEN)✓ Libft ready!$(CLR_RMV)\n"
 
 banner:
 	@printf "%b" "$(PURPLE)"
 	@echo "╔═══════════════════════════════════════════════════════════════╗"
-	@echo "║                         Building push_swap                    ║"
+	@echo "║                      Building push_swap                       ║"
 	@echo "╚═══════════════════════════════════════════════════════════════╝"
 	@printf "%b" "$(CLR_RMV)"
 
-$(NAME):  $(ALL_OBJS) libft
-	@$(CC) -o $(NAME) $(ALL_OBJS) $(LDFLAGS)
-	@echo "\n$(GREEN)✅ All files compiled successfully!$(CLR_RMV)"
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR) 
-	@$(CC) $(FLAGS) -c $< -o $@
-	$(call progress_bar)
-
-libft:
-	@printf "$(BLUE)📚 Building libft...$(CLR_RMV)\n"
-	@make -C $(LFT)
-	@printf "$(GREEN)✓ Libft ready!$(CLR_RMV)\n"
-
-
 clean:
 	@printf "$(RED)🧹 Cleaning object files...$(CLR_RMV)\n"
-	@rm -f $(OBJECTS)
+	@rm -rf $(OBJDIR)
 	@printf "$(GREEN)✓ Clean complete!$(CLR_RMV)\n"
 
 fclean: clean
-	@make -C $(LFT) fclean
 	@printf "$(RED)🗑️  Removing executables...$(CLR_RMV)\n"
 	@rm -f $(NAME)
+	@make -C $(LIBFT) fclean
 	@printf "$(GREEN)✓ Full clean complete!$(CLR_RMV)\n"
 
 re: fclean all
 
-
-.PHONY: all clean fclean re bonus banner
+.PHONY: all clean fclean re banner progress_bar 
 
 ################################################################################
-#                                 END                                          #
+#                                     END                                      #
 ################################################################################
