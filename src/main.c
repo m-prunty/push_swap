@@ -90,36 +90,45 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 	return (1);
 }
 
+int get_min_rec(dl_list *lst, int min, int len)
+{
+    if (lst->i < min)
+        min = lst->i;
+    if (len--)
+        min = (get_min_rec(lst->next, min, len));
+    return (min);
+}
+
 int get_min(dl_list **lst)
 {
+    dl_list *tmp;
 	int min;
 	int i;
 
-	min = 0;
+    tmp = *lst;
+	min = MAX_INT;
 	i = *get_size(lst);
-	while (i--)
-	{
-		if (min > (*lst)->i)
-			min = (*lst)->i;
-		*lst = (*lst)->next;
-	}
-	return (min);
+	return (get_min_rec(tmp, min, i));
+}
+
+int get_max_rec(dl_list *lst, int max, int len)
+{
+    if (lst->i > max)
+        max = lst->i;
+    if (len--)
+        max = (get_max_rec(lst->next, max, len));
+    return (max);
 }
 int get_max(dl_list **lst)
 {
-	//dl_list	*head;
+	dl_list	*tmp;
 	int max;
 	int i;
 
-	max = 0;
+    tmp = *lst;
+	max = MIN_INT;
 	i = *get_size(lst);
-	while (i--)
-	{
-		if (max < (*lst)->i)
-			max = (*lst)->i;
-		*lst = (*lst)->next;
-	}
-	return (max);
+	return (get_max_rec(tmp, max, i));
 }
 
 int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
@@ -194,8 +203,6 @@ int ft_isnum(char *str)
     i = 1;
 	if (!(*str))
 		return 1;
-	if (*str == '-')
-		++(str);
    	i = ft_isdigit((int)*(str));
     if (i) {
         return(ft_isnum((++(str))) * i);}
@@ -204,14 +211,13 @@ int ft_isnum(char *str)
 
 int	ft_isnum_charv(char **charv)
 {
-	while (*charv)
-	{
-		if (!(ft_isnum(*charv)))
-		{
-			return 0;
-		}
+	if (**charv == '-')
 		(charv)++;
-	}
+    //tmp = *chrav 
+	while (*charv){
+		if (!(ft_isnum(*charv)))
+			return 0;
+        (charv)++;}
 	return (1);
 }
 
@@ -246,7 +252,7 @@ char	**check_args(int *ac, char **av)
     	charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
 		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
 	}
-	if (ft_isnum_charv(charv))
+	if (*charv && ft_isnum_charv(charv))
 		return (charv);
 	
 	*ac = error_code(0);
@@ -296,8 +302,8 @@ int	main(int ac, char **av)
 //	init_redirect(&file_desc, &copy_out);
 	charv = check_args(&ac, av);//, &charv);
 	intv = (int *)malloc((ac - 1) * sizeof(int ));
-    if (ac < 2 || !intv)
-		return (0);
+    if (ac < 2 || !intv || !charv || !*charv)
+		return (error_code(1));
 	fill_intv(ac-1, ac-1, charv, intv);
 	//free(*charv);
 	free(charv);

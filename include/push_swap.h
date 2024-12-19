@@ -63,6 +63,7 @@ dl_list **get_cheapest(dl_list **lst);
 dl_list	*dllstgoto(dl_list **lst, int pos);
 dl_list *ft_dllstfind(dl_list **lst, int i, int len);
 int ft_dllstsorted(dl_list **lst);
+int ft_dllstordered(dl_list **lst);
 int		*get_size(dl_list **lst);
 int get_cheapest_cost(dl_list **lst);
 int calc_cheapest(dl_list **anode, dl_list **bnode);

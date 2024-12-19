@@ -70,6 +70,10 @@ int get_cost(dl_list **lst)
 
         return (0);
         }
+int is_head_srt(dl_list *node)
+{
+    return (node->i == get_min(&node) && node->prev-> i == get_max(&node));
+}
 
 int cost_analysis(dl_list **a, dl_list **b)
 {
@@ -93,17 +97,15 @@ int cost_analysis(dl_list **a, dl_list **b)
     while (i--)
     {
         anode = *get_head(a);
-        j  = *get_size(a)  ;
-        if ((bnode)->i > (anode)->i)
-            while (--j && ((bnode)->i > (anode)->i) && ((anode)->next->i != get_min(a)))
+        j  = get_median_idx(a);//*get_size(a)  ;
+        while (!(bnode->i < anode->i && bnode->i > anode->prev->i) && j-- )
+        {
+            if (bnode->i >  anode->i && !is_head_srt(anode) && bnode->i)
                 anode = (anode)->next;
-        else if ((bnode)->i < (anode)->prev->i)
-            while (--j && ((bnode)->i < (anode)->prev->i) && ((anode)->prev->i != get_max(a)))
+            if (bnode->i <  anode->i)
                 anode = (anode)->prev;
-//        ft_printf("%i %i %i\n", (bnode)->idx + (anode)->idx, (bnode)->idx , (anode)->idx);
+        }
         cost =  (ft_abs((anode)->idx) + ft_abs((bnode)->idx));
-        //(bnode)[1]->idx = cost;
-        //anode[1]->idx = cost;
         if (!(*cheapest)->prev || cost < get_cheapest_cost(b))
         {
             (*cheapest)->idx = (bnode)->idx;
@@ -175,8 +177,8 @@ int turk_sort(dl_list **a, dl_list **b)
     {
 
         cost_analysis(a,b);
-      //  ft_dllstrd(a, 1);
-      //  ft_dllstrd(b, 1);
+        //  ft_dllstrd(a, 1);
+        //  ft_dllstrd(b, 1);
         move_nodes(a,b);
         ft_dllstupdate(a);
         ft_dllstupdate(b);
@@ -184,6 +186,8 @@ int turk_sort(dl_list **a, dl_list **b)
         //(void)(a);
         //(void)(b);
     }
+    if (!(ft_dllstordered(a)))
+        return (error_code(6));
     if ((*get_head(a))->i != get_min(a))
     {
         get_cost(a);
@@ -192,9 +196,9 @@ int turk_sort(dl_list **a, dl_list **b)
             ra(a);
         while (++(*get_cheapest(a))->i < 0)
             rra(a);
-
-
     }
-    return 0;
+    if (!(ft_dllstsorted(a)))
+        return (error_code(6));
+    return 1;
 
 }

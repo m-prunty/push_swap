@@ -11,6 +11,13 @@
 /* ************************************************************************** */
 #include "libft.h"
 #include "push_swap.h"
+int ft_dllstordered(dl_list **lst)
+{
+    dl_list **tmp;
+    tmp = lst;
+    *tmp =  (ft_dllstfind(lst, get_min(lst), *get_size(lst)));
+    return (ft_dllstsorted(tmp));
+}
 
 int	ft_dllstsorted(dl_list **lst)
 {
@@ -41,8 +48,9 @@ dl_list	*ft_dllstfind(dl_list **lst, int i, int len)
 
 int	error_code(int i)
 {
+    if (i==0)
+        return(0);
     ft_putendl_fd("Error", 2);
-    i++;
     if (i == 1)
         ft_printf("%s","not a number");
     else if (i == 2)
@@ -53,6 +61,8 @@ int	error_code(int i)
         ft_printf("%s","lst len is to short");
     else if (i == 5)
         ft_printf("%s","push failed");
+    else if (i == 6)
+        ft_printf("%s","turk sort failed");
     return (0);
 }
 
