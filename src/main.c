@@ -1,15 +1,26 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
+/*   Updated: 2024/12/27 00:10:20 by mprunty          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "push_swap.h"
 #include <stdio.h>
+
 int	algo(dl_list **a, dl_list **b)
 {
 	bubble_sort(a);
 	b++;
 	a++;
-	return 1;
+	return (1);
 }
 
-int merge_sort(dl_list **a, dl_list **b)
+int	merge_sort(dl_list **a, dl_list **b)
 {
 	int max = get_max(a);
 	int med = max / 2;
@@ -32,7 +43,7 @@ int merge_sort(dl_list **a, dl_list **b)
 		if ((*b)->idx != -1)
 			rb(b);
 	}
-	return 1;
+	return (1);
 }
 
 int	bubble_sort_rev(dl_list **lst)
@@ -92,40 +103,40 @@ int bubble_sort(dl_list **lst)//, dl_list **b)
 
 int get_min_rec(dl_list *lst, int min, int len)
 {
-    if (lst->i < min)
-        min = lst->i;
-    if (len--)
-        min = (get_min_rec(lst->next, min, len));
-    return (min);
+	if (lst->i < min)
+		min = lst->i;
+	if (len--)
+		min = (get_min_rec(lst->next, min, len));
+	return (min);
 }
 
 int get_min(dl_list **lst)
 {
-    dl_list *tmp;
-	int min;
-	int i;
+	dl_list	*tmp;
+	int		min;
+	int		i;
 
-    tmp = *lst;
+	tmp = *lst;
 	min = MAX_INT;
 	i = *get_size(lst);
 	return (get_min_rec(tmp, min, i));
 }
 
-int get_max_rec(dl_list *lst, int max, int len)
+int	get_max_rec(dl_list *lst, int max, int len)
 {
-    if (lst->i > max)
-        max = lst->i;
-    if (len--)
-        max = (get_max_rec(lst->next, max, len));
-    return (max);
+	if (lst->i > max)
+		max = lst->i;
+	if (len--)
+		max = (get_max_rec(lst->next, max, len));
+	return (max);
 }
-int get_max(dl_list **lst)
+int	get_max(dl_list **lst)
 {
 	dl_list	*tmp;
-	int max;
-	int i;
+	int		max;
+	int 	i;
 
-    tmp = *lst;
+	tmp = *lst;
 	max = MIN_INT;
 	i = *get_size(lst);
 	return (get_max_rec(tmp, max, i));
@@ -133,7 +144,7 @@ int get_max(dl_list **lst)
 
 int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (dir < 0)
@@ -154,7 +165,7 @@ int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 	}
 	return (i);
 }
-int clear_all(dl_list **a, dl_list **b, int *intv)
+int	clear_all(dl_list **a, dl_list **b, int *intv)
 {
 	ft_dealloc(a);
 	ft_dealloc(b);
@@ -180,44 +191,46 @@ static void reset_output(int *copy_out)
 }
 
 /*/
-void ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
+void	ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 {
-	char *tmp;
+	char	*tmp;
 
-	while(count-- )
+	while (count--)
 	{
 		tmp = (char *)(malloc(13 * sizeof(char )));
-		ft_strlcpy((tmp), (*src),n);
-		*dest = tmp; 
+		ft_strlcpy((tmp), (*src), n);
+		*dest = tmp;
 		dest++;
 		src++;
 	}
-	return;
+	return ;
 }
 
 
-int ft_isnum(char *str)
+int	ft_isnum(char *str, int symok)
 {
-    int i;
+	int	i;
 
-    i = 1;
+	i = 1;
 	if (!(*str))
-		return 1;
-   	i = ft_isdigit((int)*(str));
-    if (i) {
-        return(ft_isnum((++(str))) * i);}
-    return (0);
+		return (1);
+	while (symok && (*str == '-' || *str == '+' || *str == ' '))
+		str++;
+	i = ft_isdigit((int)*(str));
+	if (i)
+		return (ft_isnum(++(str), 0) * i);
+	return (0);
 }
 
 int	ft_isnum_charv(char **charv)
 {
 	if (**charv == '-')
 		(charv)++;
-    //tmp = *chrav 
+	//tmp = *chrav 
 	while (*charv){
-		if (!(ft_isnum(*charv)))
+		if (!(ft_isnum(*charv, 1)))
 			return 0;
-        (charv)++;}
+		(charv)++;}
 	return (1);
 }
 
@@ -249,50 +262,49 @@ char	**check_args(int *ac, char **av)
 	}
 	else
 	{
-    	charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
+		charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
 		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
 	}
-	if (*charv && ft_isnum_charv(charv))
+	if (*charv && ft_isnum(*charv, 1))
 		return (charv);
-	
 	*ac = error_code(0);
 	return (NULL);
 }
 /*
  * solve_ltthree:
- *      checks if first or 2nd is max and if so ensures
- *      its last using ra/rra or:
- *      checks if first is bigger and if so swaps.
+ *	  checks if first or 2nd is max and if so ensures
+ *	  its last using ra/rra or:
+ *	  checks if first is bigger and if so swaps.
  */
 int solve_ltthree(dl_list **a)
 {
-    
-    if ((*get_head(a))->i == get_max(a))
-        ra(a);
-    else if(((*a)->next)->i == get_max(a))
-        rra(a);
-    if ((*get_head(a))->i > ((*a)->next)->i)
-        sa(a);
-    return (0);
+	
+	if ((*get_head(a))->i == get_max(a))
+		ra(a);
+	else if(((*a)->next)->i == get_max(a))
+		rra(a);
+	if ((*get_head(a))->i > ((*a)->next)->i)
+		sa(a);
+	return (0);
 }
 
 dl_list	*dllstgoto(dl_list **lst, int pos)
 {
-    dl_list *node;
-    
-    node = *lst;
-    while (pos--)
-        node = (node)->next;
-    //ft_dllstupdate(lst);
-    //*lst = *get_head(lst);
-    return node;
+	dl_list *node;
+	
+	node = *lst;
+	while (pos--)
+		node = (node)->next;
+	//ft_dllstupdate(lst);
+	//*lst = *get_head(lst);
+	return node;
 }
 
 int	main(int ac, char **av)
 {
-    dl_list *a[3];
-    dl_list *b[3];
-    int     *intv;
+	dl_list *a[3];
+	dl_list *b[3];
+	int	 *intv;
 	char	**charv;
 /*/
 	int		file_desc;
@@ -302,7 +314,7 @@ int	main(int ac, char **av)
 //	init_redirect(&file_desc, &copy_out);
 	charv = check_args(&ac, av);//, &charv);
 	intv = (int *)malloc((ac - 1) * sizeof(int ));
-    if (ac < 2 || !intv || !charv || !*charv)
+	if (ac < 2 || !intv || !charv || !*charv)
 		return (error_code(1));
 	fill_intv(ac-1, ac-1, charv, intv);
 	//free(*charv);
@@ -311,18 +323,18 @@ int	main(int ac, char **av)
 	init_lst(b);
 	if (fill_stack(a, intv, ac))
 	{
-	    //ft_dllstrd(a,1);
-        if (ft_dllstsorted(a))
-            return (clear_all(a,b,intv));
-        else if (ac-1 <= 3)
-            solve_ltthree(a);
-        else
-            turk_sort(a,b);
-        //algo(a,b);
-    }
-    //	reset_output(&copy_out);
-    //ft_printf("%i",ft_dllstsorted(a));
-    //ft_dllstrd(a,1);
-    //ft_dllstrd(b,1);
-    return (clear_all(a,b,intv));
+		//ft_dllstrd(a,1);
+		if (ft_dllstsorted(a))
+			return (clear_all(a,b,intv));
+		else if (ac-1 <= 3)
+			solve_ltthree(a);
+		else
+			turk_sort(a,b);
+		//algo(a,b);
+	}
+	//	reset_output(&copy_out);
+	//ft_printf("%i",ft_dllstsorted(a));
+	//ft_dllstrd(a,1);
+	//ft_dllstrd(b,1);
+	return (clear_all(a,b,intv));
 }

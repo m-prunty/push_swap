@@ -6,10 +6,9 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:25:42 by mprunty           #+#    #+#             */
-/*   Updated: 2024/06/30 19:52:51 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/27 01:08:10 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 #include "push_swap.h"
 
 void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)

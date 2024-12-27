@@ -6,31 +6,29 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:27:56 by mprunty           #+#    #+#             */
-/*   Updated: 2024/06/30 20:02:14 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/27 01:46:05 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 #include "push_swap.h"
 
 /* get_tail:
  * 	 Returns the tail of lst, a pointer stored at lst[1].prev */
-dl_list **get_tail(dl_list **lst)
+dl_list	**get_tail(dl_list **lst)
 {
 	return (&lst[1]->prev);
 }
 
 /* get_head:
  * 	 Returns the head of list a pointer stored at lst[1].next */
-dl_list **get_head(dl_list **lst)
+dl_list	**get_head(dl_list **lst)
 {
 	return (&lst[1]->next);
 }
 
-
 /* get_size:
  * 	 Returns the size of lst i.e number of nodes. 
  *  an integer stored at lst[1].i */
-int *get_size(dl_list **lst)
+int	*get_size(dl_list **lst)
 {
 	return (&lst[1]->i);
 }
@@ -42,33 +40,37 @@ int *get_size(dl_list **lst)
  *          lst->i =  cheappest idx b 
  *          lst->idx = cheapest idx a
  * 	 */
-dl_list **get_cheapest(dl_list **lst)
+dl_list	**get_cheapest(dl_list **lst)
 {
 	return (&lst[2]);
 }
 
-int ft_abs(int i)
+int	ft_abs(int i)
 {
-    //ft_printf("%i %i \n", i, -i);
-    if (i >= 0)
-        return (i);
-    else 
-        return (-i);
+	//ft_printf("%i %i \n", i, -i);
+	if (i >= 0)
+		return (i);
+	else 
+		return (-i);
 }
-int calc_cheapest(dl_list **anode, dl_list **bnode){
-    int cost;
-    cost = (ft_abs((*anode)->i) + ft_abs((*bnode)->i)); 
+
+int	calc_cheapest(dl_list **anode, dl_list **bnode){
+	int cost;
+
+	cost = (ft_abs((*anode)->i) + ft_abs((*bnode)->i)); 
 	return (cost) ;
 }
+
 /* get_cheapest_cost:
  * 	 Returns the cheapest move cost found so far,absolute sum of;
  * 	 lst[2].i - bindex and lst[2].idx - aindex */
-int get_cheapest_cost(dl_list **lst)
+int	get_cheapest_cost(dl_list **lst)
 {
-    int cost;
-    cost = (ft_abs((lst[2])->idx) + ft_abs((lst[2])->i)); 
+	int cost;
+
+	cost = (ft_abs((lst[2])->idx) + ft_abs((lst[2])->i)); 
 	//ft_printf("%i \n",cost) ;
-    return (cost) ;
+	return (cost) ;
 }
 
 /*  reset_head:
@@ -86,7 +88,7 @@ void	ft_dealloc(dl_list **lst)
 {
 	dl_list  *tmp;
 	int i;
-	i = *(get_size(lst) );
+	i = *(get_size(lst)  );
 	if (!i)
 		free(*lst);
 	while(i--)
@@ -126,24 +128,24 @@ void	init_lst(dl_list **lst)
 	return ;
 }
 /*/
-int main()
-{
-	
-	dl_list *lst[2];
-	init_lst(lst);
-	//ft_dllstadd_back(lst,  ft_dllstnew("1"));
-	//ft_dllstadd_back(lst,  ft_dllstnew("2"));
-	ft_dllstadd_front(lst,  ft_dllstnew("3"));
-	//ft_dllstadd_back(lst,  ft_dllstnew("4"));
-	//ft_dllstadd_back(lst,  ft_dllstnew("5"));
-	ft_dllstadd_front(lst,  ft_dllstnew("6"));
-	ft_dllstadd_front(lst,  ft_dllstnew("7"));
-	ft_dllstadd_front(lst,  ft_dllstnew("8"));
-	ft_dllstrd(lst, 1);	
-	ft_dllstrd(lst, -1);	
-	//ft_printf("%i", ft_isascii('a'));
-	//ft_printf("%s", lst->i);
-	return 0;
+  int main()
+  {
+
+  dl_list *lst[2];
+  init_lst(lst);
+//ft_dllstadd_back(lst,  ft_dllstnew("1"));
+//ft_dllstadd_back(lst,  ft_dllstnew("2"));
+ft_dllstadd_front(lst,  ft_dllstnew("3"));
+//ft_dllstadd_back(lst,  ft_dllstnew("4"));
+//ft_dllstadd_back(lst,  ft_dllstnew("5"));
+ft_dllstadd_front(lst,  ft_dllstnew("6"));
+ft_dllstadd_front(lst,  ft_dllstnew("7"));
+ft_dllstadd_front(lst,  ft_dllstnew("8"));
+ft_dllstrd(lst, 1);	
+ft_dllstrd(lst, -1);	
+//ft_printf("%i", ft_isascii('a'));
+//ft_printf("%s", lst->i);
+return 0;
 }
 
 /*/

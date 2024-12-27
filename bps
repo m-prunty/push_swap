@@ -1,5 +1,0 @@
-break turk_sort
-break move_nodes
-alias pab= p {ft_dllstrd(a,1), ft_dllstrd(b,1)}
-alias pc = p {*get_cheapest(b).next, *get_cheapest(b).prev}
-
