@@ -6,25 +6,30 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:25:42 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/27 01:08:10 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/28 00:45:47 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)
+/**
+ * @brief adds link to back of list and sets it as tail (also sets it to head 
+ * if tail does not exist)
+ *
+ * @param lst 
+ * @param new_link 
+ */
+void	ft_dllstadd_back(t_dll **lst, t_dll *new_link)
 {
-	dl_list	*last;
+	t_dll	*last;
 
 	if (lst)
 	{
-	//	new_link->idx = -1;
 		if (*get_tail(lst))
 		{
 			new_link->next = *get_head(lst);
 			last = *get_tail(lst);
 			new_link->prev = last;
 			last->next = new_link;
-			//last->idx = 0;
 		}
 		else
 		{
@@ -35,30 +40,29 @@ void	ft_dllstadd_back(dl_list **lst, dl_list *new_link)
 			*get_head(lst) = new_link;
 		}
 		*get_tail(lst) = new_link;
-	    *get_size(lst) += 1;
-		//if (*get_size(lst) > 1)
-			//lst[0]->idx = 1;
+		*get_size(lst) += 1;
 		ft_dllstupdate(lst);
 	}
 }
 
-void	ft_dllstadd_front(dl_list **lst, dl_list *new_link)
+/**
+ * @brief adds link to front of list nand sets it to head (also sets it to tail
+ * if head does not exist)
+ *
+ * @param lst 
+ * @param new_link 
+ */
+void	ft_dllstadd_front(t_dll **lst, t_dll *new_link)
 {
 	if (lst)
 	{
 		if (*get_head(lst))
 		{
 			new_link->next = *lst;
-			new_link->prev= *get_tail(lst);
+			new_link->prev = *get_tail(lst);
 			(*lst)->prev = new_link;
-		//	(*lst)->idx = 0;
 		}
-		//else
-		//	free(*lst);
 		*lst = new_link;
-		//(*lst)->idx = 1;
-		//if (*get_size(lst) < 2)
-		//	(*lst)->idx = -1;
 		if (!*get_tail(lst))
 			*get_tail(lst) = new_link;
 		*get_head(lst) = new_link;

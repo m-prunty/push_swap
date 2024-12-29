@@ -51,6 +51,10 @@ $(NAME):  $(OBJS)
 	@$(CC) $^ $(LDFLAGS) -o $@
 	@printf "\n$(GREEN)✨ $(NAME) compiled successfully!$(CLR_RMV)\n"
 
+bonus: $(NAME) $(BONUS_OBJS)
+	@$(CC) -o checker) $(BONUS_OBJS) $(LDFLAGS)
+	@printf "$(GREEN)✨ $(NAME) compiled successfully!$(CLR_RMV)\n"
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
 	@$(CC) $(FLAGS) $(INCLUDE) -c $< -o $@

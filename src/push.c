@@ -6,15 +6,14 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 18:08:58 by mprunty           #+#    #+#             */
-/*   Updated: 2024/06/30 18:24:42 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/28 03:29:00 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/libft.h"
 #include "../include/push_swap.h"
 
-int	push(dl_list **src, dl_list **dest)
+int	push(t_dll **src, t_dll **dest)
 {
-	dl_list	*tmp;
+	t_dll	*tmp;
 
 	if (*(get_size(src)) < 1)
 		return (0);
@@ -31,7 +30,7 @@ int	push(dl_list **src, dl_list **dest)
 /* pa (push a):
  * Take the first element at the top of b and put it at the top of a.
  * Do nothing if b is empty. */
-int	pa(dl_list **a, dl_list **b)
+int	pa(t_dll **a, t_dll **b)
 {
 	if (!push(b, a))
 		return (error_code(0));
@@ -42,7 +41,7 @@ int	pa(dl_list **a, dl_list **b)
  * Take the first element at the top of a and put it at the top of b.
  * Do nothing if a is empty.
  */
-int	pb(dl_list **a, dl_list **b)
+int	pb(t_dll **a, t_dll **b)
 {
 	if (!push(a, b))
 		return (error_code(0));

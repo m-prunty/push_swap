@@ -6,16 +6,16 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 18:08:58 by mprunty           #+#    #+#             */
-/*   Updated: 2024/06/30 18:18:31 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/28 03:20:10 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "push_swap.h"
 
-int	swap(dl_list **lst)
+int	swap(t_dll **lst)
 {
-	dl_list	*two;
-	dl_list	*three;
+	t_dll	*two;
+	t_dll	*three;
 
 	if (*(get_size(lst)) == 2)
 		return (rotate(lst, 1));
@@ -45,7 +45,7 @@ int	swap(dl_list **lst)
 /* sa (swap a): Swap the first 2 elements at the top of stack a.
  * Do nothing if there is only one or no elements.
  */
-int	sa(dl_list **a)
+int	sa(t_dll **a)
 {
 	if (!swap(a))
 		return (error_code(0));
@@ -55,7 +55,7 @@ int	sa(dl_list **a)
 /* sb (swap b): Swap the first 2 elements at the top of stack b.
  * Do nothing if there is only one or no elements.
  */
-int	sb(dl_list **b)
+int	sb(t_dll **b)
 {
 	if (!swap(b))
 		return (error_code(0));
@@ -64,7 +64,7 @@ int	sb(dl_list **b)
 
 /* ss : sa and sb at the same time.
  */
-int	ss(dl_list **a, dl_list **b)
+int	ss(t_dll **a, t_dll **b)
 {
 	if ((*get_size(a)) < 2 || (*get_size(b)) < 2)
 		return (error_code(4));

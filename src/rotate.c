@@ -6,15 +6,15 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 18:08:58 by mprunty           #+#    #+#             */
-/*   Updated: 2024/06/30 18:21:50 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/28 03:20:54 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 #include "push_swap.h"
 
-int	rotate(dl_list **lst, int dir)
+int	rotate(t_dll **lst, int dir)
 {
-	dl_list	*head;
+	t_dll	*head;
 
 	if (*(get_size(lst)) < 2)
 		return (0);
@@ -40,7 +40,7 @@ int	rotate(dl_list **lst, int dir)
 /* ra (rotate a): Shift up all elements of stack a by 1.
  * The first element becomes the last one.
  */
-int	ra(dl_list **a)
+int	ra(t_dll **a)
 {
 	if (!rotate(a, 1))
 		return (error_code(0));
@@ -50,7 +50,7 @@ int	ra(dl_list **a)
 /* rb (rotate b): Shift up all elements of stack b by 1.
  * The first element becomes the last one.
  */
-int	rb(dl_list **b)
+int	rb(t_dll **b)
 {
 	if (!rotate(b, 1))
 		return (error_code(0));
@@ -59,7 +59,7 @@ int	rb(dl_list **b)
 
 /* rr : ra and rb at the same time.
  */
-int	rr(dl_list **a, dl_list **b)
+int	rr(t_dll **a, t_dll **b)
 {
 	if ((*get_size(a)) < 2 || (*get_size(b)) < 2)
 		return (error_code(4));

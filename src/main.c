@@ -6,102 +6,12 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/27 00:10:20 by mprunty          ###   ########.fr       */
+/*   Updated: 2024/12/29 09:48:24 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
-#include <stdio.h>
 
-int	algo(dl_list **a, dl_list **b)
-{
-	bubble_sort(a);
-	b++;
-	a++;
-	return (1);
-}
-
-int	merge_sort(dl_list **a, dl_list **b)
-{
-	int max = get_max(a);
-	int med = max / 2;
-	
-	while ((*a)->idx != -1)
-	{
-		ft_dllstrd(a,1);
-		ft_dllstrd(b,1);
-		if ((*a)->i < med)
-		{
-			pb(a, b);
-		}
-		else if ((*a)->i > ((*a)->next)->i)
-			sa(a);
-		else
-			ra(a);
-		//if ((*))
-		if ((*b)->i > ((*b)->next)->i)
-			sb(b);
-		if ((*b)->idx != -1)
-			rb(b);
-	}
-	return (1);
-}
-
-int	bubble_sort_rev(dl_list **lst)
-{
-	dl_list **head;
-	
-	head = lst;
-	while ((*head)->prev->idx != -1)
-	{
-		
-		if ((*head)->prev->i > (*head)->i)
-			sa(head);
-	
-	//	ft_dllstrd(lst, 1);
-		rra(head);
-//		ft_dllstrd(head, 1);
-	}
-	rra(head);
-	return (1);
-}
-
-int bubble_sort(dl_list **lst)//, dl_list **b)
-{
-	//int i;
-	//dl_list **head;
-	
-	//head = lst;
-	//i = *get_size(lst) -1;
-	while((*lst)->idx != -1)
-	{
-		
-		if ((*lst)->i > ((*lst)->next)->i)
-			sa(lst);
-	//	if (ft_dllstsorted(lst))
-	//		return (1);
-	//	ft_dllstrd(lst, 1);
-		//if (ft_dllstsorted(lst))
-		//{
-//		ft_putendl_fd("rra", 1);
-		//	return (1);
-		//	}
-		ra(lst);
-//		ft_dllstrd(lst, 1);
-	}
-//	if (!ft_dllstsorted(lst))
-//		bubble_sort_rev(lst);
-	ra(lst);
-	if (!ft_dllstsorted(lst))
-	{
-		//ft_printf("\n%s\n","next_bubb");
-		bubble_sort(lst);
-	}
-	
-//	ft_dllstrd(lst, 1);
-	return (1);
-}
-
-int get_min_rec(dl_list *lst, int min, int len)
+int	get_min_rec(t_dll *lst, int min, int len)
 {
 	if (lst->i < min)
 		min = lst->i;
@@ -110,9 +20,9 @@ int get_min_rec(dl_list *lst, int min, int len)
 	return (min);
 }
 
-int get_min(dl_list **lst)
+int	get_min(t_dll **lst)
 {
-	dl_list	*tmp;
+	t_dll	*tmp;
 	int		min;
 	int		i;
 
@@ -122,7 +32,7 @@ int get_min(dl_list **lst)
 	return (get_min_rec(tmp, min, i));
 }
 
-int	get_max_rec(dl_list *lst, int max, int len)
+int	get_max_rec(t_dll *lst, int max, int len)
 {
 	if (lst->i > max)
 		max = lst->i;
@@ -130,19 +40,18 @@ int	get_max_rec(dl_list *lst, int max, int len)
 		max = (get_max_rec(lst->next, max, len));
 	return (max);
 }
-int	get_max(dl_list **lst)
+
+int	get_max(t_dll **lst)
 {
-	dl_list	*tmp;
-	int		max;
-	int 	i;
+	t_dll	*tmp;
+	int		i;
 
 	tmp = *lst;
-	max = MIN_INT;
 	i = *get_size(lst);
-	return (get_max_rec(tmp, max, i));
+	return (get_max_rec(tmp, MIN_INT, i));
 }
 
-int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
+int	dllstget_dist(t_dll **lst, t_dll *node, int dir)
 {
 	int	i;
 
@@ -165,32 +74,15 @@ int	dllstget_dist(dl_list **lst, dl_list *node, int dir)
 	}
 	return (i);
 }
-int	clear_all(dl_list **a, dl_list **b, int *intv)
+
+int	clear_all(t_dll **a, t_dll **b, int *intv)
 {
 	ft_dealloc(a);
 	ft_dealloc(b);
-	//while (*intv){
-		free(intv);
-		//(intv)++;
-//	}
+	free(intv);
 	return (1);
 }
-/*/
-#include <unistd.h>
-#include <fcntl.h>
-static void init_redirect(int *file_desc, int *copy_out)
-{
-  *file_desc = open("temp", O_RDWR|O_CREAT|O_TRUNC, 0666);
-  *copy_out = dup(fileno(stdout));
-  dup2(*file_desc, fileno(stdout));
-}
-static void reset_output(int *copy_out)
-{
- dup2(*copy_out, fileno(stdout));
- close(*copy_out);
-}
 
-/*/
 void	ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 {
 	char	*tmp;
@@ -206,7 +98,6 @@ void	ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 	return ;
 }
 
-
 int	ft_isnum(char *str, int symok)
 {
 	int	i;
@@ -214,7 +105,7 @@ int	ft_isnum(char *str, int symok)
 	i = 1;
 	if (!(*str))
 		return (1);
-	while (symok && (*str == '-' || *str == '+' || *str == ' '))
+	if (symok && (*str == '-' || *str == '+' || *str == ' '))
 		str++;
 	i = ft_isdigit((int)*(str));
 	if (i)
@@ -222,53 +113,65 @@ int	ft_isnum(char *str, int symok)
 	return (0);
 }
 
-int	ft_isnum_charv(char **charv)
-{
-	if (**charv == '-')
-		(charv)++;
-	//tmp = *chrav 
-	while (*charv){
-		if (!(ft_isnum(*charv, 1)))
-			return 0;
-		(charv)++;}
-	return (1);
-}
-
-void fill_intv(int ac, int i, char **charv, int *intv)
+void	fill_intv(int ac, int i, char **charv, long *intv)
 {
 	if (!i || !*charv)
-	{
-//	free(*charv);
-		return;
-	}
-	*intv = (ft_atoi(*charv));//tmp;//(ft_atoi(*charv));
-	fill_intv(ac, --i, ++(charv), ++(intv));
-	free(*(--(charv)));
-	return;
+		return (free(*charv));
+	*intv = (ft_atol(*charv));
+	if (i-- && ++(charv) && ++(intv))
+		return (fill_intv(ac, i, charv, intv));
+	return (free(*(--(charv))));
 }
-
 
 char	**check_args(int *ac, char **av)
 {
 	char	**charv;
 	int		i;
-	
+
 	i = 0;
 	if (*ac == 2)
 	{
 		charv = ft_split(av[1], ' ');
-		while (charv[i++]);
+		while (charv[i++])
+			;
 		*ac = i ;
 	}
 	else
 	{
-		charv = (char **)(ft_calloc(((*ac))  , sizeof(char *)  ));
-		ft_strlcpy_mult(charv, ++av, (*ac)-1, 13);
+		charv = (char **)(malloc((*ac) * sizeof(char *)));
+		ft_strlcpy_mult(charv, ++av, (*ac) - 1, 13);
 	}
-	if (*charv && ft_isnum(*charv, 1))
-		return (charv);
-	*ac = error_code(0);
-	return (NULL);
+	i = 0;
+	while (*(charv + i) && ft_isnum(*(charv + i), 1) && i++ < *ac - 1)
+		;
+	if (i < *ac - 1)
+		return (NULL);
+	return (charv);
+}
+
+void	rotate_ordered(t_dll **lst)
+{
+	t_dll	*tmp;
+	int		i;
+
+	tmp = *lst;
+	i = 0;
+	while (tmp->i != get_min(lst))
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	tmp = *get_head(lst);
+	if (i > *get_size(lst) / 2)
+	{
+		while (tmp->i != get_min(lst) && rra(lst))
+			tmp = tmp->prev;
+	}
+	else
+	{
+		while (tmp->i != get_min(lst) && ra(lst))
+			tmp = tmp->next;
+	}
 }
 /*
  * solve_ltthree:
@@ -276,65 +179,93 @@ char	**check_args(int *ac, char **av)
  *	  its last using ra/rra or:
  *	  checks if first is bigger and if so swaps.
  */
-int solve_ltthree(dl_list **a)
+int	solve_ltthree(t_dll **a)
 {
-	
 	if ((*get_head(a))->i == get_max(a))
 		ra(a);
-	else if(((*a)->next)->i == get_max(a))
+	else if (((*a)->next)->i == get_max(a))
 		rra(a);
 	if ((*get_head(a))->i > ((*a)->next)->i)
 		sa(a);
 	return (0);
 }
-
-dl_list	*dllstgoto(dl_list **lst, int pos)
+t_dll	*rotate_help(t_dll **lst, int n)
 {
-	dl_list *node;
-	
+	if (n > 0)
+	{
+		while (n--)
+		{
+			ra(lst);
+			*lst = (*lst)->next;
+		}
+	}
+	else
+	{
+		while (n++)
+		{
+			rra(lst);
+			*lst = (*lst)->next;
+		}
+	}
+	return (*lst);
+}
+
+int	solve_ltfive(t_dll **a, t_dll **b)
+{
+	t_dll	*min;
+
+	if (ft_dllstordered(a))
+		rotate_ordered(a);
+	if (ft_dllstsorted(a))
+		return (1);
+	while (*get_size(a) > 3)
+	{
+		min = ft_dllstfind(a, get_min(a), *get_size(a));
+		get_cost(a);
+		*a = rotate_help(a, min->idx);
+		pb(a, b);
+	}
+	(solve_ltthree(a));
+	while (*get_size(b))
+		pa(a, b);
+	return (ft_dllstsorted(a));
+}
+
+t_dll	*dllstgoto(t_dll **lst, int pos)
+{
+	t_dll	*node;
+
 	node = *lst;
 	while (pos--)
 		node = (node)->next;
-	//ft_dllstupdate(lst);
-	//*lst = *get_head(lst);
-	return node;
+	return (node);
 }
 
 int	main(int ac, char **av)
 {
-	dl_list *a[3];
-	dl_list *b[3];
-	int	 *intv;
+	t_dll	*a[3];
+	t_dll	*b[3];
+	long	*intv;
 	char	**charv;
-/*/
-	int		file_desc;
-	int		copy_out;
-	
-*/
-//	init_redirect(&file_desc, &copy_out);
-	charv = check_args(&ac, av);//, &charv);
-	intv = (int *)malloc((ac - 1) * sizeof(int ));
-	if (ac < 2 || !intv || !charv || !*charv)
+
+	charv = check_args(&ac, av);
+	intv = (long *)malloc((ac - 1) * sizeof(long));
+	if (!intv || !charv || !*charv)
 		return (error_code(1));
-	fill_intv(ac-1, ac-1, charv, intv);
-	//free(*charv);
+	fill_intv(ac - 1, ac - 1, charv, intv);
 	free(charv);
 	init_lst(a);
 	init_lst(b);
 	if (fill_stack(a, intv, ac))
 	{
-		//ft_dllstrd(a,1);
 		if (ft_dllstsorted(a))
-			return (clear_all(a,b,intv));
-		else if (ac-1 <= 3)
+			return (clear_all(a, b, (int *)intv));
+		else if (ac - 1 <= 3)
 			solve_ltthree(a);
+		else if (ac - 1 <= 5)
+			solve_ltfive(a, b);
 		else
-			turk_sort(a,b);
-		//algo(a,b);
+			turk_sort(a, b);
 	}
-	//	reset_output(&copy_out);
-	//ft_printf("%i",ft_dllstsorted(a));
-	//ft_dllstrd(a,1);
-	//ft_dllstrd(b,1);
-	return (clear_all(a,b,intv));
+	return (clear_all(a, b, (int *)intv));
 }
