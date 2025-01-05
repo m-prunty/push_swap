@@ -6,28 +6,26 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/29 11:24:23 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/05 10:38:25 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
 # include <stdio.h>
+# include <limits.h>
 # include "../libft/include/libft.h"
 
-# define MIN_INT -2147483648 //1<<((sizeof(int)*8)-1)
-# define MAX_INT 2147483647   //-((1<<((sizeof(int)*8)-1)) +1)
-/*
 # ifndef STRUCT_T_IDX
 #  define STRUCT_T_IDX
 
 typedef struct s_idx
 {
-	int		i;
-	int		j;
+	int		x;
+	int		y;
 }	t_idx;
 # endif
-*/
+
 # ifndef STRUCT_T_DLL
 #  define STRUCT_T_DLL
 
@@ -36,15 +34,17 @@ typedef struct s_dll
 	struct s_dll	*next;
 	struct s_dll	*prev;
 	int				i;
-	int			idx;
+	t_idx			idx;
 }	t_dll;
 # endif
 
-t_dll	*ft_dllstnew(int i);
+t_dll	*ft_dllstnew(int i, t_idx idx);
 void	ft_dllstrd(t_dll **lst, int dir);
 void	ft_dllstadd_back(t_dll **lst, t_dll *new_link);
 void	ft_dllstadd_front(t_dll **lst, t_dll *new_link);
 t_dll	*ft_dllstlast(t_dll *lst);
+
+t_idx	ft_idxnew(int x, int y);
 
 void	ft_dllstupdate(t_dll **lst);
 void	init_lst(t_dll **lst);
@@ -60,6 +60,8 @@ t_dll	**get_storage(t_dll **lst);
 
 t_dll	*dllstgoto(t_dll **lst, int pos);
 t_dll	*ft_dllstfind(t_dll **lst, int i, int len);
+void	rotate_ordered(t_dll **lst);
+t_dll	*rotate_help(t_dll **lst, int n);
 
 int		ft_dllstsorted(t_dll **lst);
 int		ft_dllstordered(t_dll **lst);
@@ -82,6 +84,11 @@ int		ft_isnum(char *str, int sym);
 int		error_code(int i);
 int		fill_stack(t_dll **stack, long *ilst, int ac);
 
+void	qs_swap(int *a, int *b);
+void	quick_sort(int arr[], int low, int high);
+int		partition(int arr[], int low, int high);
+int		*sorted_arr(int *arr, int size);
+
 int		merge_sort(t_dll **a, t_dll **b);
 int		bubble_sort(t_dll **lst);
 int		solve_ltthree(t_dll **lst);
@@ -103,6 +110,4 @@ int		rra(t_dll **a);
 int		rrb(t_dll **b);
 int		rrr(t_dll **a, t_dll **b);
 
-
 #endif
-

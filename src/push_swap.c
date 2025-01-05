@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/29 06:24:18 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/05 10:46:59 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -74,8 +74,7 @@ int	error_code(int i)
 	if (i == 0)
 		return (0);
 	ft_putendl_fd("Error", 2);
-/*
- * if (i == 1)
+	if (i == 1)
 		ft_printf("%s", "not a number");
 	else if (i == 2)
 		ft_printf("%s", "duplicate");
@@ -87,19 +86,32 @@ int	error_code(int i)
 		ft_printf("%s", "push failed");
 	else if (i == 6)
 		ft_printf("%s", "turk sort failed");
-*/
 	return (0);
+}
+
+int	final_position(int *sorted, int i, int len)
+{
+	int	pos;
+
+	pos = 0;
+	while ( pos < len  && sorted[pos] != i)
+		pos++;
+	return (pos);
 }
 
 int	fill_stack(t_dll **stack, long *ilst, int ac)
 {
+	int		*sorted;
+
+	sorted = sorted_arr((int *)ilst, ac);
 	while (--ac)
 	{
-		if (*ilst < MAX_INT && *ilst > MIN_INT)
+		if (*ilst < INT_MAX && *ilst > INT_MIN)
 		{
 			if (!ft_dllstfind(stack, (int)*ilst, *get_size(stack)))
 			{
-				ft_dllstadd_back(stack, ft_dllstnew(*ilst));
+				ft_dllstadd_back(stack, ft_dllstnew((int)*ilst,
+						ft_idxnew(0, final_position(sorted, (int)*ilst, ac))));
 				(ilst)++;
 			}
 			else

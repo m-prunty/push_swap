@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 00:29:59 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/28 02:56:50 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/04 14:51:36 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -35,17 +35,17 @@ int	calc_cheapest(t_dll **anode, t_dll **bnode)
 {
 	int	cost;
 
-	cost = (ft_abs((*anode)->i) + ft_abs((*bnode)->i));
+	cost = (ft_abs((*anode)->idx.x) + ft_abs((*bnode)->idx.x));
 	return (cost);
 }
-
 /* get_cheapest_cost:
  * 	 Returns the cheapest move cost found so far,absolute sum of;
  * 	 lst[2].i - bindex and lst[2].idx - aindex */
+/*
 int	get_cheapest_cost(t_dll **lst)
 {
 	int	cost;
 
 	cost = (ft_abs((lst[2])->idx) + ft_abs((lst[2])->i));
 	return (cost);
-}
+}*/

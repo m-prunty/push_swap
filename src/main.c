@@ -6,13 +6,15 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/29 09:48:24 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/05 10:42:06 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
 int	get_min_rec(t_dll *lst, int min, int len)
 {
+	if (!len)
+		return (min);
 	if (lst->i < min)
 		min = lst->i;
 	if (len--)
@@ -27,13 +29,15 @@ int	get_min(t_dll **lst)
 	int		i;
 
 	tmp = *lst;
-	min = MAX_INT;
+	min = INT_MAX;
 	i = *get_size(lst);
 	return (get_min_rec(tmp, min, i));
 }
 
 int	get_max_rec(t_dll *lst, int max, int len)
 {
+	if (!len)
+		return (max);
 	if (lst->i > max)
 		max = lst->i;
 	if (len--)
@@ -48,7 +52,7 @@ int	get_max(t_dll **lst)
 
 	tmp = *lst;
 	i = *get_size(lst);
-	return (get_max_rec(tmp, MIN_INT, i));
+	return (get_max_rec(tmp, INT_MIN, i));
 }
 
 int	dllstget_dist(t_dll **lst, t_dll *node, int dir)
@@ -192,37 +196,30 @@ int	solve_ltthree(t_dll **a)
 t_dll	*rotate_help(t_dll **lst, int n)
 {
 	if (n > 0)
-	{
 		while (n--)
-		{
 			ra(lst);
-			*lst = (*lst)->next;
-		}
-	}
 	else
-	{
 		while (n++)
-		{
 			rra(lst);
-			*lst = (*lst)->next;
-		}
-	}
 	return (*lst);
 }
 
 int	solve_ltfive(t_dll **a, t_dll **b)
 {
 	t_dll	*min;
+	int		i;
 
 	if (ft_dllstordered(a))
 		rotate_ordered(a);
 	if (ft_dllstsorted(a))
 		return (1);
-	while (*get_size(a) > 3)
+	i = 0;
+	while (i++ <= *get_size(a) - 3)
 	{
 		min = ft_dllstfind(a, get_min(a), *get_size(a));
 		get_cost(a);
-		*a = rotate_help(a, min->idx);
+		if ((*get_head(a))->i != min->i)
+			*a = rotate_help(a, min->idx.x);
 		pb(a, b);
 	}
 	(solve_ltthree(a));

@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:26:01 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/28 02:38:35 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:10:30 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -17,7 +17,16 @@
  *      next/prev = NULL;
  *      idx = 0;
  */
-t_dll	*ft_dllstnew(int i)
+t_idx	ft_idxnew(int x, int y)
+{
+	t_idx	idx;
+
+	idx.x = x;
+	idx.y = y;
+	return (idx);
+}
+
+t_dll	*ft_dllstnew(int i, t_idx idx)
 {
 	t_dll	*link;
 
@@ -27,7 +36,7 @@ t_dll	*ft_dllstnew(int i)
 	link->i = i;
 	link->next = NULL;
 	link->prev = NULL;
-	link->idx = 0;
+	link->idx = idx;
 	return (link);
 }
 
@@ -41,7 +50,7 @@ void	ft_dllstrd(t_dll **lst, int dir)
 		ft_printf("#########################");
 		ft_printf("\nhead: %i tail: %i size: %i, med :%i ", ((lst[1])->next)->i,
 			((lst[1])->prev)->i,*get_size(lst), get_median_idx(lst));
-		ft_printf("\n|prev\t|i\t|next\t|idx\t|cost\t");
+		ft_printf("\n|prev\t|i\t|next\t|pos\t|cost\t|");
 		ft_printf("\n----________________________----");
 		if (dir < 0)
 			*lst = (*lst)->prev;
@@ -49,7 +58,7 @@ void	ft_dllstrd(t_dll **lst, int dir)
 		{
 			ft_printf("\n|%i\t|%i\t|%i\t|%i\t|%i\t|",
 				((*lst)->prev)->i, (*lst)->i, ((*lst)->next)->i,
-				(*lst)->idx, (lst[1])->idx);
+				(*lst)->idx.x, (*lst)->idx.y);
 			if (dir > 0)
 				*lst = (*lst)->next;
 			else if (dir < 0)
@@ -72,6 +81,8 @@ void	ft_dllstupdate(t_dll **lst)
 		(*get_tail(lst))->next = *get_head(lst);
 		(*get_head(lst))->prev = *get_tail(lst);
 	}
+	lst[1]->idx.x = get_max(lst);
+	lst[1]->idx.y = get_min(lst);
 }
 
 /*  ft_dllstrm:

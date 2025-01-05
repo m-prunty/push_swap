@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 02:36:24 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/29 10:13:45 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/04 14:50:30 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -40,21 +40,18 @@ int	get_cost(t_dll **lst)
 	i = 0;
 	len = *get_size(lst);
 	if (len <= 1)
-	{
-		(*get_head(lst))->idx = 0;
 		return (0);
-	}
 	median = get_median_idx(lst);
 	cursor = *get_head(lst);
 	while (i < median && cursor)
 	{
-		cursor->idx = i;
+		cursor->idx.x = i;
 		cursor = cursor->next;
 		i++;
 	}
 	while (i < len && cursor)
 	{
-		cursor->idx = i - len;
+		cursor->idx.x = i - len;
 		cursor = cursor->next;
 		i++;
 	}
@@ -63,12 +60,13 @@ int	get_cost(t_dll **lst)
 
 void init_cheapest(t_dll **lst)
 {
-	*lst = ft_dllstnew(0);
-	(*lst)->idx = MAX_INT;
-	(*lst)->i = MAX_INT;
-	(*lst)->next = NULL;
-	(*lst)->prev = NULL;
+	(*get_cheapest_pair(lst))->idx.x = 0;
+	(*get_cheapest_pair(lst))->idx.y = 0;
+	(*get_cheapest_pair(lst))->i = INT_MAX;
+	(*get_cheapest_pair(lst))->next = *get_head(lst);
+	(*get_cheapest_pair(lst))->prev = NULL;
 }
+
 int	cost_analysis(t_dll **a, t_dll **b)
 {
 	t_dll	*anode;
@@ -76,26 +74,21 @@ int	cost_analysis(t_dll **a, t_dll **b)
 	int		i;
 	int		cost;
 	int		found;
-	t_dll	**cheapest;
 
 	i = *get_size(b);
-	found = 0;
 	get_cost(a);
 	get_cost(b);
 	bnode = *get_head(b);
-	cheapest = get_cheapest_pair(b);
-	(*cheapest)->next = NULL;
-	(*cheapest)->prev = NULL;
-	(*cheapest)->idx = MAX_INT;
-	(*cheapest)->i = MAX_INT;
+	init_cheapest(b);
+	found = 0;
 	while (i--)
 	{
 		anode = *get_head(a);
-		while (!found )
+		while (!found && anode->next != *get_head(a))
 		{
 			if ((bnode->i > anode->prev->i && bnode->i < anode->i)
-				|| (anode->prev->i > anode->i && (bnode->i > anode->prev->i
-						|| bnode->i < anode->i)))
+					|| (anode->prev->i > anode->i && (bnode->i > anode->prev->i
+							|| bnode->i < anode->i)))
 			{
 				found = 1;
 			}
@@ -104,19 +97,19 @@ int	cost_analysis(t_dll **a, t_dll **b)
 		}
 		if (!found)
 			anode = *get_head(a); // Default to head if no better position found
-		cost = ft_abs(anode->idx) + ft_abs(bnode->idx);
-		if (!(*cheapest)->prev || cost < get_cheapest_cost(b))
+		cost = ft_abs(anode->idx.x) + ft_abs(bnode->idx.x);
+		if (cost < (*get_cheapest_pair(b))->i)
 		{
-			(*cheapest)->idx = bnode->idx;
-			(*cheapest)->i = anode->idx;
-			(*cheapest)->next = bnode;
-			(*cheapest)->prev = anode;
+			(*get_cheapest_pair(b))->i = cost; 
+			(*get_cheapest_pair(b))->idx.x = bnode->i;
+			(*get_cheapest_pair(b))->idx.y = anode->i;
+			(*get_cheapest_pair(b))->next = bnode;
+			(*get_cheapest_pair(b))->prev = anode;
 		}
 		bnode = bnode->next;
 	}
 	return (0);
 }
-
 
 int	move_nodes(t_dll **a, t_dll **b)
 {
@@ -125,8 +118,8 @@ int	move_nodes(t_dll **a, t_dll **b)
 	int bidx;
 
 	cheapest = get_cheapest_pair(b);
-	aidx = (*cheapest)->i;
-	bidx = (*cheapest)->idx;
+	aidx = (*cheapest)->prev->idx.x;
+	bidx = (*cheapest)->next->idx.x;
 	while (aidx && bidx)
 	{
 		if ((aidx > 0 && bidx > 0) && rr(a,b))
@@ -171,7 +164,7 @@ int	turk_sort(t_dll **a, t_dll **b)
 	if ((*get_head(a))->i != get_min(a))
 	{
 		get_cost(a);
-		(*get_cheapest_pair(a))->i = ft_dllstfind(a, get_min(a), *get_size(a))->idx;
+		//(*get_cheapest_pair(a))->idx.x = ft_dllstfind(a, get_min(a), *get_size(a))->idx;
 		while (--(*get_cheapest_pair(a))->i > 0)
 			ra(a);
 		while (++(*get_cheapest_pair(a))->i < 0)

@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:27:56 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/28 03:19:08 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:12:21 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -32,7 +32,6 @@ int	*get_size(t_dll **lst)
 {
 	return (&lst[1]->i);
 }
-
 
 /*  reset_head:
  *      attachs a new head to the head pointer at lst 1 next
@@ -82,9 +81,10 @@ void	ft_dealloc(t_dll **lst)
  */
 void	init_lst(t_dll **lst)
 {
-	lst[0] = ft_dllstnew(0);
-	lst[1] = ft_dllstnew(0);
-	lst[2] = ft_dllstnew(0);
+	lst[0] = ft_dllstnew(0, ft_idxnew(0, 0));
+	lst[1] = ft_dllstnew(0, ft_idxnew(INT_MAX, INT_MIN));
+	lst[2] = ft_dllstnew(0,
+			ft_idxnew(INT_MAX, INT_MIN));
 	return ;
 }
 
