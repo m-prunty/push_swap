@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/05 10:38:25 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/08 00:14:00 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -73,7 +73,7 @@ int		get_max(t_dll **lst);
 int		get_min(t_dll **lst);
 
 int		split_stack(t_dll **a, t_dll **b);
-int		get_cost(t_dll **lst);
+int		get_pos(t_dll **lst);
 void	init_cheapest(t_dll **lst);
 int		cost_analysis(t_dll **a, t_dll **b);
 int		move_nodes(t_dll **a, t_dll **b);

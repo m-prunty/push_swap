@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/05 10:42:06 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/08 00:00:31 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -217,7 +217,7 @@ int	solve_ltfive(t_dll **a, t_dll **b)
 	while (i++ <= *get_size(a) - 3)
 	{
 		min = ft_dllstfind(a, get_min(a), *get_size(a));
-		get_cost(a);
+		get_pos(a);
 		if ((*get_head(a))->i != min->i)
 			*a = rotate_help(a, min->idx.x);
 		pb(a, b);

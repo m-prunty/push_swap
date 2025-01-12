@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 02:36:24 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/04 14:50:30 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/07 23:59:03 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -28,7 +28,7 @@ int	split_stack(t_dll **a, t_dll **b)
 	return (0);
 }
 
-int	get_cost(t_dll **lst)
+int	get_pos(t_dll **lst)
 {
 	t_dll	*cursor;
 	int		median;
@@ -39,7 +39,7 @@ int	get_cost(t_dll **lst)
 		return (-1);
 	i = 0;
 	len = *get_size(lst);
-	if (len <= 1)
+	if (len < 1)
 		return (0);
 	median = get_median_idx(lst);
 	cursor = *get_head(lst);
@@ -76,8 +76,8 @@ int	cost_analysis(t_dll **a, t_dll **b)
 	int		found;
 
 	i = *get_size(b);
-	get_cost(a);
-	get_cost(b);
+	get_pos(a);
+	get_pos(b);
 	bnode = *get_head(b);
 	init_cheapest(b);
 	found = 0;
@@ -87,8 +87,8 @@ int	cost_analysis(t_dll **a, t_dll **b)
 		while (!found && anode->next != *get_head(a))
 		{
 			if ((bnode->i > anode->prev->i && bnode->i < anode->i)
-					|| (anode->prev->i > anode->i && (bnode->i > anode->prev->i
-							|| bnode->i < anode->i)))
+				|| (anode->prev->i > anode->i && (bnode->i > anode->prev->i
+						|| bnode->i < anode->i)))
 			{
 				found = 1;
 			}
@@ -163,14 +163,10 @@ int	turk_sort(t_dll **a, t_dll **b)
 		return (error_code(6));
 	if ((*get_head(a))->i != get_min(a))
 	{
-		get_cost(a);
-		//(*get_cheapest_pair(a))->idx.x = ft_dllstfind(a, get_min(a), *get_size(a))->idx;
-		while (--(*get_cheapest_pair(a))->i > 0)
-			ra(a);
-		while (++(*get_cheapest_pair(a))->i < 0)
-			rra(a);
+		get_pos(a);
+		*a = rotate_help(a, get_min(a));
 	}
 	if (!(ft_dllstsorted(a)))
 		return (error_code(6));
-	return 1;
+	return (1);
 }

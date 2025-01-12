@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/05 10:46:59 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/08 00:01:28 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -94,7 +94,7 @@ int	final_position(int *sorted, int i, int len)
 	int	pos;
 
 	pos = 0;
-	while ( pos < len  && sorted[pos] != i)
+	while (pos < len && sorted[pos] != i)
 		pos++;
 	return (pos);
 }
@@ -108,7 +108,7 @@ int	fill_stack(t_dll **stack, long *ilst, int ac)
 	{
 		if (*ilst < INT_MAX && *ilst > INT_MIN)
 		{
-			if (!ft_dllstfind(stack, (int)*ilst, *get_size(stack)))
+	 		if (!ft_dllstfind(stack, (int)*ilst, *get_size(stack)))
 			{
 				ft_dllstadd_back(stack, ft_dllstnew((int)*ilst,
 						ft_idxnew(0, final_position(sorted, (int)*ilst, ac))));
