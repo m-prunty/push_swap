@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/08 00:14:00 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/12 21:50:10 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -80,7 +80,7 @@ int		move_nodes(t_dll **a, t_dll **b);
 
 int		turk_sort(t_dll **a, t_dll **b);
 int		ft_abs(int i);
-int		ft_isnum(char *str, int sym);
+int		ft_isnum(char *str);
 int		error_code(int i);
 int		fill_stack(t_dll **stack, long *ilst, int ac);
 

@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/08 00:00:31 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/12 21:54:54 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -102,21 +102,6 @@ void	ft_strlcpy_mult(char **dest, char **src, int count, size_t n)
 	return ;
 }
 
-int	ft_isnum(char *str, int symok)
-{
-	int	i;
-
-	i = 1;
-	if (!(*str))
-		return (1);
-	if (symok && (*str == '-' || *str == '+' || *str == ' '))
-		str++;
-	i = ft_isdigit((int)*(str));
-	if (i)
-		return (ft_isnum(++(str), 0) * i);
-	return (0);
-}
-
 void	fill_intv(int ac, int i, char **charv, long *intv)
 {
 	if (!i || !*charv)
@@ -146,7 +131,7 @@ char	**check_args(int *ac, char **av)
 		ft_strlcpy_mult(charv, ++av, (*ac) - 1, 13);
 	}
 	i = 0;
-	while (*(charv + i) && ft_isnum(*(charv + i), 1) && i++ < *ac - 1)
+	while (*(charv + i) && ft_isnum(*(charv + i)) && i++ < *ac - 1)
 		;
 	if (i < *ac - 1)
 		return (NULL);
