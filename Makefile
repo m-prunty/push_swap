@@ -3,6 +3,7 @@
 ################################################################################
 NAME        := push_swap
 FLAGS       := -Wall -Wextra -Werror -g
+#FLAGS		+= -fsanitize=address
 LIBFT       := ./libft
 LIBFT_LIB   := $(LIBFT)/libft.a
 LDFLAGS     := -L$(LIBFT) -lft

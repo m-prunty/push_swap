@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:26:01 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/04 15:10:30 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/22 03:24:15 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -50,7 +50,7 @@ void	ft_dllstrd(t_dll **lst, int dir)
 		ft_printf("#########################");
 		ft_printf("\nhead: %i tail: %i size: %i, med :%i ", ((lst[1])->next)->i,
 			((lst[1])->prev)->i,*get_size(lst), get_median_idx(lst));
-		ft_printf("\n|prev\t|i\t|next\t|pos\t|cost\t|");
+		ft_printf("\n|prev\t|i\t|next\t|cost\t|idx\t|");
 		ft_printf("\n----________________________----");
 		if (dir < 0)
 			*lst = (*lst)->prev;

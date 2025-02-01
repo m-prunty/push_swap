@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 15:51:53 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/04 18:38:55 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/22 01:59:59 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -59,15 +59,18 @@ int	*sorted_arr(int *arr, int size)
 {
 	int	*sorted;
 	int	i;
+	int	j;
 
 	sorted = malloc(sizeof(int) * size);
 	if (!sorted)
 		return (NULL);
 	i = 0;
+	j = 0;
 	while (i < size)
 	{
-		sorted[i] = arr[i];
+		sorted[i] = arr[j];
 		i++;
+		j += 2;
 	}
 	quick_sort(sorted, 0, size - 1);
 	return (sorted);

@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/12 21:54:54 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/31 21:18:00 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -44,7 +44,37 @@ int	get_max_rec(t_dll *lst, int max, int len)
 		max = (get_max_rec(lst->next, max, len));
 	return (max);
 }
+t_dll *get_min_node(t_dll **lst)
+{
+	t_dll	*min;
+	int		i;
 
+	min = *lst;
+	i = *get_size(lst);
+	while (i--)
+	{
+		if ((*lst)->i < min->i)
+			min = *lst;
+		*lst = (*lst)->next;
+	}
+	return (min);
+}
+
+t_dll	*get_max_node(t_dll **lst)
+{
+	t_dll	*max;
+	int		i;
+
+	max = *lst;
+	i = *get_size(lst);
+	while (i--)
+	{
+		if ((*lst)->i > max->i)
+			max = *lst;
+		*lst = (*lst)->next;
+	}
+	return (max);
+}
 int	get_max(t_dll **lst)
 {
 	t_dll	*tmp;
@@ -112,6 +142,17 @@ void	fill_intv(int ac, int i, char **charv, long *intv)
 	return (free(*(--(charv))));
 }
 
+int	ft_isnumi_ps(char *str)
+{
+	if (!*str)
+		return (0);
+	if ((*str == '-' || *str == '+') && *(str + 1))
+		str++;
+	if (*str == '0' && *(str + 1))
+		return (0);
+	return (ft_isnum(str));
+}
+
 char	**check_args(int *ac, char **av)
 {
 	char	**charv;
@@ -131,7 +172,7 @@ char	**check_args(int *ac, char **av)
 		ft_strlcpy_mult(charv, ++av, (*ac) - 1, 13);
 	}
 	i = 0;
-	while (*(charv + i) && ft_isnum(*(charv + i)) && i++ < *ac - 1)
+	while (*(charv + i) && ft_isnumi(*(charv + i)) && i++ < *ac - 1)
 		;
 	if (i < *ac - 1)
 		return (NULL);
@@ -193,23 +234,25 @@ int	solve_ltfive(t_dll **a, t_dll **b)
 {
 	t_dll	*min;
 	int		i;
+	int		move;
 
+	move = 0;
 	if (ft_dllstordered(a))
 		rotate_ordered(a);
 	if (ft_dllstsorted(a))
 		return (1);
 	i = 0;
-	while (i++ <= *get_size(a) - 3)
+	while (*get_size(a) > 3)
 	{
 		min = ft_dllstfind(a, get_min(a), *get_size(a));
 		get_pos(a);
 		if ((*get_head(a))->i != min->i)
 			*a = rotate_help(a, min->idx.x);
-		pb(a, b);
+		move += pb(a, b);
 	}
 	(solve_ltthree(a));
-	while (*get_size(b))
-		pa(a, b);
+	while (*get_size(a) < 5)
+		i += pa(a, b);
 	return (ft_dllstsorted(a));
 }
 
@@ -249,5 +292,7 @@ int	main(int ac, char **av)
 		else
 			turk_sort(a, b);
 	}
+	ft_dllstrd(a, 1);
+	ft_dllstrd(b, 1);
 	return (clear_all(a, b, (int *)intv));
 }

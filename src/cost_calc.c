@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 00:29:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/04 14:51:36 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/22 13:28:52 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -18,7 +18,7 @@
  *          lst->i =  cheappest idx b
  *          lst->idx = cheapest idx a
  * 	 */
-t_dll	**get_cheapest_pair(t_dll **lst)
+t_dll	**get_storage(t_dll **lst)
 {
 	return (&lst[2]);
 }

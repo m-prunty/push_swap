@@ -6,65 +6,145 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 02:36:24 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/07 23:59:03 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/01/31 22:31:24 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-int	get_median_idx(t_dll **lst)
+int	get_fin_idx(t_dll *node)
 {
-	int	median;
-
-	median = *get_size(lst) / 2 ;
-	median += *get_size(lst) % 2 ;
-	return (median);
+	return (node->idx.y);
 }
 
-int	split_stack(t_dll **a, t_dll **b)
+void	update_idx(t_dll **a)
 {
-	while (*get_size(a) > 3)
-		pb(a, b);
-	solve_ltthree(a);
-	return (0);
+	(*a)->idx.x = get_fin_idx(*a) + *get_size(a) - (*get_storage(a))->i;
+	return ;
+}
+
+t_dest	get_destination(t_dll **a)
+{
+	if (get_fin_idx(*a) <= (*get_storage(a))->idx.x)
+		return (TOP_B);
+	else if (get_fin_idx(*a) <= (*get_storage(a))->idx.y)
+		return (BOTTOM_B);
+	else
+		return (BOTTOM_A);
+}
+
+int	split_stack(t_dll **a, t_dll **b, int size)
+{
+	t_dest	dest;
+	int		moves;
+
+	moves = 0;
+	if (size <= 3)
+		return (moves);
+	while (size)// > (*get_storage(a))->idx.x && size > 5)
+	{
+		dest = get_destination(a);
+		if (dest == BOTTOM_A)
+			moves += ra(a);
+		else if (dest == TOP_B)
+			moves += pb(a, b);
+		else if (dest == BOTTOM_B)
+		{
+			moves += pb(a, b);
+			moves += rb(b);
+		}
+		size--;
+	}
+	//while (*get_size(a) > 5)
+	//	moves += pb(a, b);
+	return (moves);
+}
+/*
+int find_target_position(int value, t_dll *stack_a, int size)
+{
+	t_dll	*current;
+	int		min_pos;
+	int		min_val;
+	int		target_pos;
+	int		i;
+
+	i = 0;
+	current = stack_a;
+	min_pos = 0;
+	min_val = INT_MAX;
+	target_pos = -1;
+	for (int i = 0; i < size; i++)
+	{
+		if (current->i < min_val)
+		{
+			min_val = current->i;
+			min_pos = i;
+		}
+		if (current->i > value && (target_pos == -1 || current->i < stack_a->i))
+		{
+			target_pos = i;
+		}
+		current = current->next;
+	}
+	if (target_pos == -1)
+		target_pos = min_pos;
+	return target_pos;
+}
+*/
+int	get_median_idx(t_dll **lst)
+{
+	int size;
+
+	if (!lst || !*lst)
+		return 0;
+
+	size = *get_size(lst);
+	return (size / 2 + size % 2);
 }
 
 int	get_pos(t_dll **lst)
 {
 	t_dll	*cursor;
 	int		median;
-	int		len;
+	int		size;
 	int		i;
 
-	if (!*get_size(lst))
-		return (-1);
 	i = 0;
-	len = *get_size(lst);
-	if (len < 1)
-		return (0);
+	if (!lst || !*lst || !*get_size(lst))
+		return (-1);
+	size = *get_size(lst); 
 	median = get_median_idx(lst);
 	cursor = *get_head(lst);
-	while (i < median && cursor)
+	while (i < size && cursor)
 	{
-		cursor->idx.x = i;
-		cursor = cursor->next;
-		i++;
-	}
-	while (i < len && cursor)
-	{
-		cursor->idx.x = i - len;
-		cursor = cursor->next;
-		i++;
+		if (i < median)
+		{
+			cursor->idx.x = i;
+			cursor = cursor->next;
+			i++;
+		}
+		else
+		{
+			cursor->idx.x = -(size - i);
+			cursor = cursor->next;
+			i++;
+		}
 	}
 	return (0);
 }
 
-void init_cheapest(t_dll **lst)
+t_dll	*get_node_at_position(t_dll *stack, int position)
 {
-	(*get_cheapest_pair(lst))->idx.x = 0;
-	(*get_cheapest_pair(lst))->idx.y = 0;
-	(*get_cheapest_pair(lst))->i = INT_MAX;
-	(*get_cheapest_pair(lst))->next = *get_head(lst);
-	(*get_cheapest_pair(lst))->prev = NULL;
+	t_dll	*current;
+	int		i;
+
+	i = 0;
+	current = stack;
+	while (i < position)
+	{
+		i++;
+		current = current->next;
+	}
+	return (current);
 }
 
 int	cost_analysis(t_dll **a, t_dll **b)
@@ -79,16 +159,18 @@ int	cost_analysis(t_dll **a, t_dll **b)
 	get_pos(a);
 	get_pos(b);
 	bnode = *get_head(b);
-	init_cheapest(b);
+	init_storage(b, bnode, NULL, ft_idxnew(get_max(a),get_min(a)));
+	(*get_storage(b))->i = INT_MAX;
 	found = 0;
-	while (i--)
+	while (i-- )
 	{
-		anode = *get_head(a);
-		while (!found && anode->next != *get_head(a))
+		anode = (*get_head(a));
+		while (!found && anode != *get_tail(a))
 		{
-			if ((bnode->i > anode->prev->i && bnode->i < anode->i)
-				|| (anode->prev->i > anode->i && (bnode->i > anode->prev->i
-						|| bnode->i < anode->i)))
+			if ((bnode->i > anode->prev->i && anode->prev == get_max_node(a))
+				||	(bnode->i < anode->i && bnode->i > anode->prev->i)
+				||	(bnode->i < anode->i && anode == get_min_node(a))
+				)
 			{
 				found = 1;
 			}
@@ -98,75 +180,200 @@ int	cost_analysis(t_dll **a, t_dll **b)
 		if (!found)
 			anode = *get_head(a); // Default to head if no better position found
 		cost = ft_abs(anode->idx.x) + ft_abs(bnode->idx.x);
-		if (cost < (*get_cheapest_pair(b))->i)
+		if (cost < (*get_storage(b))->i)
 		{
-			(*get_cheapest_pair(b))->i = cost; 
-			(*get_cheapest_pair(b))->idx.x = bnode->i;
-			(*get_cheapest_pair(b))->idx.y = anode->i;
-			(*get_cheapest_pair(b))->next = bnode;
-			(*get_cheapest_pair(b))->prev = anode;
+			init_storage(b, bnode, anode, ft_idxnew(bnode->i, anode->i));
+			(*get_storage(b))->i = cost;
 		}
+		printf("bnode: %d, anode: %d, cost: %d\n", bnode->i, anode->i, cost);
 		bnode = bnode->next;
 	}
 	return (0);
 }
+/*int cost_analysis(t_dll **a, t_dll **b)
+  {
+  t_dll	*anode;
+  t_dll	*bnode;
+  int cost_b; = i;
+  int cost_a; = target_pos;
+  int		i;
 
-int	move_nodes(t_dll **a, t_dll **b)
+  i = 0;
+  if (!a || !*a || !b || !*b)
+  return (0);
+  get_pos(a);
+  get_pos(b);
+  bnode = *get_head(b);
+  init_storage(b, bnode, NULL, ft_idxnew(0, 0));
+  while (i < *get_size(b)) 
+  {
+  int target_pos = find_target_position(bnode->i, *a, *get_size(a));
+  anode = get_node_at_position(*a, target_pos);
+  cost_b = i;
+  if (cost_b > *get_size(b) / 2)
+  cost_b = -(*get_size(b) - cost_b);
+  cost_a = target_pos;
+  if (cost_a > *get_size(a) / 2)
+  cost_a = -(*get_size(a) - cost_a);
+  int total_cost = ft_abs(cost_a) + ft_abs(cost_b);
+  if ( ft_abs(cost_a) + ft_abs(cost_b) < (*get_storage(b))->i)
+  {
+  init_storage(b, bnode, anode, ft_idxnew(bnode->i,anode->i)); t
+  (*get_storage(b))->i = total_cost;
+  }
+  bnode = bnode->next;
+  i++;
+  }
+  return 0;
+  }*/
+
+/* for cheapest on b:
+ *          lst->next/previous = pointers to cheapest this/other
+ *          lst->i =  cheapest cost
+ *          lst->idx = t_idx{cheapest idx b, cheapest idx a}
+ * for  cheapest on a:
+ * 		lst->next/previous = get_max(a)/get_min(a)
+ * 		lst->idx = t_idx{get_max(a), get_min(a)}
+ * for split_stack on a:
+ * 		lst->next/previous = NULL
+ * 		lst->idx = t_idx{min, size - (size/3)}
+ * 
+ *         */
+void init_storage(t_dll **lst, t_dll *next, t_dll *prev, t_idx idx)
 {
-	t_dll **cheapest;
-	int aidx;
-	int bidx;
+	(*get_storage(lst))->idx = idx;
+	(*get_storage(lst))->i = INT_MAX;
+	(*get_storage(lst))->next = next;
+	(*get_storage(lst))->prev = prev;
+}
 
-	cheapest = get_cheapest_pair(b);
+int move_nodes(t_dll **a, t_dll **b)
+{
+	t_dll	**cheapest;
+	int		aidx;
+	int		bidx;
+	int		moves;
+
+	if (!a || !*a || !b || !*b)
+		return (0);
+	moves = 0;
+	cheapest = get_storage(b);
+	if (!*cheapest)
+		return (moves);
 	aidx = (*cheapest)->prev->idx.x;
 	bidx = (*cheapest)->next->idx.x;
 	while (aidx && bidx)
 	{
-		if ((aidx > 0 && bidx > 0) && rr(a,b))
+		if (aidx > 0 && bidx > 0)
 		{
+			moves += rr(a, b);
 			aidx--;
 			bidx--;
 		}
-		else if ((aidx < 0 && bidx < 0) && rrr(a,b))
+		else if (aidx < 0 && bidx < 0)
 		{
+			moves += rrr(a, b);
 			aidx++;
 			bidx++;
 		}
 	}
 	while (aidx || bidx)
 	{
-		if ((aidx > 0) && ra(a))
+		if (aidx > 0 && ra(a))
+		{
+			moves++;
 			aidx--;
-		else if ((aidx < 0) && rra(a))
+		}
+		else if (aidx < 0 && rra(a))
+		{
+			moves++;
 			aidx++;
-		if ((bidx > 0) && rb(b))
+		}
+		if (bidx > 0 && rb(b))
+		{
+			moves++;
 			bidx--;
-		else if ((bidx < 0) && rrb(b))
+		}
+		else if (bidx < 0 && rrb(b))
+		{
+			moves++;
 			bidx++;
+		}
 	}
 	if (*a == (*cheapest)->prev && *b == (*cheapest)->next)
-		pa(a, b);
-	return (0);
+	{
+		moves += pa(a, b);
+	}
+	return (moves);
 }
-
-int	turk_sort(t_dll **a, t_dll **b)
+int bubble_sort(t_dll **lst)//, dl_list **b)
 {
-	split_stack(a, b);
-	while(*get_size(b))
+	t_dll	*tail;
+	int		size;
+
+	tail = *get_tail(lst);
+	size = *get_size(lst);
+	while((*lst) != tail && size--)
 	{
-		cost_analysis(a,b);
-		move_nodes(a,b);
-		ft_dllstupdate(a);
-		ft_dllstupdate(b);
+		if ((*lst)->i > ((*lst)->next)->i)
+			sa(lst);
+		ra(lst);
 	}
-	if (!(ft_dllstordered(a)))
-		return (error_code(6));
-	if ((*get_head(a))->i != get_min(a))
+	ra(lst);
+	if (!ft_dllstordered(lst))
 	{
-		get_pos(a);
-		*a = rotate_help(a, get_min(a));
+		bubble_sort(lst);
 	}
-	if (!(ft_dllstsorted(a)))
-		return (error_code(6));
 	return (1);
 }
+int bubble_sort_rev(t_dll **lst)//, dl_list **b)
+{
+	t_dll	*tail;
+	int		size;
+
+	tail = *get_tail(lst);
+	size = *get_size(lst);
+	while((*lst) != tail && size--)
+	{
+		if ((*lst)->i < ((*lst)->next)->i)
+			sa(lst);
+		ra(lst);
+	}
+	ra(lst);
+	if (!ft_dllstordered(lst))
+	{
+		bubble_sort_rev(lst);
+	}
+	return (1);
+}
+
+int turk_sort(t_dll **a, t_dll **b)
+{
+	int	moves;
+	int	size;
+
+	moves = 0;
+	if (!a || !*a)
+		return (0);
+	if (*get_size(a) <= 3)
+		return (solve_ltthree(a));
+	get_pos(a);
+	get_pos(b);
+	//while (*get_size(a) > 5)
+	//{
+	size = *get_size(a);
+	init_storage(a, NULL, NULL, ft_idxnew(size / 3, size - (size / 3))); 
+	(*get_storage(a))->i = size;
+	moves += split_stack(a, b, *get_size(a));
+	bubble_sort(a);
+	bubble_sort_rev(b);
+	//}
+	//solve_ltfive(a, b); 
+	//while (*b)
+	//{
+//		cost_analysis(a, b);
+	//	moves += move_nodes(a, b);
+	//}
+	return (moves);
+}
+
