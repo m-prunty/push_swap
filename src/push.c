@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 18:08:58 by mprunty           #+#    #+#             */
-/*   Updated: 2024/12/28 03:29:00 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:12:39 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/push_swap.h"
@@ -22,7 +22,7 @@ int	push(t_dll **src, t_dll **dest)
 	*(get_size(src)) -= 1;
 	ft_dllstadd_front(dest, tmp);
 	*dest = *get_head(dest);
-    ft_dllstupdate(src);
+	ft_dllstupdate(src);
 	//ft_dllstupdate(dest);
 	return (1);
 }

@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dllist_add.c                                       :+:      :+:    :+:   */
+/*   dlladd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/30 19:25:42 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/04 14:54:30 by mprunty          ###   ########.fr       */
+/*   Created: 2025/02/02 16:56:53 by mprunty           #+#    #+#             */
+/*   Updated: 2025/02/02 16:56:58 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "push_swap.h"
 
 /**
@@ -70,3 +71,4 @@ void	ft_dllstadd_front(t_dll **lst, t_dll *new_link)
 		ft_dllstupdate(lst);
 	}
 }
+

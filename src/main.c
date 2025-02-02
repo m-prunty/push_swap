@@ -6,11 +6,39 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 14:52:08 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 16:01:40 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
+t_dll *get_min_node(t_dll *lst, int size)
+{
+	t_dll	*min;
+
+	min = lst;
+	while (size--)
+	{
+		if ((lst)->ele < min->ele)
+			min = *lst;
+		*lst = (lst)->next;
+	}
+	return (min);
+}
+
+t_dll	*get_max_node(t_dll *lst, int size)
+{
+	t_dll	*max;
+	int		i;
+
+	max = lst;
+	while (size--)
+	{
+		if ((lst)->ele > max->ele)
+			max = lst;
+		lst = (lst)->next;
+	}
+	return (max);
+}
 int	get_min_rec(t_dll *lst, int min, int len)
 {
 	if (!len)
@@ -42,37 +70,6 @@ int	get_max_rec(t_dll *lst, int max, int len)
 		max = lst->ele;
 	if (len--)
 		max = (get_max_rec(lst->next, max, len));
-	return (max);
-}
-t_dll *get_min_node(t_dll **lst)
-{
-	t_dll	*min;
-	int		i;
-
-	min = *lst;
-	i = *get_size(lst);
-	while (i--)
-	{
-		if ((*lst)->ele < min->ele)
-			min = *lst;
-		*lst = (*lst)->next;
-	}
-	return (min);
-}
-
-t_dll	*get_max_node(t_dll **lst)
-{
-	t_dll	*max;
-	int		i;
-
-	max = *lst;
-	i = *get_size(lst);
-	while (i--)
-	{
-		if ((*lst)->ele > max->ele)
-			max = *lst;
-		*lst = (*lst)->next;
-	}
 	return (max);
 }
 int	get_max(t_dll **lst)
@@ -142,17 +139,6 @@ void	fill_intv(int ac, int i, char **charv, long *intv)
 	return (free(*(--(charv))));
 }
 
-int	ft_isnumi_ps(char *str)
-{
-	if (!*str)
-		return (0);
-	if ((*str == '-' || *str == '+') && *(str + 1))
-		str++;
-	if (*str == '0' && *(str + 1))
-		return (0);
-	return (ft_isnum(str));
-}
-
 char	**check_args(int *ac, char **av)
 {
 	char	**charv;
@@ -209,16 +195,22 @@ void	rotate_ordered(t_dll **lst)
  *	  its last using ra/rra or:
  *	  checks if first is bigger and if so swaps.
  */
-int	solve_ltthree(t_dll **a)
+int	solve_ltthree(t_dll **lst, int lst_loc)
 {
-	if ((*get_head(a))->ele == get_max(a))
-		ra(a);
-	else if (((*a)->next)->ele == get_max(a))
-		rra(a);
-	if ((*get_head(a))->ele > ((*a)->next)->ele)
-		sa(a);
+	if ((*get_head(lst))->ele == get_max(lst))
+		rotate_help(lst, 1, lst_loc);
+	else if (((*lst)->next)->ele == get_max(lst))
+		rotate_help(lst, -1, lst_loc);
+	if ((*get_head(lst))->ele > ((*lst)->next)->ele)
+	{
+		if (!lst_loc)
+			sa(lst);
+		else
+			sb(lst);
+	}
 	return (0);
 }
+
 t_dll	*rotate_help(t_dll **lst, int n, int lst_loc) 
 {
 	if (lst_loc == 0)

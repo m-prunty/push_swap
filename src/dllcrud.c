@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dllist_crud.c                                      :+:      :+:    :+:   */
+/*   dllcrud.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/30 19:26:01 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 05:54:49 by mprunty          ###   ########.fr       */
+/*   Created: 2025/02/02 16:58:09 by mprunty           #+#    #+#             */
+/*   Updated: 2025/02/02 17:02:13 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "push_swap.h"
 
 /*  ft_dllstnew:
@@ -17,15 +18,6 @@
  *      next/prev = NULL;
  *      idx = 0;
  */
-t_idx	ft_idxnew(int x, int y)
-{
-	t_idx	idx;
-
-	idx.x = x;
-	idx.y = y;
-	return (idx);
-}
-
 t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx *range)
 {
 	t_dll	*link;
@@ -33,7 +25,7 @@ t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx *range)
 	link = (t_dll *)malloc(sizeof(*link));
 	if (!(link))
 		return (NULL);
-	link->ele = i; 
+	link->ele = i;
 	link->next = NULL;
 	link->prev = NULL;
 	link->idx = idx;
@@ -107,3 +99,4 @@ void	ft_dllstrm(t_dll **lst)
 	*lst = *get_head(lst);
 	return ;
 }
+
