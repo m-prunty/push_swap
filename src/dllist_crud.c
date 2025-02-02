@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:26:01 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/22 03:24:15 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 05:54:49 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -26,17 +26,19 @@ t_idx	ft_idxnew(int x, int y)
 	return (idx);
 }
 
-t_dll	*ft_dllstnew(int i, t_idx idx)
+t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx *range)
 {
 	t_dll	*link;
 
 	link = (t_dll *)malloc(sizeof(*link));
 	if (!(link))
 		return (NULL);
-	link->i = i;
+	link->ele = i; 
 	link->next = NULL;
 	link->prev = NULL;
 	link->idx = idx;
+	link->loc = loc;
+	link->range = range;
 	return (link);
 }
 
@@ -48,8 +50,8 @@ void	ft_dllstrd(t_dll **lst, int dir)
 	if (i)
 	{
 		ft_printf("#########################");
-		ft_printf("\nhead: %i tail: %i size: %i, med :%i ", ((lst[1])->next)->i,
-			((lst[1])->prev)->i,*get_size(lst), get_median_idx(lst));
+		ft_printf("\nhead: %i tail: %i size: %i, med :%i ", ((lst[1])->next)->ele,
+			((lst[1])->prev)->ele,*get_size(lst), get_median_idx(lst));
 		ft_printf("\n|prev\t|i\t|next\t|cost\t|idx\t|");
 		ft_printf("\n----________________________----");
 		if (dir < 0)
@@ -57,7 +59,7 @@ void	ft_dllstrd(t_dll **lst, int dir)
 		while (i--)
 		{
 			ft_printf("\n|%i\t|%i\t|%i\t|%i\t|%i\t|",
-				((*lst)->prev)->i, (*lst)->i, ((*lst)->next)->i,
+				((*lst)->prev)->ele, (*lst)->ele, ((*lst)->next)->ele,
 				(*lst)->idx.x, (*lst)->idx.y);
 			if (dir > 0)
 				*lst = (*lst)->next;
@@ -81,8 +83,8 @@ void	ft_dllstupdate(t_dll **lst)
 		(*get_tail(lst))->next = *get_head(lst);
 		(*get_head(lst))->prev = *get_tail(lst);
 	}
-	lst[1]->idx.x = get_max(lst);
-	lst[1]->idx.y = get_min(lst);
+	lst[1]->range->x = get_min(lst);
+	lst[1]->range->y = get_max(lst);
 }
 
 /*  ft_dllstrm:

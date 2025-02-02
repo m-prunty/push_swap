@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/31 22:41:27 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 05:14:56 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -28,7 +28,7 @@ int	ft_dllstsorted(t_dll **lst)
 	size = *get_size(lst);
 	while (--size)
 	{
-		if ((ptr)->i < ((ptr)->next)->i)
+		if ((ptr)->ele < ((ptr)->next)->ele)
 			ptr = (ptr)->next;
 		else
 			return (0);
@@ -45,7 +45,7 @@ int	ft_dllstsorted_rev(t_dll **lst)
 	size = *get_size(lst);
 	while (--size)
 	{
-		if ((ptr)->i > ((ptr)->next)->i)
+		if ((ptr)->ele > ((ptr)->next)->ele)
 			ptr = (ptr)->next;
 		else
 			return (0);
@@ -82,7 +82,7 @@ t_dll	*ft_dllstfind(t_dll **lst, int i, int len)
 {
 	if (len < 1)
 		return (NULL);
-	if ((*lst)->i == i)
+	if ((*lst)->ele == i)
 		return (*lst);
 	return (ft_dllstfind((&(*lst)->next), i, --len));
 }
@@ -117,21 +117,38 @@ int	final_position(int *sorted, int i, int len)
 	return (pos);
 }
 
+t_idx *get_range(t_dll **stack, t_loc loc)
+{
+	return (NULL);
+}
+
+
 int	fill_stack(t_dll **stack, long *ilst, int ac)
 {
 	int		*sorted;
 	int		len;
+	t_loc 	loc;
+	t_dll	*new_ele;
 
+	loc = TOP_A;
 	len = ac - 1;
 	sorted = sorted_arr((int *)ilst, len);
+
+	*get_size(stack) = len;
 	while (--ac)
 	{
 		if (*ilst < INT_MAX && *ilst > INT_MIN)
 		{
 			if (!ft_dllstfind(stack, (int)*ilst, *get_size(stack)))
 			{
-				ft_dllstadd_back(stack, ft_dllstnew((int)*ilst,
-							ft_idxnew(0, final_position(sorted, (int)*ilst, len))));
+				new_ele =  ft_dllstnew((int)*ilst, loc,
+						ft_idxnew(0, final_position(sorted, (int)*ilst, len)),
+							get_range(stack, loc)
+							);
+				ft_dllstadd_back(stack, new_ele),
+					)
+
+						));
 				(ilst)++;
 			}
 			else

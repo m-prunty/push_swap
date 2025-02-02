@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/31 21:18:00 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 14:52:08 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -15,8 +15,8 @@ int	get_min_rec(t_dll *lst, int min, int len)
 {
 	if (!len)
 		return (min);
-	if (lst->i < min)
-		min = lst->i;
+	if (lst->ele < min)
+		min = lst->ele;
 	if (len--)
 		min = (get_min_rec(lst->next, min, len));
 	return (min);
@@ -38,8 +38,8 @@ int	get_max_rec(t_dll *lst, int max, int len)
 {
 	if (!len)
 		return (max);
-	if (lst->i > max)
-		max = lst->i;
+	if (lst->ele > max)
+		max = lst->ele;
 	if (len--)
 		max = (get_max_rec(lst->next, max, len));
 	return (max);
@@ -53,7 +53,7 @@ t_dll *get_min_node(t_dll **lst)
 	i = *get_size(lst);
 	while (i--)
 	{
-		if ((*lst)->i < min->i)
+		if ((*lst)->ele < min->ele)
 			min = *lst;
 		*lst = (*lst)->next;
 	}
@@ -69,7 +69,7 @@ t_dll	*get_max_node(t_dll **lst)
 	i = *get_size(lst);
 	while (i--)
 	{
-		if ((*lst)->i > max->i)
+		if ((*lst)->ele > max->ele)
 			max = *lst;
 		*lst = (*lst)->next;
 	}
@@ -186,7 +186,7 @@ void	rotate_ordered(t_dll **lst)
 
 	tmp = *lst;
 	i = 0;
-	while (tmp->i != get_min(lst))
+	while (tmp->ele != get_min(lst))
 	{
 		tmp = tmp->next;
 		i++;
@@ -194,12 +194,12 @@ void	rotate_ordered(t_dll **lst)
 	tmp = *get_head(lst);
 	if (i > *get_size(lst) / 2)
 	{
-		while (tmp->i != get_min(lst) && rra(lst))
+		while (tmp->ele != get_min(lst) && rra(lst))
 			tmp = tmp->prev;
 	}
 	else
 	{
-		while (tmp->i != get_min(lst) && ra(lst))
+		while (tmp->ele != get_min(lst) && ra(lst))
 			tmp = tmp->next;
 	}
 }
@@ -211,26 +211,71 @@ void	rotate_ordered(t_dll **lst)
  */
 int	solve_ltthree(t_dll **a)
 {
-	if ((*get_head(a))->i == get_max(a))
+	if ((*get_head(a))->ele == get_max(a))
 		ra(a);
-	else if (((*a)->next)->i == get_max(a))
+	else if (((*a)->next)->ele == get_max(a))
 		rra(a);
-	if ((*get_head(a))->i > ((*a)->next)->i)
+	if ((*get_head(a))->ele > ((*a)->next)->ele)
 		sa(a);
 	return (0);
 }
-t_dll	*rotate_help(t_dll **lst, int n)
+t_dll	*rotate_help(t_dll **lst, int n, int lst_loc) 
 {
-	if (n > 0)
-		while (n--)
-			ra(lst);
+	if (lst_loc == 0)
+	{
+		if (n > 0)
+			while (n--)
+				ra(lst);
+		else
+			while (n++)
+				rra(lst);
+	}
 	else
-		while (n++)
-			rra(lst);
+	{
+		if (n > 0)
+			while (n--)
+				rb(lst);
+		else
+			while (n++)
+				rrb(lst);
+	}
 	return (*lst);
 }
+int	solve_ltfive_util(t_dll **a, t_dll **b, int lst_loc)
+{
+	t_dll	*min;
+	int		i;
+	int		move;
+	
+	if (lst_loc == 0)
+	{
+		min = ft_dllstfind(a, get_min(a), *get_size(a));
+		i = 0;
+		move = 0;
+		while ((*get_size(a) > 3) && (min->ele != (*get_head(a))->ele))
+		{
+			*a = rotate_help(a, 1, lst_loc);
+			i++;
+		}
+		if ((*get_size(a) > 3))
+			move += pb(a, b);
+	}
+	else
+	{
+		min = ft_dllstfind(a, get_min(a), *get_size(a));
+		i = 0;
+		move = 0;
+		while ((*get_size(a) > 3) && (min->ele != (*get_head(a))->ele))
+		{
+			*a = rotate_help(a, 1, lst_loc);
+			i++;
+		}
+		if ((*get_size(a) > 3))
+			move += pa(a, b);
+	}
 
-int	solve_ltfive(t_dll **a, t_dll **b)
+}
+int	solve_ltfive(t_dll **a, t_dll **b, int lst_loc)
 {
 	t_dll	*min;
 	int		i;
@@ -243,14 +288,8 @@ int	solve_ltfive(t_dll **a, t_dll **b)
 		return (1);
 	i = 0;
 	while (*get_size(a) > 3)
-	{
-		min = ft_dllstfind(a, get_min(a), *get_size(a));
-		get_pos(a);
-		if ((*get_head(a))->i != min->i)
-			*a = rotate_help(a, min->idx.x);
-		move += pb(a, b);
-	}
-	(solve_ltthree(a));
+		move += solve_ltfive_util(a, b);
+	move += (solve_ltthree(a));
 	while (*get_size(a) < 5)
 		i += pa(a, b);
 	return (ft_dllstsorted(a));

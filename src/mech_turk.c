@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 02:36:24 by mprunty           #+#    #+#             */
-/*   Updated: 2025/01/31 22:31:24 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/02 08:34:37 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -18,23 +18,22 @@ int	get_fin_idx(t_dll *node)
 
 void	update_idx(t_dll **a)
 {
-	(*a)->idx.x = get_fin_idx(*a) + *get_size(a) - (*get_storage(a))->i;
+	(*a)->idx.x = get_fin_idx(*a) + *get_size(a) - (*get_storage(a))->ele;
 	return ;
 }
 
-t_dest	get_destination(t_dll **a)
+int	in_range(t_dll *lst, t_idx idx)
 {
-	if (get_fin_idx(*a) <= (*get_storage(a))->idx.x)
-		return (TOP_B);
-	else if (get_fin_idx(*a) <= (*get_storage(a))->idx.y)
-		return (BOTTOM_B);
-	else
-		return (BOTTOM_A);
+	//if (idx
+	(void)lst;
+	(void)idx;
+	return (0);
 }
+
 
 int	split_stack(t_dll **a, t_dll **b, int size)
 {
-	t_dest	dest;
+	t_loc	dest;
 	int		moves;
 
 	moves = 0;
@@ -59,37 +58,37 @@ int	split_stack(t_dll **a, t_dll **b, int size)
 	return (moves);
 }
 /*
-int find_target_position(int value, t_dll *stack_a, int size)
-{
-	t_dll	*current;
-	int		min_pos;
-	int		min_val;
-	int		target_pos;
-	int		i;
+   int find_target_position(int value, t_dll *stack_a, int size)
+   {
+   t_dll	*current;
+   int		min_pos;
+   int		min_val;
+   int		target_pos;
+   int		i;
 
-	i = 0;
-	current = stack_a;
-	min_pos = 0;
-	min_val = INT_MAX;
-	target_pos = -1;
-	for (int i = 0; i < size; i++)
-	{
-		if (current->i < min_val)
-		{
-			min_val = current->i;
-			min_pos = i;
-		}
-		if (current->i > value && (target_pos == -1 || current->i < stack_a->i))
-		{
-			target_pos = i;
-		}
-		current = current->next;
-	}
-	if (target_pos == -1)
-		target_pos = min_pos;
-	return target_pos;
-}
-*/
+   i = 0;
+   current = stack_a;
+   min_pos = 0;
+   min_val = INT_MAX;
+   target_pos = -1;
+   for (int i = 0; i < size; i++)
+   {
+   if (current->ele < min_val)
+   {
+   min_val = current->ele;
+   min_pos = i;
+   }
+   if (current->ele > value && (target_pos == -1 || current->ele < stack_a->ele))
+   {
+   target_pos = i;
+   }
+   current = current->next;
+   }
+   if (target_pos == -1)
+   target_pos = min_pos;
+   return target_pos;
+   }
+   */
 int	get_median_idx(t_dll **lst)
 {
 	int size;
@@ -160,17 +159,17 @@ int	cost_analysis(t_dll **a, t_dll **b)
 	get_pos(b);
 	bnode = *get_head(b);
 	init_storage(b, bnode, NULL, ft_idxnew(get_max(a),get_min(a)));
-	(*get_storage(b))->i = INT_MAX;
+	(*get_storage(b))->ele = INT_MAX;
 	found = 0;
 	while (i-- )
 	{
 		anode = (*get_head(a));
 		while (!found && anode != *get_tail(a))
 		{
-			if ((bnode->i > anode->prev->i && anode->prev == get_max_node(a))
-				||	(bnode->i < anode->i && bnode->i > anode->prev->i)
-				||	(bnode->i < anode->i && anode == get_min_node(a))
-				)
+			if ((bnode->ele > anode->prev->ele && anode->prev == get_max_node(a))
+					||	(bnode->ele < anode->ele && bnode->ele > anode->prev->ele)
+					||	(bnode->ele < anode->ele && anode == get_min_node(a))
+			   )
 			{
 				found = 1;
 			}
@@ -180,12 +179,12 @@ int	cost_analysis(t_dll **a, t_dll **b)
 		if (!found)
 			anode = *get_head(a); // Default to head if no better position found
 		cost = ft_abs(anode->idx.x) + ft_abs(bnode->idx.x);
-		if (cost < (*get_storage(b))->i)
+		if (cost < (*get_storage(b))->ele)
 		{
-			init_storage(b, bnode, anode, ft_idxnew(bnode->i, anode->i));
-			(*get_storage(b))->i = cost;
+			init_storage(b, bnode, anode, ft_idxnew(bnode->ele, anode->ele));
+			(*get_storage(b))->ele = cost;
 		}
-		printf("bnode: %d, anode: %d, cost: %d\n", bnode->i, anode->i, cost);
+		printf("bnode: %d, anode: %d, cost: %d\n", bnode->ele, anode->ele, cost);
 		bnode = bnode->next;
 	}
 	return (0);
@@ -207,7 +206,7 @@ int	cost_analysis(t_dll **a, t_dll **b)
   init_storage(b, bnode, NULL, ft_idxnew(0, 0));
   while (i < *get_size(b)) 
   {
-  int target_pos = find_target_position(bnode->i, *a, *get_size(a));
+  int target_pos = find_target_position(bnode->ele, *a, *get_size(a));
   anode = get_node_at_position(*a, target_pos);
   cost_b = i;
   if (cost_b > *get_size(b) / 2)
@@ -216,10 +215,10 @@ int	cost_analysis(t_dll **a, t_dll **b)
   if (cost_a > *get_size(a) / 2)
   cost_a = -(*get_size(a) - cost_a);
   int total_cost = ft_abs(cost_a) + ft_abs(cost_b);
-  if ( ft_abs(cost_a) + ft_abs(cost_b) < (*get_storage(b))->i)
+  if ( ft_abs(cost_a) + ft_abs(cost_b) < (*get_storage(b))->ele)
   {
-  init_storage(b, bnode, anode, ft_idxnew(bnode->i,anode->i)); t
-  (*get_storage(b))->i = total_cost;
+  init_storage(b, bnode, anode, ft_idxnew(bnode->ele,anode->ele)); t
+  (*get_storage(b))->ele = total_cost;
   }
   bnode = bnode->next;
   i++;
@@ -229,7 +228,7 @@ int	cost_analysis(t_dll **a, t_dll **b)
 
 /* for cheapest on b:
  *          lst->next/previous = pointers to cheapest this/other
- *          lst->i =  cheapest cost
+ *          lst->ele =  cheapest cost
  *          lst->idx = t_idx{cheapest idx b, cheapest idx a}
  * for  cheapest on a:
  * 		lst->next/previous = get_max(a)/get_min(a)
@@ -242,7 +241,7 @@ int	cost_analysis(t_dll **a, t_dll **b)
 void init_storage(t_dll **lst, t_dll *next, t_dll *prev, t_idx idx)
 {
 	(*get_storage(lst))->idx = idx;
-	(*get_storage(lst))->i = INT_MAX;
+	(*get_storage(lst))->ele = INT_MAX;
 	(*get_storage(lst))->next = next;
 	(*get_storage(lst))->prev = prev;
 }
@@ -315,7 +314,7 @@ int bubble_sort(t_dll **lst)//, dl_list **b)
 	size = *get_size(lst);
 	while((*lst) != tail && size--)
 	{
-		if ((*lst)->i > ((*lst)->next)->i)
+		if ((*lst)->ele > ((*lst)->next)->ele)
 			sa(lst);
 		ra(lst);
 	}
@@ -335,7 +334,7 @@ int bubble_sort_rev(t_dll **lst)//, dl_list **b)
 	size = *get_size(lst);
 	while((*lst) != tail && size--)
 	{
-		if ((*lst)->i < ((*lst)->next)->i)
+		if ((*lst)->ele < ((*lst)->next)->ele)
 			sa(lst);
 		ra(lst);
 	}
@@ -363,7 +362,7 @@ int turk_sort(t_dll **a, t_dll **b)
 	//{
 	size = *get_size(a);
 	init_storage(a, NULL, NULL, ft_idxnew(size / 3, size - (size / 3))); 
-	(*get_storage(a))->i = size;
+	(*get_storage(a))->ele = size;
 	moves += split_stack(a, b, *get_size(a));
 	bubble_sort(a);
 	bubble_sort_rev(b);
@@ -371,7 +370,7 @@ int turk_sort(t_dll **a, t_dll **b)
 	//solve_ltfive(a, b); 
 	//while (*b)
 	//{
-//		cost_analysis(a, b);
+	//		cost_analysis(a, b);
 	//	moves += move_nodes(a, b);
 	//}
 	return (moves);
