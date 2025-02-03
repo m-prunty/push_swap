@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 16:56:53 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 16:56:58 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/03 03:58:10 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,3 @@ void	ft_dllstadd_front(t_dll **lst, t_dll *new_link)
 		ft_dllstupdate(lst);
 	}
 }
-

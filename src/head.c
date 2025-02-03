@@ -6,10 +6,10 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 17:03:03 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 17:05:19 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/03 04:03:23 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#inlcude "push_swap.h"
+#include "push_swap.h"
 
 /* get_tail:
  * 	 Returns the tail of lst, a pointer stored at lst[1].prev */

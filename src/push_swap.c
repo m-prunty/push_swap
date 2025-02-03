@@ -6,86 +6,11 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 05:14:56 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/03 09:37:44 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-
-/**
- * @brief checks if list is sorted in ascending order ie head is min and tail 
- * is max
- *
- * @param lst 
- * @return 1 or 0
- */
-int	ft_dllstsorted(t_dll **lst)
-{
-	t_dll	*ptr;
-	int		size;
-
-	ptr = (ft_dllstfind(lst, get_min(lst), *get_size(lst)));
-	size = *get_size(lst);
-	while (--size)
-	{
-		if ((ptr)->ele < ((ptr)->next)->ele)
-			ptr = (ptr)->next;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-int	ft_dllstsorted_rev(t_dll **lst)
-{
-	t_dll	*ptr;
-	int		size;
-
-	ptr = (ft_dllstfind(lst, get_max(lst), *get_size(lst)));
-	size = *get_size(lst);
-	while (--size)
-	{
-		if ((ptr)->ele > ((ptr)->next)->ele)
-			ptr = (ptr)->next;
-		else
-			return (0);
-	}
-	return (1);
-}
-
-/**
- * @brief get_min from lst and calls ft_dllstfind to return the node and then 
- * calls ft_dllstsorted to check if the list is sorted in ascending order
- *
- * @param lst 
- * @return 1 or 0
- */
-int	ft_dllstordered(t_dll **lst)
-{
-	int		res;
-
-	res = 0;
-	if (ft_dllstsorted(lst) || ft_dllstsorted_rev(lst))
-		res = 1;
-	*lst = *get_head(lst);
-	return (res);
-}
-/**
- * @brief finds the node with the value i in the list and returns it
- *
- * @param lst 
- * @param i 
- * @param len 
- * @return *t_dll ptr to node
- */
-t_dll	*ft_dllstfind(t_dll **lst, int i, int len)
-{
-	if (len < 1)
-		return (NULL);
-	if ((*lst)->ele == i)
-		return (*lst);
-	return (ft_dllstfind((&(*lst)->next), i, --len));
-}
 
 int	error_code(int i)
 {
@@ -119,7 +44,7 @@ int	final_position(int *sorted, int i, int len)
 
 t_idx *get_range(t_dll **stack, t_loc loc)
 {
-	return (NULL);
+	return ((ft_chunk(*stack, loc))->range);
 }
 
 
@@ -133,7 +58,6 @@ int	fill_stack(t_dll **stack, long *ilst, int ac)
 	loc = TOP_A;
 	len = ac - 1;
 	sorted = sorted_arr((int *)ilst, len);
-
 	*get_size(stack) = len;
 	while (--ac)
 	{
@@ -143,12 +67,9 @@ int	fill_stack(t_dll **stack, long *ilst, int ac)
 			{
 				new_ele =  ft_dllstnew((int)*ilst, loc,
 						ft_idxnew(0, final_position(sorted, (int)*ilst, len)),
-							get_range(stack, loc)
-							);
-				ft_dllstadd_back(stack, new_ele),
-					)
-
-						));
+						get_range(stack, loc)
+						);
+				ft_dllstadd_back(stack, new_ele);
 				(ilst)++;
 			}
 			else
