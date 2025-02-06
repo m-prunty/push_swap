@@ -6,10 +6,32 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:27:56 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 09:45:33 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 15:20:51 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
+
+void	dealloc_chunks(t_dll **lst)
+{
+	t_dll	*tmp;
+	int		i;
+
+	if (chunk_head(lst))
+	{
+		i = 5;
+		tmp = chunk_head(lst);
+		while (--i)
+		{
+			if (chunk_head(lst))
+			{
+			tmp = (chunk_head(lst))->next;
+			free(lst[2]);
+			lst[2] = tmp;
+			}
+		}
+	}
+	return ;
+}
 
 void	ft_dealloc(t_dll **lst)
 {
@@ -26,11 +48,19 @@ void	ft_dealloc(t_dll **lst)
 		*lst = tmp;
 	}
 	free(lst[1]);
-	free(lst[2]);
+	//free(lst[2]);
 	return ;
 }
-//calc_chunkrange(t_dll **lst);
+int	clear_all(t_dll **a, t_dll **b, int *intv)
+{
+	dealloc_chunks(a);
+	ft_dealloc(a);
+	ft_dealloc(b);
+	free(intv);
+	return (1);
+}
 
+//calc_chunkrange(t_dll **lst);
 /*/
   int main() 
   {

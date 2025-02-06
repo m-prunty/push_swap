@@ -2,7 +2,7 @@
 #                                     CONFIG                                   #
 ################################################################################
 NAME        := push_swap
-FLAGS       := -Wall -Wextra -Werror -g
+FLAGS       := -Wall -Wextra -Werror -g3
 #FLAGS		+= -fsanitize=address
 LIBFT       := ./libft
 LIBFT_LIB   := $(LIBFT)/libft.a

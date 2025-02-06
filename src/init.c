@@ -6,31 +6,32 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 09:40:02 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 09:44:44 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 14:34:52 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-void	init_chunks(t_dll **lst)
+void	init_chunks(t_dll **lst, t_dll **lst2)
 {
 	enum e_loc	loc;
 	t_dll		*chunk;
 	int			i;
 	t_idx		idx;
-	t_idx		range;
 
-	idx = ft_idxnew(0, *get_size(lst));
-	range = ft_idxnew(0, *get_size(lst));
+	idx = ft_idxnew(0, 0);
 	i = 0;
 	loc = i;
-	chunk = lst[2];
-	chunk = ft_dllstnew(0, loc, idx, &range);
+	chunk = ft_dllstnew(0, loc, idx, idx);
+	chunk->range = idx;
+	lst[2] = chunk;
+	lst2[2] = chunk;
 	while (++i < 5)
 	{
-		loc = i;
-		chunk->next = ft_dllstnew(0, loc, ft_idxnew(INT_MAX, INT_MIN), &idx);
-		chunk->range = &idx;
+		chunk->next = ft_dllstnew(0, i, idx, idx);
+		chunk = chunk->next;
 	}
+
+
 }
 
 /*  init_lst:
@@ -57,10 +58,9 @@ void	init_lst(t_dll **lst)
 	idx = ft_idxnew(INT_MIN, INT_MAX);
 	loc = 0;
 	lst[0] = ft_dllstnew(0, loc,
-			ft_idxnew(INT_MAX, INT_MIN), &idx);
+			ft_idxnew(INT_MAX, INT_MIN), idx);
 	lst[1] = ft_dllstnew(0, loc,
-			ft_idxnew(INT_MAX, INT_MIN), &idx);
-	init_chunks(lst);
+			ft_idxnew(INT_MAX, INT_MIN), idx);
 	return ;
 }
 

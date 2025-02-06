@@ -6,74 +6,161 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:13 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 09:02:21 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 18:54:30 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
-
-t_loc	for_topa(t_dll **a, int min, int mid)
+t_dll *chunk_head(t_dll **lst)
 {
-	/*int moves;
+	return (lst[2]);
+}
+/*t_idx calc_chunkrange(t_dll *chunk)
+{
+	chunk->range = (t_idx){
+		chunk->range.x + chunk->idx.x / 3,
+		chunk->range.x +chunk->idx.x / 3 * 2};	
+}
+*/
 
-	moves  = 0;*/
-	if (get_fin_idx(*a) <= min)
-		return (BOTTOM_B);
-	else if (get_fin_idx(*a) <= mid)
-		return (TOP_B);
-	else
-		return (BOTTOM_A);
+void chunk_set_head(t_dll **src, int start, int size, t_loc loc)
+{
+	t_dll	*head;
+	t_dll	*min;
+	t_dll	*mid;
+	t_dll	*max;
+	
+	head = chunk_head(src);
+	head->ele = size;
+	head->idx = (t_idx){start, start + size};
+	head->range = (t_idx){start + (size / 3), start+ (size / 3 * 2)};
+	head->loc = loc;
+	min = ft_chunk(src, set_destination(loc, head->range.x - 1, head->range));
+	mid = ft_chunk(src, set_destination(loc, head->range.y - 1, head->range));
+	max = ft_chunk(src, set_destination(loc, start + size - 1, head->range));
+	min->range = (t_idx){start, head->range.x - 1};
+	mid->range = (t_idx){head->range.x, head->range.y - 1};
+	max->range = (t_idx){head->range.y, start + size -1};
 }
 
-t_loc	for_topb(t_dll **a, int min, int mid)
+/*void	calc_chunk(t_dll **src, int start, int size)
 {
-	/*int moves;
 
-	moves  = 0;*/
-	if (get_fin_idx(*a) <= min)
-		return (BOTTOM_B);
-	else if (get_fin_idx(*a) <= mid)
-		return (BOTTOM_A);
+
+ 	//(void)b;
+	//mid = ft_dllstfind_finidx(a, head->range.x, size); 	
+}
+*/
+t_loc	set_destination(t_loc loc, int finidx, t_idx range)
+{
+	if (loc % 2)
+	{
+		if (finidx <= range.x)
+			return (BOTTOM_B);
+		else if (finidx <= range.y)
+			return (TOP_B);
+		else if (loc == TOP_A)
+			return (BOTTOM_A);
+		else if (loc == BOTTOM_A)
+			return (TOP_A);
+	}
 	else
-		return (TOP_A);
+	{
+		if (finidx <= range.x && loc == TOP_B)
+			return (BOTTOM_B);
+		else if (finidx <= range.x && loc == BOTTOM_B)
+			return (TOP_B);
+		else if (finidx <= range.y)
+			return (BOTTOM_A);
+		else
+			return (TOP_A);
+	}
+	return (loc);
 }
 
-t_loc	for_bota(t_dll **a, int min, int mid)
+void move_destinations(t_dll **a, t_dll **b, t_loc loc)
 {
-	/*int moves;
+	t_loc	dest_loc;
 
-	moves  = 0;*/
-	if (get_fin_idx(*a) <= min)
-		return (BOTTOM_B);
-	else if (get_fin_idx(*a) <= mid)
-		return (TOP_B);
+	dest_loc = set_destination(loc, (*a)->idx.y, (*a)->range);
+	if (loc % 2)
+	{
+		dest_loc = (*a)->loc;//set_destination(*a, (t_idx){});
+		if (dest_loc >2)
+			rra(a);
+		if (dest_loc % 2)
+			ra(a);
+		else if (dest_loc == TOP_B)
+			pb(a, b);
+		else if (dest_loc == BOTTOM_B && pb(a, b))
+			rb(b);
+	}
 	else
-		return (TOP_A);
+	{
+		dest_loc = (*b)->loc;//set_destination(*b, range);
+		if (dest_loc >2)
+			rrb(b);
+		if (!(dest_loc % 2))
+			rb(b);
+		else if (dest_loc == TOP_A)
+			pa(a, b);
+		else if (dest_loc == BOTTOM_A && pa(a, b))
+			ra(a);
+	}
+}
+/*
+t_loc	from_topa(t_dll **a, t_dll **b,  t_loc loc)
+{
+	if (loc % 2)
+		ra(a);
+	else if (loc == TOP_B)
+		pb(a, b);
+	else if (loc == BOTTOM_B && pb(a, b))
+		rb(b);
 }
 
-t_loc	for_botb(t_dll **a, int min, int mid)
+t_loc	from_topb(t_dll **a, t_dll **b, t_loc loc)
 {
-	/*int moves;
-
-	moves  = 0;*/
-	if (get_fin_idx(*a) <= min)
-		return (TOP_B);
-	else if (get_fin_idx(*a) <= mid)
-		return (BOTTOM_A);
-	else
-		return (TOP_A);
+		if (!(dest_loc % 2))
+			rb(a);
+		else if (dest_loc == TOP_A)
+			pa(a, b);
+		else if (dest_loc == BOTTOM_A && pa(a, b))
+			ra(b);
+	}
 }
 
-t_loc	get_destination(t_dll **a, t_loc loc, int min, int mid)
+t_loc	from_bota(t_dll **a, t_idx range, t_loc loc)
 {
-	//t_idx	idx;
+	if (get_fin_idx(*a) <= range.x)
+		(*src)->loc = BOTTOM_B;
+	else if (get_fin_idx(*a) <= range.y)
+		(*src)->loc = TOP_B;
+	else
+		(*src)->loc = TOP_A;
+}
+
+t_loc	from_botb(t_dll **b,  t_idx range, t_loc loc)
+{
+	if (get_fin_idx(*b) <= range.x)
+		(*src)->loc = TOP_B;
+	else if (get_fin_idx(*b) <= range.y)
+		(*src)->loc = BOTTOM_A;
+	else 
+		(*src)->loc = TOP_A;
+}
+
+t_loc	get_destination(t_dll **a, t_dll**b, t_idx range, t_loc loc)
+{
+	int		lst_loc;
 
 	if (loc == TOP_A)
-		return (for_topa(a, min, mid));
+		(*src)->loc = from_topa(a, b, range, loc);
 	else if (loc == TOP_B)
-		return (for_topb(a, min, mid));
+		(*src)->loc = from_topb(a, b, range, loc);
 	else if (loc == BOTTOM_A)
-		return (for_bota(a, min, mid));
+		(*src)->loc = from_bota(a, b, range, loc);
 	else if (loc == BOTTOM_B)
-		return (for_botb(a, min, mid));
-	return (0);
+		(*src)->loc = from_botb(a, b, range, loc);
+	(*src)->loc = 0;
 }
+*/

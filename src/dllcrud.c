@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 16:58:09 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/02 17:02:13 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 08:15:17 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *      next/prev = NULL;
  *      idx = 0;
  */
-t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx *range)
+t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx range)
 {
 	t_dll	*link;
 
@@ -75,8 +75,8 @@ void	ft_dllstupdate(t_dll **lst)
 		(*get_tail(lst))->next = *get_head(lst);
 		(*get_head(lst))->prev = *get_tail(lst);
 	}
-	lst[1]->range->x = get_min(lst);
-	lst[1]->range->y = get_max(lst);
+	lst[1]->range.x = get_min(lst);
+	lst[1]->range.y = get_max(lst);
 }
 
 /*  ft_dllstrm:

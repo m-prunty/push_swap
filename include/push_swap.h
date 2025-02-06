@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 09:44:40 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 16:16:54 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -21,8 +21,8 @@
 typedef enum e_loc
 {
 	TOP_A = 1,
-	BOTTOM_A,   // Rotate to bottom of A
 	TOP_B,      // Push to top of B
+	BOTTOM_A,   // Rotate to bottom of A
 	BOTTOM_B    // Push to B and rotate to bottom
 } t_loc;;
 # endif
@@ -45,7 +45,7 @@ typedef struct s_dll
 	struct s_dll	*prev;
 	int				ele;
 	t_idx			idx;
-	t_idx			*range;
+	t_idx			range;
 	t_loc			loc;;
 }	t_dll;
 # endif
@@ -56,7 +56,7 @@ void	ft_dllstadd_back(t_dll **lst, t_dll *new_link);
 void	ft_dllstadd_front(t_dll **lst, t_dll *new_link);
 
 //../src/dllcrud.c
-t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx *range);;
+t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx range);;
 void	ft_dllstrd(t_dll **lst, int dir);
 void	ft_dllstupdate(t_dll **lst);
 void	ft_dllstrm(t_dll **lst);
@@ -68,8 +68,9 @@ int		ft_dllstsorted_rev(t_dll **lst);
 
 // ../src/find.c
 t_dll	*ft_dllstfind(t_dll **lst, int i, int len);
+t_dll	*ft_dllstfind_finidx(t_dll **lst, int i, int len);
+
 int		final_position(int *sorted, int i, int len);
-int		dllstget_dist(t_dll **lst, t_dll *node, int dir);
 t_dll	*dllstgoto(t_dll **lst, int pos);
 
 // ../src/head.c
@@ -81,7 +82,7 @@ int		*get_size(t_dll **lst);
 void	set_chunks(t_dll **lst);
 t_dll	*get_chunks(t_dll **lst, t_loc loc);
 t_idx	*get_range(t_dll **stack, t_loc loc);
-t_dll	*ft_chunk(t_dll *lst, t_loc loc);
+t_dll	*ft_chunk(t_dll **lst, t_loc loc);
 
 // ../src/minmax.c
 int		get_min(t_dll **lst);
@@ -95,13 +96,23 @@ int		get_pos(t_dll **lst);
 int		get_fin_idx(t_dll *node);
 
 // ../src/loc.c
-t_loc	for_topa(t_dll **a, int min, int mid);
-t_loc	for_topb(t_dll **a, int min, int mid);
-t_loc	for_bota(t_dll **a, int min, int mid);
-t_loc	for_botb(t_dll **a, int min, int mid);
-t_loc	get_destination(t_dll **a, t_loc loc, int min, int mid);
+t_loc	set_destination(t_loc loc, int finidx, t_idx range);
+void	move_destinations(t_dll **a, t_dll **b, t_loc loc);
+void	calc_chunk(t_dll **a, t_dll **b, int start, int size);
+void	chunk_set_head(t_dll **src, int start, int size, t_loc loc);
 
-// ../src/
+t_dll	*chunk_head(t_dll **lst);
+
+//t_loc	for_topa(t_dll **a, int min, int mid);
+//t_loc	for_topb(t_dll **a, int min, int mid);
+//t_loc	for_bota(t_dll **a, int min, int mid);
+//t_loc	for_botb(t_dll **a, int min, int mid);
+//t_loc	get_destination(t_dll **a, t_loc loc, int min, int mid);
+
+// ../src/sort.c
+int		sort(t_dll ***ab);
+int	split_stack(t_dll ***ab, int start, int size, int lst_loc);
+
 t_dll	*get_node_at_position(t_dll *stack, int position);
 
 int		turk_sort(t_dll **a, t_dll **b);
@@ -122,21 +133,20 @@ int		*sorted_arr(int *arr, int size);
 t_idx	ft_idxnew(int x, int y);
 
 // ../src/solve.c
-int		solve_ltfive(t_dll **a, t_dll **b, int lst_loc);;
-int		solve_ltthree(t_dll **lst, int lst_loc);;
-t_dll	*rotate_help(t_dll **lst, int n, int lst_loc);;
+int		solve_ltfive(t_dll ***ab, int lst_loc);
+int		solve_ltthree(t_dll **lst, int lst_loc);
+t_dll	*rotate_help(t_dll **lst, int n, int lst_loc);
 int		solve_ltfive_util(t_dll **a, t_dll **b, int lst_loc);
 
 // ../src/init.c
 void	init_lst(t_dll **lst);
 void	init_storage(t_dll **lst, t_dll *next, t_dll *prev, t_idx idx);
-void	init_chunks(t_dll **lst);
+void	init_chunks(t_dll **lst, t_dll **lst2);
 
 t_idx	*calc_chunkrange(t_dll **lst);
 int		clear_all(t_dll **a, t_dll **b, int *intv);
 
-int		split_stack(t_dll **a, t_dll **b, int size);
-
+t_dll	*dllstget_dist(t_dll **lst, int idx);
 int		main(int ac, char **av);
 int		error_code(int i);
 void	ft_dealloc(t_dll **lst);
@@ -149,7 +159,6 @@ int		cost_analysis(t_dll **a, t_dll **b);
 int		move_nodes(t_dll **a, t_dll **b);
 int		bubble_sort(t_dll **lst);
 int		bubble_sort_rev(t_dll **lst);
-int		turk_sort(t_dll **a, t_dll **b);
 t_dll	**get_storage(t_dll **lst);
 
 // ../src/push.c

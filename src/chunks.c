@@ -6,18 +6,18 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 04:03:43 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 09:42:19 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/05 09:39:14 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-t_dll	*ft_chunk(t_dll *lst, t_loc loc)
+t_dll	*ft_chunk(t_dll **lst, t_loc loc)
 {
 	t_dll	*chunk;
 	int		i;
 
 	i = 0;
-	chunk = lst;
+	chunk = chunk_head(lst);
 	while (i < (int)loc)
 	{
 		chunk = chunk->next;

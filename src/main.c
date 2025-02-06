@@ -6,42 +6,22 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 07:36:23 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/06 10:01:13 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-int	dllstget_dist(t_dll **lst, t_dll *node, int dir)
+t_dll	*dllstget_dist(t_dll **lst, int idx)
 {
-	int	i;
+	size_t	size;
 
-	i = 0;
-	if (dir < 0)
-	{
-		while (node != *get_tail(lst))
-		{
-			i++;
-			*node = *node->next;
-		}
-	}
-	else if (dir > 0)
-	{
-		while (node != *get_head(lst))
-		{
-			i++;
-			*node = *node->next;
-		}
-	}
-	return (i);
+	get_pos(lst);
+	size = *get_size(lst);
+	while ((*lst)->idx.y != idx && size--)
+		*lst = (*lst)->next;
+	return (*lst);
 }
 
-int	clear_all(t_dll **a, t_dll **b, int *intv)
-{
-	ft_dealloc(a);
-	ft_dealloc(b);
-	free(intv);
-	return (1);
-}
 t_dll	*dllstgoto(t_dll **lst, int pos)
 {
 	t_dll	*node;
@@ -54,11 +34,15 @@ t_dll	*dllstgoto(t_dll **lst, int pos)
 
 int	main(int ac, char **av)
 {
+	t_dll	***ab;
 	t_dll	*a[3];
 	t_dll	*b[3];
 	long	*intv;
 	char	**charv;
 
+	ft_bzero(a, sizeof(*a) * 3);
+	ft_bzero(b, sizeof(*b) * 3);
+	ab = (t_dll ***)malloc(sizeof(t_dll **) * 2);
 	charv = check_args(&ac, av);
 	intv = (long *)malloc((ac - 1) * sizeof(long));
 	if (!intv || !charv || !*charv)
@@ -67,12 +51,15 @@ int	main(int ac, char **av)
 	free(charv);
 	init_lst(a);
 	init_lst(b);
+	ab[0] = a;
+	ab[1] = b;
+	init_chunks(a, b);
 	if (fill_stack(a, intv, ac))
 	{
-		if (ft_dllstsorted(a))
-			return (clear_all(a, b, (int *)intv));
-		else
-			turk_sort(a, b);
+		//if (ft_dllstsorted(a))
+		//	return (clear_all(a, b, (int *)intv));
+		//else
+			sort(ab);
 	}
 	ft_dllstrd(a, 1);
 	ft_dllstrd(b, 1);
