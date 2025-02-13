@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 16:58:09 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 08:15:17 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/10 13:14:57 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,16 @@ void	ft_dllstrd(t_dll **lst, int dir)
 		ft_printf("#########################");
 		ft_printf("\nhead: %i tail: %i size: %i, med :%i ", ((lst[1])->next)->ele,
 			((lst[1])->prev)->ele,*get_size(lst), get_median_idx(lst));
-		ft_printf("\n|prev\t|i\t|next\t|cost\t|idx\t|");
-		ft_printf("\n----________________________----");
+		ft_printf("\n|prev\t|i\t|next\t|cost\t|idx\t|rngx\t|rngy\t|t_loc\t|");
+		ft_printf("\n----________________________________________----");
 		if (dir < 0)
 			*lst = (*lst)->prev;
 		while (i--)
 		{
-			ft_printf("\n|%i\t|%i\t|%i\t|%i\t|%i\t|",
+			ft_printf("\n|%i\t|%i\t|%i\t|%i\t|%i\t|%i\t|%i\t|%i\t|",
 				((*lst)->prev)->ele, (*lst)->ele, ((*lst)->next)->ele,
-				(*lst)->idx.x, (*lst)->idx.y);
+				(*lst)->idx.x, (*lst)->idx.y, (*lst)->range.x, (*lst)->range.y,
+				(*lst)->loc);
 			if (dir > 0)
 				*lst = (*lst)->next;
 			else if (dir < 0)

@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 03:59:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 04:00:21 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/13 13:10:04 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -25,7 +25,7 @@ int	ft_dllstsorted(t_dll **lst)
 
 	ptr = (ft_dllstfind(lst, get_min(lst), *get_size(lst)));
 	size = *get_size(lst);
-	while (--size)
+	while (ptr && --size)
 	{
 		if ((ptr)->ele < ((ptr)->next)->ele)
 			ptr = (ptr)->next;
@@ -69,4 +69,3 @@ int	ft_dllstordered(t_dll **lst)
 	*lst = *get_head(lst);
 	return (res);
 }
-

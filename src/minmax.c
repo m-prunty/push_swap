@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 04:42:06 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/03 08:24:34 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/07 21:38:44 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -38,16 +38,6 @@ t_dll	*get_max_node(t_dll *lst, int size)
 	}
 	return (max);
 }
-int	get_min_rec(t_dll *lst, int min, int len)
-{
-	if (!len)
-		return (min);
-	if (lst->ele < min)
-		min = lst->ele;
-	if (len--)
-		min = (get_min_rec(lst->next, min, len));
-	return (min);
-}
 
 int	get_min(t_dll **lst)
 {
@@ -58,28 +48,31 @@ int	get_min(t_dll **lst)
 	tmp = *lst;
 	min = INT_MAX;
 	i = *get_size(lst);
-	return (get_min_rec(tmp, min, i));
-}
-
-int	get_max_rec(t_dll *lst, int max, int len)
-{
-	if (!len)
-		return (max);
-	if (lst->ele > max)
-		max = lst->ele;
-	if (len--)
-		max = (get_max_rec(lst->next, max, len));
-	return (max);
+	while (i--)
+	{
+		if (tmp->ele < min)
+			min = tmp->ele;
+		tmp = tmp->next;
+	}
+	return (min);
 }
 
 int	get_max(t_dll **lst)
 {
 	t_dll	*tmp;
 	int		i;
+	int		max;
 
+	max = INT_MAX;
 	tmp = *lst;
 	i = *get_size(lst);
-	return (get_max_rec(tmp, INT_MIN, i));
+	while (i--)
+	{
+		if (tmp->ele > max)
+			max = tmp->ele;
+		tmp = tmp->next;
+	}
+	return (max);
 }
 
 

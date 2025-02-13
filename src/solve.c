@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 04:56:25 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/06 10:37:39 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/08 10:57:37 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -81,26 +81,38 @@ t_dll	*rotate_help(t_dll **lst, int n, int lst_loc)
 	return (*lst);
 }
 
-int	solve_ltfive_util(t_dll **src, t_dll **dest, int lst_loc)
+t_dll *find_in_chunk(t_dll **ab, int i, t_loc lst_loc)
+{
+	t_dll	*tmp;
+
+	tmp = ab[!(lst_loc % 2)];
+	while (tmp->loc != lst_loc && !(tmp->idx.y == i ))
+		tmp = tmp->next;
+	return (tmp);
+}
+
+int	solve_ltfive_util(t_dll ***ab, int lst_loc)
 {
 	t_dll	*min;
 	t_dll	*chunk;
+	t_dll	**src;
 	int		size;
 	int		move;
 
-	chunk = ft_chunk(src, lst_loc);
+	src = ab[!(lst_loc % 2)];
+	chunk =	ft_chunk(src, lst_loc);	//chunk_head(src);//
 	size = chunk->ele;
 	move = 0;
 	while (size-- > 3)
 	{
 		get_pos(src);
-		min = ft_dllstfind(src, chunk->range.x, chunk->ele);
-		while ((size > 3) && (min->ele != (*get_head(src))->ele))
-			*src = rotate_help(src, min->idx.y, lst_loc);
+		min = find_in_chunk(src, chunk->range.x, chunk->ele);
+		chunk->range.x += 1;
+		*src = rotate_help(src, min->idx.x, lst_loc);
 		if (lst_loc % 2)
-			move += pb(src, dest);
+			move += pb(ab[0], ab[1]);
 		else
-			move += pa(dest, src);
+			move += pa(ab[0], ab[1]);
 	}
 	return (move);
 }
@@ -109,18 +121,28 @@ int	solve_ltfive(t_dll ***ab, int lst_loc)
 {
 	t_dll	**stack;
 	int		move;
+	int		size;
 
 	move = 0;
 	stack = ab[!(lst_loc % 2)];
-	if (ft_dllstordered(stack))
-		rotate_ordered(stack);
-	if (*get_size(stack) > 3)
+//	if (ft_dllstordered(stack))
+//		rotate_ordered(stack);
+	if (chunk_head(stack)->ele >= 3)
+		solve_ltfive_util(ab, lst_loc);
+	move += (solve_ltthree(stack, lst_loc));
+	size = chunk_head(stack)->ele;
+	while (size-- > 3)
 	{
+		if (lst_loc % 2)
+			move += pa(ab[0], ab[1]);
+		else
+			move += pb(ab[0], ab[1]);
+	}
+	return (ft_dllstsorted(stack));
+}
+/*
 		if (lst_loc % 2)
 			pb(ab[0], ab[1]);
 		else
 			pa(ab[0], ab[1]);
-	}
-	move += (solve_ltthree(stack, lst_loc));
-	return (ft_dllstsorted(stack));
-}
+			*/

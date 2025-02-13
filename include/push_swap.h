@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:39 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 16:16:54 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/13 19:58:01 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PUSH_SWAP_H
@@ -55,7 +55,7 @@ typedef struct s_dll
 void	ft_dllstadd_back(t_dll **lst, t_dll *new_link);
 void	ft_dllstadd_front(t_dll **lst, t_dll *new_link);
 
-//../src/dllcrud.c
+// ../src/dllcrud.c
 t_dll	*ft_dllstnew(int i, t_loc loc, t_idx idx, t_idx range);;
 void	ft_dllstrd(t_dll **lst, int dir);
 void	ft_dllstupdate(t_dll **lst);
@@ -136,7 +136,7 @@ t_idx	ft_idxnew(int x, int y);
 int		solve_ltfive(t_dll ***ab, int lst_loc);
 int		solve_ltthree(t_dll **lst, int lst_loc);
 t_dll	*rotate_help(t_dll **lst, int n, int lst_loc);
-int		solve_ltfive_util(t_dll **a, t_dll **b, int lst_loc);
+int		solve_ltfive_util(t_dll ***ab, int lst_loc);
 
 // ../src/init.c
 void	init_lst(t_dll **lst);
@@ -147,7 +147,6 @@ t_idx	*calc_chunkrange(t_dll **lst);
 int		clear_all(t_dll **a, t_dll **b, int *intv);
 
 t_dll	*dllstget_dist(t_dll **lst, int idx);
-int		main(int ac, char **av);
 int		error_code(int i);
 void	ft_dealloc(t_dll **lst);
 

@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 04:03:43 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 09:39:14 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/13 13:10:16 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -50,4 +50,3 @@ t_dll	*get_chunk(t_dll **lst, t_loc loc)
 	}
 	return (chunk);
 }
-
