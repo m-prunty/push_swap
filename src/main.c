@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:09:34 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/10 12:58:54 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/18 22:26:54 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -151,7 +151,7 @@ int	main(int ac, char **av)
 	init_lst(b);
 	ab[0] = a;
 	ab[1] = b;
-	init_chunks(a, b);
+	//init_chunks(a, b);
 	if (fill_stack(a, intv, ac))
 	{
 		//if (ft_dllstsorted(a))

@@ -6,10 +6,11 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 07:46:13 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/13 18:52:51 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:23:30 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
+
 t_dll *chunk_head(t_dll **lst)
 {
 	return (lst[2]);
@@ -20,9 +21,9 @@ t_dll *chunk_head(t_dll **lst)
 		chunk->range.x + chunk->idx.x / 3,
 		chunk->range.x +chunk->idx.x / 3 * 2};	
 }
-*/
+*/ 
 
-void chunk_set_head(t_dll **src, int start, int size, t_loc loc)
+void chunk_set_head(t_dll **src, int start, int size, t_loc_e loc)
 {
 	t_dll	*head;
 	t_dll	*min;
@@ -32,7 +33,7 @@ void chunk_set_head(t_dll **src, int start, int size, t_loc loc)
 	head = chunk_head(src);
 	head->ele = size;
 	head->idx = (t_idx){start, start + size};
-	head->range = (t_idx){start + (size / 3), start+ (size / 3 * 2)};
+	head->range = (t_idx){start + (size / 3), start + (size / 3 * 2)};
 	head->loc = loc;
 	if (size > 5)
 	{
@@ -51,7 +52,6 @@ void chunk_set_head(t_dll **src, int start, int size, t_loc loc)
 		max = ft_chunk(src, loc);
 		max->range = (t_idx){start, start + size - 1};
 		max->ele = size;
-
 	}
 }
 
@@ -63,13 +63,13 @@ void chunk_set_head(t_dll **src, int start, int size, t_loc loc)
 //mid = ft_dllstfind_finidx(a, head->range.x, size); 	
 }
 */
-t_loc	set_destination(t_loc loc, int finidx, t_idx range)
+t_loc_e	set_destination(t_loc_e loc, int finidx, t_idx pivot)
 {
 	if (loc % 2)
 	{
-		if (finidx < range.x)
+		if (finidx < pivot.x)
 			return (BOTTOM_B);
-		else if (finidx < range.y)
+		else if (finidx < pivot.y)
 			return (TOP_B);
 		else if (loc == TOP_A)
 			return (BOTTOM_A);
@@ -78,11 +78,11 @@ t_loc	set_destination(t_loc loc, int finidx, t_idx range)
 	}
 	else
 	{
-		if (finidx < range.x && loc == TOP_B)
+		if (finidx < pivot.x && loc == TOP_B)
 			return (BOTTOM_B);
-		else if (finidx < range.x && loc == BOTTOM_B)
+		else if (finidx < pivot.x && loc == BOTTOM_B)
 			return (TOP_B);
-		else if (finidx < range.y)
+		else if (finidx < pivot.y)
 			return (BOTTOM_A);
 		else
 			return (TOP_A);
@@ -90,18 +90,19 @@ t_loc	set_destination(t_loc loc, int finidx, t_idx range)
 	return (loc);
 }
 
-void move_destinations(t_dll **a, t_dll **b, t_loc loc)
+void move_destinations(t_dll **a, t_dll **b, t_loc_e loc)
 {
-	t_loc	dest_loc;
+	t_loc_e	dest_loc;
 
-	dest_loc = set_destination(loc, (*a)->idx.y, (*a)->range);
+	//dest_loc = set_destination(loc, (*a)->idx.y, (*a)->range);
+	
 	if (loc % 2)
 	{
 		dest_loc = (*a)->loc;//set_destination(*a, (t_idx){});
 		if (dest_loc == 3)
-			rra(a);
-		if (dest_loc == 1)
 			ra(a);
+		if (dest_loc == 1)
+			rra(a);
 		else if (dest_loc == TOP_B)
 			pb(a, b);
 		else if (dest_loc == BOTTOM_B && pb(a, b))
@@ -111,9 +112,9 @@ void move_destinations(t_dll **a, t_dll **b, t_loc loc)
 	{
 		dest_loc = (*b)->loc;//set_destination(*b, range);
 		if (dest_loc == 4)
-			rrb(b);
-		if (dest_loc == 2)
 			rb(b);
+		if (dest_loc == 2)
+			rrb(b);
 		else if (dest_loc == TOP_A)
 			pa(a, b);
 		else if (dest_loc == BOTTOM_A && pa(a, b))

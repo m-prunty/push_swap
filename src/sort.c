@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:45:29 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/13 19:03:30 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/21 18:53:42 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -64,46 +64,56 @@ void	triangle(t_fractal *f, t_tri *t)
 */
 int	print_chunks(t_dll **lst)
 {
-	t_dll	*tmp;
+	//t_dll	*tmp;
 	int		i;
 
 	i = 0;
-	tmp = chunk_head(lst);
-	while (tmp)
+	//tmp = chunk_head(lst);
+	while (i < 5)
 	{
-		ft_printf("Chunk %d: %d - %d | size; %d \n", i, tmp->range.x, tmp->range.y, tmp->ele);
-		tmp = tmp->next;
+		ft_printf("Chunk %d: %d - %d | size; %d \n", i, lst[i]->range.x, lst[i]->range.y, lst[i]->ele);
 		i++;
 	}
 	return (0);
 }
 
-int	split_stack(t_dll ***ab, int start, int size, int lst_loc)
+int	split_stack(t_dll ***ab, t_idx range, t_loc_e lst_loc)
 {
 	t_dll	**stack;
-	t_dll	*chunk;
+	t_dll	*chunks[5];
+	t_dll	*curr_chunk;
 	int		moves;
+	int 	size;
 
+	size = range.y - range.x;
 	moves = 0;
 	stack = ab[!(lst_loc % 2)];
-	ft_dllstrd(stack, 1);
-	chunk_set_head(stack, start, size, lst_loc);
-	print_chunks(stack);
-	chunk = chunk_head(stack); 
+//	chunks = malloc(sizeof(t_dll *) * 4);
+	//ft_dllstrd(stack, 1);
+	init_chunks(chunks);
+	set_chunks(chunks, size, lst_loc, range);
+	curr_chunk = chunks[0];//get_chunk(chunks, lst_loc);
+	//chunk_set_head(stack, start, size, lst_loc);
+	print_chunks(chunks);
+	//chunk = //chunk_head(stack); 
 	if (size <= 5)
-		return (solve_ltfive(ab, lst_loc));
+		return (solve_ltfive(ab, *chunks, lst_loc));
 	while (size--)
 	{
-		(*stack)->loc = set_destination((*stack)->loc, (*stack)->idx.y,  chunk->range);
+		(*stack)->loc = set_destination((*stack)->loc, (*stack)->idx.x,  curr_chunk->idx);
 		move_destinations(ab[0], ab[1], 1);
 	}
-	size = chunk->ele;
-	split_stack(ab, chunk->range.y, size - 2 * size / 3,
-			set_destination(lst_loc,  size - 1, chunk->range));
-	split_stack(ab, chunk->range.x, size,
-			set_destination(lst_loc, chunk->range.y - 1, chunk->range));
-	split_stack(ab, start, size / 3,
-			set_destination(lst_loc, chunk->range.x - 1, chunk->range));
+	size = curr_chunk->ele;
+	split_stack(ab, 
+			(t_idx){curr_chunk->idx.y, size},
+			set_destination(lst_loc,  size - 1, curr_chunk->idx));
+	split_stack(ab, 
+			(t_idx){curr_chunk->idx.x, size - 2 * size / 3},
+			set_destination(lst_loc, curr_chunk->range.y - 1, curr_chunk->range));
+	split_stack(ab, 
+			(t_idx){curr_chunk->range.x, size / 3},
+			set_destination(lst_loc, curr_chunk->range.x - 1, curr_chunk->range));
+//	free(chunks);
 	return (moves);
 }
 
@@ -114,11 +124,11 @@ int sort(t_dll ***ab)
 
 	moves = 0;
 	if (*get_size(*ab) <= 3)
-		return (solve_ltfive(ab, 1));
+		return (solve_ltfive(ab, NULL, 1));
 	get_pos(ab[0]);
 	get_pos(ab[1]);
 	size = *get_size(ab[0]);
-	moves += split_stack(ab, 0, size, 1);
+	moves += split_stack(ab, (t_idx){0, size}, 1);
 	return (moves);
 }
 

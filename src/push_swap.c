@@ -6,7 +6,7 @@
 /*   By: mprunty <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:17:59 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 09:40:41 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:40:33 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -42,7 +42,7 @@ int	final_position(int *sorted, int i, int len)
 	return (pos);
 }
 
-t_idx *get_range(t_dll **stack, t_loc loc)
+t_idx *get_range(t_dll **stack, t_loc_e loc)
 {
 	return (&(ft_chunk(stack, loc))->range);
 }
@@ -53,7 +53,7 @@ int	fill_stack(t_dll **stack, long *ilst, int ac)
 	int		*sorted;
 	int		len;
 	t_idx	range;
-	t_loc	loc;
+	t_loc_e	loc;
 	t_dll	*new_ele;
 
 	loc = TOP_A;

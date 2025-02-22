@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 16:56:53 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 11:20:36 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/22 12:21:05 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
  * @brief adds link to back of list and sets it as tail (also sets it to head 
  * if tail does not exist)
  *
- * @param lst 
- * @param new_link 
+ * @param lst a double pointer to the head of a dll 
+ * @param new_link a pointer to the element to add to the dll
  */
 void	ft_dllstadd_back(t_dll **lst, t_dll *new_link)
 {
@@ -50,9 +50,9 @@ void	ft_dllstadd_back(t_dll **lst, t_dll *new_link)
  * @brief adds link to front of list nand sets it to head (also sets it to tail
  * if head does not exist)
  *
- * @param lst 
- * @param new_link 
- */
+ * @param lst a double pointer to the head of a dll
+ * @param new_link a poniter to the element to add to the dll
+*/
 void	ft_dllstadd_front(t_dll **lst, t_dll *new_link)
 {
 	if (lst)

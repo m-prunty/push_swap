@@ -6,7 +6,7 @@
 /*   By: mprunty <mprunty@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 02:36:24 by mprunty           #+#    #+#             */
-/*   Updated: 2025/02/05 03:00:15 by mprunty          ###   ########.fr       */
+/*   Updated: 2025/02/21 14:39:53 by mprunty          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -20,7 +20,7 @@ int	in_range(t_dll *lst, t_idx idx)
 	return (0);
 }
 
-t_loc perform_action(t_dll **lst);
+//t_loc perform_action(t_dll **lst);
 
 
 /*
